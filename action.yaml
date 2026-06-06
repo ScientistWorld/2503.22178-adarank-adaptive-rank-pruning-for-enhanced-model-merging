@@ -5,4 +5,4 @@ action: submit
 gpus: 0
 test: true
 milestone: method_runs
-notes: "CPU test: run mask-only AdaRank with fixed Task Arithmetic coefficient after learned lambda hurt accuracy; target core claim over Task Arithmetic."
+notes: "CPU test: run bias-free shared backbone plus AdaRank adaptation-step sweep; target AdaRank variant beating Task Arithmetic while preserving 1x parameters."

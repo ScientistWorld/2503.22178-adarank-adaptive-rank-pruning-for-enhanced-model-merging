@@ -29,4 +29,9 @@
 - The learned layer coefficient drifted to `0.6026`, reducing accuracy on the hardest task despite lower entropy.
 - Resubmitting with the AdaRank mask-only ablation setting: adaptive binary SVD masks remain active, while the Task Arithmetic coefficient is fixed.
 
+### [2026-06-06 15:24] - method_runs
+- CPU job `ad7760c6-e8e` completed with exit code 0; mask-only AdaRank reached `0.6572` but remained below Task Arithmetic `0.6660`.
+- Patched the synthetic shared backbone to remove unmasked bias task vectors and added an adaptation-step sweep to diagnose TTA budget in one job.
+- Resubmitting with the same milestone because the core claim is still not met.
+
 ## Stop Justification

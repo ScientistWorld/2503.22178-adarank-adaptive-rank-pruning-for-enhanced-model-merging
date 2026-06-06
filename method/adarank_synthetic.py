@@ -29,8 +29,10 @@ from data.synthetic_tasks import TaskData, make_tasks
 class Backbone(nn.Module):
     def __init__(self, input_dim: int = 32, hidden_dim: int = 64):
         super().__init__()
-        self.fc1 = nn.Linear(input_dim, hidden_dim)
-        self.fc2 = nn.Linear(hidden_dim, hidden_dim)
+        # Keep shared backbone parameters as matrices so AdaRank's SVD masks
+        # control all merged task-vector components in this scaled benchmark.
+        self.fc1 = nn.Linear(input_dim, hidden_dim, bias=False)
+        self.fc2 = nn.Linear(hidden_dim, hidden_dim, bias=False)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         x = F.relu(self.fc1(x))
@@ -192,8 +194,8 @@ def construct_state(
 
 
 def functional_backbone(x: torch.Tensor, state: dict[str, torch.Tensor]) -> torch.Tensor:
-    x = F.relu(F.linear(x, state["fc1.weight"], state["fc1.bias"]))
-    return F.relu(F.linear(x, state["fc2.weight"], state["fc2.bias"]))
+    x = F.relu(F.linear(x, state["fc1.weight"], state.get("fc1.bias")))
+    return F.relu(F.linear(x, state["fc2.weight"], state.get("fc2.bias")))
 
 
 def evaluate_state(tasks: list[TaskData], heads: list[nn.Linear], state: dict[str, torch.Tensor]) -> tuple[dict[str, float], list[dict[str, object]]]:
@@ -283,6 +285,17 @@ def parameter_count(backbone: Backbone, heads: list[nn.Linear]) -> int:
     return sum(p.numel() for p in backbone.parameters()) + sum(p.numel() for h in heads for p in h.parameters())
 
 
+def parse_step_list(raw: str) -> list[int]:
+    if not raw:
+        return []
+    steps = []
+    for item in raw.split(","):
+        item = item.strip()
+        if item:
+            steps.append(int(item))
+    return steps
+
+
 def run(args: argparse.Namespace) -> None:
     set_seed(args.seed)
     tasks = make_tasks(num_tasks=args.tasks, train_per_task=args.train_per_task, adapt_per_task=args.adapt_per_task, test_per_task=args.test_per_task, seed=args.seed)
@@ -294,26 +307,40 @@ def run(args: argparse.Namespace) -> None:
     ta_state = construct_state(components, vector_pack, None, base_lambdas, "full", args.top_fraction)
     topk_lambdas = torch.full((len(components),), 1.0)
     topk_state = construct_state(components, vector_pack, None, topk_lambdas, "topk", args.top_fraction)
-    adarank_state, trace = adapt_adarank(
-        tasks,
-        task_heads,
-        components,
-        vector_pack,
-        init_mode=args.init_mode,
-        top_fraction=args.top_fraction,
-        steps=args.adapt_steps,
-        mask_lr=args.adapt_lr,
-        lambda_lr=args.lambda_lr,
-        learn_lambda=not args.freeze_lambda,
-        max_lambda=args.max_lambda,
-    )
-
     methods = {}
-    for name, state in [("task_arithmetic", ta_state), ("fixed_topk_svd", topk_state), ("adarank", adarank_state)]:
+    for name, state in [("task_arithmetic", ta_state), ("fixed_topk_svd", topk_state)]:
         acc, preds = evaluate_state(tasks, task_heads, state)
         methods[name] = {"task_accuracy": acc, "predictions": preds}
     acc, preds = evaluate_individuals(tasks, task_backbones, task_heads)
     methods["individual"] = {"task_accuracy": acc, "predictions": preds}
+
+    adarank_state: dict[str, torch.Tensor] | None = None
+    adarank_trace: dict[str, float] | None = None
+    step_specs = [("adarank", args.adapt_steps)]
+    for steps in parse_step_list(args.sweep_adapt_steps):
+        name = f"adarank_steps_{steps}"
+        if all(existing_steps != steps for _, existing_steps in step_specs):
+            step_specs.append((name, steps))
+    for name, steps in step_specs:
+        state, trace = adapt_adarank(
+            tasks,
+            task_heads,
+            components,
+            vector_pack,
+            init_mode=args.init_mode,
+            top_fraction=args.top_fraction,
+            steps=steps,
+            mask_lr=args.adapt_lr,
+            lambda_lr=args.lambda_lr,
+            learn_lambda=not args.freeze_lambda,
+            max_lambda=args.max_lambda,
+        )
+        acc, preds = evaluate_state(tasks, task_heads, state)
+        methods[name] = {"task_accuracy": acc, "predictions": preds, "adaptation_trace": trace}
+        methods[name]["adaptation_trace"]["adapt_steps"] = float(steps)
+        if name == "adarank":
+            adarank_state = state
+            adarank_trace = trace
 
     base_params = parameter_count(pretrained, task_heads)
     all_finetuned_params = base_params * len(tasks)
@@ -322,8 +349,8 @@ def run(args: argparse.Namespace) -> None:
         payload["avg_accuracy"] = avg
         payload["merged_param_count"] = base_params if name != "individual" else all_finetuned_params
         payload["param_multiplier_vs_single"] = payload["merged_param_count"] / base_params
-    methods["adarank"]["adaptation_trace"] = trace
-    methods["adarank"]["learnable_param_fraction"] = trace["learnable_mask_params"] / all_finetuned_params
+        if name.startswith("adarank"):
+            payload["learnable_param_fraction"] = payload["adaptation_trace"]["learnable_mask_params"] / all_finetuned_params
 
     output = {
         "config": vars(args),
@@ -340,6 +367,7 @@ def run(args: argparse.Namespace) -> None:
         json.dump(output, f, indent=2)
     ckpt_dir = Path("checkpoints")
     ckpt_dir.mkdir(exist_ok=True)
+    assert adarank_state is not None and adarank_trace is not None
     torch.save({"adarank_state": adarank_state, "task_heads": [h.state_dict() for h in task_heads], "config": vars(args)}, ckpt_dir / "adarank_synthetic.pt")
 
 
@@ -354,7 +382,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--test-per-task", type=int, default=512)
     parser.add_argument("--pretrain-epochs", type=int, default=120)
     parser.add_argument("--finetune-epochs", type=int, default=180)
-    parser.add_argument("--adapt-steps", type=int, default=500)
+    parser.add_argument("--adapt-steps", type=int, default=320)
+    parser.add_argument("--sweep-adapt-steps", default="")
     parser.add_argument("--lr", type=float, default=1e-3)
     parser.add_argument("--adapt-lr", type=float, default=1e-2)
     parser.add_argument("--lambda-lr", type=float, default=1e-3)

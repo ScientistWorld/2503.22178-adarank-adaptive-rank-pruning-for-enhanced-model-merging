@@ -13,5 +13,5 @@ set -e
 
 cd /home/user
 
-bash scripts/reproduce.sh
+bash scripts/reproduce.sh --sweep-adapt-steps 80,160,320,500
 python validate.py --compare
