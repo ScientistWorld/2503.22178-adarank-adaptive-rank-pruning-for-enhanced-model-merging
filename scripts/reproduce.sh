@@ -18,7 +18,6 @@ set -e
 
 cd /home/user
 
-# TODO: implement full reproduction pipeline
-# e.g.:
-#   bash scripts/baseline.sh
-#   bash scripts/method.sh
+python method/adarank_synthetic.py "$@"
+python baseline/task_arithmetic_synthetic.py --source outputs/adarank_synthetic/predictions.json
+bash scripts/evaluate.sh outputs/adarank_synthetic/predictions.json

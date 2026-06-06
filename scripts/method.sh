@@ -10,5 +10,5 @@ set -e
 
 cd /home/user
 
-# TODO: run the paper's method
-# TODO: call scripts/evaluate.sh to score
+python method/adarank_synthetic.py "$@"
+bash scripts/evaluate.sh outputs/adarank_synthetic/predictions.json

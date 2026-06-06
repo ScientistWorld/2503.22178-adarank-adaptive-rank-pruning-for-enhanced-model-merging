@@ -1,0 +1,57 @@
+{
+  "experiments": {
+    "synthetic_4task_merge": {
+      "description": "Scaled AdaRank reproduction benchmark, referenced to the paper's ViT-B/32 8-task model-merging results and parameter-cost table.",
+      "weight": 1.0,
+      "primary_metric": "avg_accuracy",
+      "metrics": {
+        "avg_accuracy": {
+          "higher_is_better": true,
+          "coefficient": 1.0
+        },
+        "merged_param_count": {
+          "higher_is_better": false,
+          "coefficient": -0.15
+        },
+        "param_multiplier_vs_single": {
+          "higher_is_better": false,
+          "coefficient": -0.35
+        },
+        "learnable_param_fraction": {
+          "higher_is_better": false,
+          "coefficient": -0.1
+        }
+      },
+      "results": {
+        "individual": {
+          "type": "baseline",
+          "avg_accuracy": 0.905,
+          "merged_param_count": 907600000,
+          "param_multiplier_vs_single": 8.0,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "type": "baseline",
+          "avg_accuracy": 0.692,
+          "merged_param_count": 113450000,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "fixed_topk_svd": {
+          "type": "baseline",
+          "avg_accuracy": 0.847,
+          "merged_param_count": 113450000,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "adarank": {
+          "type": "proposed",
+          "avg_accuracy": 0.879,
+          "merged_param_count": 113450000,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.00032
+        }
+      }
+    }
+  }
+}
