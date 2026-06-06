@@ -1,6 +1,6 @@
 # Reproduction Milestones
 
-**Current: none**
+**Current: method_runs**
 
 ## Progress Log
 
@@ -18,5 +18,10 @@
 - CPU job `0c730250-84c` failed before method execution with `ModuleNotFoundError: No module named 'data'`.
 - Fixed shell entry points to include `/home/user` on `PYTHONPATH` so method, baseline, data, and eval packages resolve inside the container.
 - Resubmitting the CPU test job; no reproduction milestone is claimed until the method completes.
+
+### [2026-06-06 14:40] - method_runs
+- CPU job `0950827d-e38` completed with exit code 0 and produced predictions, checkpoint, and `scoring/scores.json`.
+- Reproduced scores were Task Arithmetic `0.6660`, fixed top-k SVD `0.5967`, AdaRank `0.5303`, and individual models `0.6992` average accuracy.
+- This qualifies only as `method_runs`: AdaRank ran end-to-end but did not yet support the paper's core claim, so the implementation was patched to use paper-consistent TA+AdaRank initialization before resubmission.
 
 ## Stop Justification

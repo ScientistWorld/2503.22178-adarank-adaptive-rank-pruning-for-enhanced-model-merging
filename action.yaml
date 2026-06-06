@@ -4,5 +4,5 @@
 action: submit
 gpus: 0
 test: true
-milestone: none
-notes: "Retry CPU test after fixing PYTHONPATH for sibling data/eval imports; run AdaRank reproduction, write scores, and validate comparison."
+milestone: method_runs
+notes: "CPU test: rerun AdaRank after fixing TA initialization, STE mask logits, and lambda learning rate; target core-claim improvement over Task Arithmetic."

@@ -134,8 +134,10 @@ def ste_binary(logits: torch.Tensor, temperature: float = 10.0) -> torch.Tensor:
 
 
 def mask_logits_for_initial(mask: torch.Tensor) -> torch.Tensor:
-    # With T=10, +/-20 gives sigmoid values near 0.12/0.88 and a stable STE.
-    return torch.where(mask > 0, torch.full_like(mask, 20.0), torch.full_like(mask, -20.0))
+    # AdaRank initializes binary masks to a chosen baseline, then adapts the
+    # continuous STE parameters. Small signed logits keep the initial hard mask
+    # intact while allowing components to cross the 0.5 threshold during TTA.
+    return torch.where(mask > 0, torch.full_like(mask, 1.0), torch.full_like(mask, -1.0))
 
 
 def init_masks(components: list[SVDComponent], num_tasks: int, mode: str, top_fraction: float) -> nn.ParameterList:
@@ -233,15 +235,19 @@ def adapt_adarank(
     init_mode: str,
     top_fraction: float,
     steps: int,
-    lr: float,
+    mask_lr: float,
+    lambda_lr: float,
     learn_lambda: bool,
+    max_lambda: float,
 ) -> tuple[dict[str, torch.Tensor], dict[str, float]]:
     num_tasks = len(tasks)
     masks = init_masks(components, num_tasks, init_mode, top_fraction)
     lambda_init = 0.3 if init_mode == "full" else 1.0
     lambdas = nn.Parameter(torch.full((len(components),), lambda_init), requires_grad=learn_lambda)
-    opt_params = list(masks.parameters()) + ([lambdas] if learn_lambda else [])
-    opt = torch.optim.Adam(opt_params, lr=lr)
+    opt_groups = [{"params": list(masks.parameters()), "lr": mask_lr}]
+    if learn_lambda:
+        opt_groups.append({"params": [lambdas], "lr": lambda_lr})
+    opt = torch.optim.Adam(opt_groups)
     trace: dict[str, float] = {}
     for step in range(steps):
         opt.zero_grad()
@@ -254,6 +260,9 @@ def adapt_adarank(
             loss = loss + entropy
         loss.backward()
         opt.step()
+        if learn_lambda:
+            with torch.no_grad():
+                lambdas.clamp_(0.0, max_lambda)
         if step in {0, steps - 1}:
             trace[f"entropy_step_{step}"] = float(loss.detach().item())
     final_state = construct_state(components, vector_pack, masks, lambdas, "masked", top_fraction)
@@ -293,8 +302,10 @@ def run(args: argparse.Namespace) -> None:
         init_mode=args.init_mode,
         top_fraction=args.top_fraction,
         steps=args.adapt_steps,
-        lr=args.adapt_lr,
+        mask_lr=args.adapt_lr,
+        lambda_lr=args.lambda_lr,
         learn_lambda=not args.freeze_lambda,
+        max_lambda=args.max_lambda,
     )
 
     methods = {}
@@ -343,15 +354,16 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--test-per-task", type=int, default=512)
     parser.add_argument("--pretrain-epochs", type=int, default=120)
     parser.add_argument("--finetune-epochs", type=int, default=180)
-    parser.add_argument("--adapt-steps", type=int, default=160)
+    parser.add_argument("--adapt-steps", type=int, default=320)
     parser.add_argument("--lr", type=float, default=1e-3)
     parser.add_argument("--adapt-lr", type=float, default=1e-2)
+    parser.add_argument("--lambda-lr", type=float, default=1e-3)
+    parser.add_argument("--max-lambda", type=float, default=3.0)
     parser.add_argument("--top-fraction", type=float, default=0.16)
-    parser.add_argument("--init-mode", choices=["full", "topk"], default="topk")
+    parser.add_argument("--init-mode", choices=["full", "topk"], default="full")
     parser.add_argument("--freeze-lambda", action="store_true")
     return parser.parse_args()
 
 
 if __name__ == "__main__":
     run(parse_args())
-

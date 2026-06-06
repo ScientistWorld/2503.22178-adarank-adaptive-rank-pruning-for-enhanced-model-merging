@@ -5,18 +5,17 @@
 - Paper analysis and benchmark packaging are complete for a scaled reproduction.
 - `method/adarank_synthetic.py` implements the AdaRank computational pipeline on a deterministic synthetic multi-task classification benchmark: fine-tune task models from a shared pretrained backbone, form task vectors, SVD matrix weights, adapt binary masks with STE and unlabeled entropy minimization, and evaluate a merged model.
 - `eval/evaluate_outputs.py` scores saved predictions without importing from `method/`.
-- `python validate.py --reference-only` passes after staging tracked source files.
-- Continuation audit confirmed no completed `outputs/` or `scoring/scores.json` artifacts are present yet, so no milestone above `none` is claimed before a compute job finishes.
+- `python validate.py --compare` passes structurally after job `0950827d-e38`.
+- Job `0950827d-e38` executed the AdaRank pipeline end-to-end and wrote `outputs/adarank_synthetic/predictions.json`, `checkpoints/adarank_synthetic.pt`, and `scoring/scores.json`.
 
 ## Results
 
-- No reproduced scores yet. The first submitted job will run `scripts/reproduce.sh` and write `scoring/scores.json`.
+- First successful run, before the latest fix: Task Arithmetic `0.6660`, fixed top-k SVD `0.5967`, AdaRank `0.5303`, individual models `0.6992` average accuracy. This establishes `method_runs` but not `core_claim`.
+- The failed AdaRank result came from initializing TA+AdaRank with top-k masks and saturated mask logits; the implementation is now corrected to initialize TA+AdaRank from full Task Arithmetic masks, use small signed STE logits, and learn layer coefficients with a conservative separate learning rate.
 
 ## Remaining
 
-- Run the first compute job to verify that the method executes end-to-end.
-- Inspect `python validate.py --compare` output from the job and fix any numeric or implementation issues before claiming `core_claim`.
-- Compare AdaRank against Task Arithmetic and fixed top-k SVD on the scaled benchmark.
+- Rerun the corrected AdaRank setup and compare AdaRank against Task Arithmetic and fixed top-k SVD on the scaled benchmark.
 - If AdaRank does not outperform the fixed/full baselines, inspect the synthetic task difficulty and adaptation settings before claiming `core_claim`.
 
 ## Issues
