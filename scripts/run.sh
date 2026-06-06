@@ -13,5 +13,5 @@ set -e
 
 cd /home/user
 
-bash scripts/reproduce.sh --sweep-adapt-steps 80,160,320,500
+bash scripts/reproduce.sh --learn-lambda --lambda-lr 0.0002 --max-lambda 0.45 --sweep-adapt-steps 80,160,320,500
 python validate.py --compare

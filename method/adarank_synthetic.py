@@ -277,7 +277,10 @@ def adapt_adarank(
             total += binary.numel()
     trace["mask_density"] = selected / max(total, 1)
     trace["learnable_mask_params"] = float(total)
-    trace["learned_lambda_mean"] = float(lambdas.detach().mean().item())
+    lambda_values = lambdas.detach()
+    trace["learned_lambda_mean"] = float(lambda_values.mean().item())
+    trace["learned_lambda_min"] = float(lambda_values.min().item())
+    trace["learned_lambda_max"] = float(lambda_values.max().item())
     return final_state, trace
 
 

@@ -39,4 +39,9 @@
 - Bias-free results improved fixed top-k SVD to `0.6357` and AdaRank to `0.6611`, with Task Arithmetic at `0.6738`; this supports the adaptive-rank-over-fixed-rank subclaim but does not yet restore the full core claim over Task Arithmetic.
 - Patched `eval/evaluate_outputs.py` to keep diagnostic sweep variants in the prediction artifact while writing only reference-comparable methods to `scoring/scores.json`.
 
+### [2026-06-06 15:00] - method_runs
+- CPU job `d675a6c5-bfd` completed with exit code 0 and confirmed the bias-free sweep scores: Task Arithmetic `0.6738`, fixed top-k SVD `0.6357`, AdaRank `0.6611`, individual models `0.6909`.
+- Diagnostic sweep showed that 80 adaptation steps leaves the full Task Arithmetic mask unchanged, while longer mask-only adaptation prunes components and reduces average accuracy.
+- Resubmitting full AdaRank with jointly learned layer coefficients, a conservative coefficient cap, and coefficient diagnostics to test the paper's default adaptation setting.
+
 ## Stop Justification
