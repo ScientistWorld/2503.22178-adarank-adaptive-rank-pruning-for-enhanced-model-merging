@@ -5,4 +5,4 @@ action: submit
 gpus: 0
 test: true
 milestone: method_runs
-notes: "CPU test: rerun AdaRank after fixing TA initialization, STE mask logits, and lambda learning rate; target core-claim improvement over Task Arithmetic."
+notes: "CPU test: run mask-only AdaRank with fixed Task Arithmetic coefficient after learned lambda hurt accuracy; target core claim over Task Arithmetic."

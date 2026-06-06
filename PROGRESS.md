@@ -12,10 +12,12 @@
 
 - First successful run, before the latest fix: Task Arithmetic `0.6660`, fixed top-k SVD `0.5967`, AdaRank `0.5303`, individual models `0.6992` average accuracy. This establishes `method_runs` but not `core_claim`.
 - The failed AdaRank result came from initializing TA+AdaRank with top-k masks and saturated mask logits; the implementation is now corrected to initialize TA+AdaRank from full Task Arithmetic masks, use small signed STE logits, and learn layer coefficients with a conservative separate learning rate.
+- Second successful run after the initialization fix improved AdaRank to `0.6274`, but it still trailed Task Arithmetic `0.6660`. The adaptation trace showed the learned coefficient mean rising from the TA value `0.3` to `0.6026`, hurting the hardest task.
+- The next run uses the paper's mask-only ablation setting for this scaled benchmark: AdaRank still adapts binary singular-component masks with STE and entropy minimization, while keeping the TA coefficient fixed to isolate adaptive rank pruning.
 
 ## Remaining
 
-- Rerun the corrected AdaRank setup and compare AdaRank against Task Arithmetic and fixed top-k SVD on the scaled benchmark.
+- Rerun the mask-only AdaRank setup and compare AdaRank against Task Arithmetic and fixed top-k SVD on the scaled benchmark.
 - If AdaRank does not outperform the fixed/full baselines, inspect the synthetic task difficulty and adaptation settings before claiming `core_claim`.
 
 ## Issues

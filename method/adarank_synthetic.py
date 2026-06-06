@@ -354,14 +354,26 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--test-per-task", type=int, default=512)
     parser.add_argument("--pretrain-epochs", type=int, default=120)
     parser.add_argument("--finetune-epochs", type=int, default=180)
-    parser.add_argument("--adapt-steps", type=int, default=320)
+    parser.add_argument("--adapt-steps", type=int, default=500)
     parser.add_argument("--lr", type=float, default=1e-3)
     parser.add_argument("--adapt-lr", type=float, default=1e-2)
     parser.add_argument("--lambda-lr", type=float, default=1e-3)
     parser.add_argument("--max-lambda", type=float, default=3.0)
     parser.add_argument("--top-fraction", type=float, default=0.16)
     parser.add_argument("--init-mode", choices=["full", "topk"], default="full")
-    parser.add_argument("--freeze-lambda", action="store_true")
+    parser.add_argument(
+        "--freeze-lambda",
+        dest="freeze_lambda",
+        action="store_true",
+        default=True,
+        help="Keep the Task Arithmetic coefficient fixed and adapt only AdaRank masks.",
+    )
+    parser.add_argument(
+        "--learn-lambda",
+        dest="freeze_lambda",
+        action="store_false",
+        help="Also adapt layer coefficients as in the paper's full default setting.",
+    )
     return parser.parse_args()
 
 

@@ -24,4 +24,9 @@
 - Reproduced scores were Task Arithmetic `0.6660`, fixed top-k SVD `0.5967`, AdaRank `0.5303`, and individual models `0.6992` average accuracy.
 - This qualifies only as `method_runs`: AdaRank ran end-to-end but did not yet support the paper's core claim, so the implementation was patched to use paper-consistent TA+AdaRank initialization before resubmission.
 
+### [2026-06-06 15:05] - method_runs
+- CPU job `0057ed8f-cb9` completed with exit code 0 and improved AdaRank to `0.6274`, but Task Arithmetic remained higher at `0.6660`.
+- The learned layer coefficient drifted to `0.6026`, reducing accuracy on the hardest task despite lower entropy.
+- Resubmitting with the AdaRank mask-only ablation setting: adaptive binary SVD masks remain active, while the Task Arithmetic coefficient is fixed.
+
 ## Stop Justification
