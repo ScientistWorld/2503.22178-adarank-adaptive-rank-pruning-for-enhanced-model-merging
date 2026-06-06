@@ -14,4 +14,9 @@
 - No completed predictions, checkpoint, or `scoring/scores.json` are present yet, so the milestone remains `none` pending a compute job.
 - Adjusted scoring to use scale-independent accuracy and model-count constraint metrics for the scaled benchmark.
 
+### [2026-06-06 14:22] - none
+- CPU job `0c730250-84c` failed before method execution with `ModuleNotFoundError: No module named 'data'`.
+- Fixed shell entry points to include `/home/user` on `PYTHONPATH` so method, baseline, data, and eval packages resolve inside the container.
+- Resubmitting the CPU test job; no reproduction milestone is claimed until the method completes.
+
 ## Stop Justification

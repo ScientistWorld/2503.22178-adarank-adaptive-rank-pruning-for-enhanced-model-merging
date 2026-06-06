@@ -5,4 +5,4 @@ action: submit
 gpus: 0
 test: true
 milestone: none
-notes: "CPU test job: run the scaled AdaRank reproduction, write scoring/scores.json, and validate the reproduced scores against reference.json."
+notes: "Retry CPU test after fixing PYTHONPATH for sibling data/eval imports; run AdaRank reproduction, write scores, and validate comparison."

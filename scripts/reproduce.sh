@@ -17,6 +17,7 @@
 set -e
 
 cd /home/user
+export PYTHONPATH="/home/user:${PYTHONPATH:-}"
 
 python method/adarank_synthetic.py "$@"
 python baseline/task_arithmetic_synthetic.py --source outputs/adarank_synthetic/predictions.json

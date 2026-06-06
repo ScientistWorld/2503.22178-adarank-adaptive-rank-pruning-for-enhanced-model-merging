@@ -16,6 +16,7 @@
 set -e
 
 cd /home/user
+export PYTHONPATH="/home/user:${PYTHONPATH:-}"
 
 if [ ! -f outputs/adarank_synthetic/predictions.json ]; then
   python method/adarank_synthetic.py

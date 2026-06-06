@@ -9,6 +9,7 @@
 set -e
 
 cd /home/user
+export PYTHONPATH="/home/user:${PYTHONPATH:-}"
 
 python method/adarank_synthetic.py "$@"
 bash scripts/evaluate.sh outputs/adarank_synthetic/predictions.json
