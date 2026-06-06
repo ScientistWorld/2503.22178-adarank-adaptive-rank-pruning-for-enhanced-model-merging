@@ -6,6 +6,7 @@
 - `method/adarank_synthetic.py` implements the AdaRank computational pipeline on a deterministic synthetic multi-task classification benchmark: fine-tune task models from a shared pretrained backbone, form task vectors, SVD matrix weights, adapt binary masks with STE and unlabeled entropy minimization, and evaluate a merged model.
 - `eval/evaluate_outputs.py` scores saved predictions without importing from `method/`.
 - `python validate.py --reference-only` passes after staging tracked source files.
+- Continuation audit confirmed no completed `outputs/` or `scoring/scores.json` artifacts are present yet, so no milestone above `none` is claimed before a compute job finishes.
 
 ## Results
 
@@ -14,6 +15,7 @@
 ## Remaining
 
 - Run the first compute job to verify that the method executes end-to-end.
+- Inspect `python validate.py --compare` output from the job and fix any numeric or implementation issues before claiming `core_claim`.
 - Compare AdaRank against Task Arithmetic and fixed top-k SVD on the scaled benchmark.
 - If AdaRank does not outperform the fixed/full baselines, inspect the synthetic task difficulty and adaptation settings before claiming `core_claim`.
 

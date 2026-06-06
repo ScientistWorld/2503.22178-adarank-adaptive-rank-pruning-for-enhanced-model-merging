@@ -24,9 +24,7 @@ def summarize_method(payload: dict) -> dict[str, float]:
     avg = sum(per_task.values()) / len(per_task)
     result = {
         "avg_accuracy": avg,
-        "merged_param_count": float(payload["merged_param_count"]),
         "param_multiplier_vs_single": float(payload["param_multiplier_vs_single"]),
-        "learnable_param_fraction": float(payload.get("learnable_param_fraction", 0.0)),
     }
     return result
 

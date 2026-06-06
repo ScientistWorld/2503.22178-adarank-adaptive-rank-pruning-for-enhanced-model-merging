@@ -9,4 +9,9 @@
 - Implemented a scaled synthetic multi-task model-merging benchmark and runnable AdaRank reproduction, but no compute job has completed yet.
 - Static validation passes; first CPU test job is being submitted to verify the method end-to-end.
 
+### [2026-06-06 14:10] - none
+- Continuation audit found real AdaRank-specific computation in `method/` and independent saved-artifact evaluation in `eval/`.
+- No completed predictions, checkpoint, or `scoring/scores.json` are present yet, so the milestone remains `none` pending a compute job.
+- Adjusted scoring to use scale-independent accuracy and model-count constraint metrics for the scaled benchmark.
+
 ## Stop Justification

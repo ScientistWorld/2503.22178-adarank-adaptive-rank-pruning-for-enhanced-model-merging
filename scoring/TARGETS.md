@@ -10,9 +10,7 @@ Tests whether a single merged model maintains strong average classification accu
 
 Tests whether the merged solution keeps deployment compact rather than retaining one full model per task or adding a large trainable router.
 
-- **Metric**: `merged_param_count` (lower is better)
 - **Metric**: `param_multiplier_vs_single` (lower is better)
-- **Metric**: `learnable_param_fraction` (lower is better)
 
 ## Ablation: synthetic_4task_merge
 
