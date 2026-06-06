@@ -11,7 +11,7 @@
           "param_multiplier_vs_single": 1.0
         },
         "adarank": {
-          "avg_accuracy": 0.62744140625,
+          "avg_accuracy": 0.6572265625,
           "param_multiplier_vs_single": 1.0
         },
         "individual": {
