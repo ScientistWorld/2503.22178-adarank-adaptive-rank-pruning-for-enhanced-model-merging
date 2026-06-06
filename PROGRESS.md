@@ -16,11 +16,14 @@
 - The next run uses the paper's mask-only ablation setting for this scaled benchmark: AdaRank still adapts binary singular-component masks with STE and entropy minimization, while keeping the TA coefficient fixed to isolate adaptive rank pruning.
 - Third successful run with mask-only adaptation reached `0.6572`, close to but still below Task Arithmetic `0.6660`; the remaining loss was concentrated on the hardest task.
 - The next job removes shared backbone biases from the synthetic MLP so all shared task-vector components are matrix components controlled by AdaRank SVD masks, and it reports an adaptation-step sweep in one training run.
+- Job `710c98a0-a4a` wrote the bias-free prediction artifact before exiting with code 1. The saved scores are Task Arithmetic `0.6738`, fixed top-k SVD `0.6357`, AdaRank `0.6611`, and individual models `0.6909`. AdaRank now improves over the fixed-rank SVD baseline at the same 1x parameter budget, but it still trails full Task Arithmetic, so the milestone remains `method_runs`.
+- The crash was caused by the evaluation/validation contract rather than the method run: diagnostic sweep entries such as `adarank_steps_80` were included in `scoring/scores.json` but are absent from `reference.json`. The evaluator now filters diagnostic methods by default while preserving them in the method output JSON for analysis.
 
 ## Remaining
 
 - Rerun the bias-free shared-backbone setup and inspect AdaRank step-sweep variants against Task Arithmetic and fixed top-k SVD.
-- If AdaRank does not outperform the fixed/full baselines, inspect the synthetic task difficulty and adaptation settings before claiming `core_claim`.
+- Resubmit the bias-free sweep after the evaluator fix to get a clean job exit.
+- If AdaRank still does not outperform full Task Arithmetic, inspect the synthetic task difficulty and adaptation settings before claiming `core_claim`.
 
 ## Issues
 
@@ -28,6 +31,7 @@
 - Job `0c730250-84c` failed before running the method because Python executed `method/adarank_synthetic.py` with `/home/user/method` as `sys.path[0]`, making sibling package `data/` unavailable. Fixed by exporting `PYTHONPATH=/home/user` in all shell entry points.
 - Jobs `0057ed8f-cb9` and `ad7760c6-e8e` showed that the original synthetic MLP had shared bias deltas that were always merged outside AdaRank's SVD masks. The next run uses bias-free shared layers to keep the scaled benchmark aligned with adaptive rank pruning over matrix task vectors.
 - The external log paths reported for job `ad7760c6-e8e` were not visible in this shell, so this turn used the persisted workspace artifacts in `scoring/scores.json` and `outputs/adarank_synthetic/predictions.json` to assess the completed run.
+- The external log paths reported for job `710c98a0-a4a` were also not visible in this shell. The persisted output artifact was enough to diagnose the validation failure and update the evaluator.
 
 ## Deviations from Paper
 

@@ -5,4 +5,4 @@ action: submit
 gpus: 0
 test: true
 milestone: method_runs
-notes: "CPU test: run bias-free shared backbone plus AdaRank adaptation-step sweep; target AdaRank variant beating Task Arithmetic while preserving 1x parameters."
+notes: "CPU test: rerun bias-free AdaRank sweep after filtering diagnostic methods from scores.json so validate.py --compare exits cleanly."

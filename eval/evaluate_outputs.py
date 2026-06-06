@@ -33,15 +33,31 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", default="outputs/adarank_synthetic/predictions.json")
     parser.add_argument("--output", default="scoring/scores.json")
+    parser.add_argument("--reference", default="scoring/reference.json")
+    parser.add_argument(
+        "--include-extra-methods",
+        action="store_true",
+        help="Also write diagnostic methods that are absent from reference.json.",
+    )
     args = parser.parse_args()
 
     with Path(args.input).open() as f:
         raw = json.load(f)
+    reference_methods: dict[str, set[str]] = {}
+    reference_path = Path(args.reference)
+    if reference_path.exists() and not args.include_extra_methods:
+        with reference_path.open() as f:
+            reference = json.load(f)
+        for exp_name, exp_payload in reference.get("experiments", {}).items():
+            reference_methods[exp_name] = set(exp_payload.get("results", {}).keys())
 
     scores = {"experiments": {}}
     for exp_name, exp_payload in raw["experiments"].items():
         scores["experiments"][exp_name] = {"results": {}}
         for method_name, method_payload in exp_payload["methods"].items():
+            if reference_methods and method_name not in reference_methods.get(exp_name, set()):
+                print(f"Skipping diagnostic method absent from reference.json: {exp_name}.{method_name}")
+                continue
             scores["experiments"][exp_name]["results"][method_name] = summarize_method(method_payload)
 
     out = Path(args.output)

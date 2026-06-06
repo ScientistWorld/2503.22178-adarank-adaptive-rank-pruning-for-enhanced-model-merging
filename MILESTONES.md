@@ -34,4 +34,9 @@
 - Patched the synthetic shared backbone to remove unmasked bias task vectors and added an adaptation-step sweep to diagnose TTA budget in one job.
 - Resubmitting with the same milestone because the core claim is still not met.
 
+### [2026-06-06 14:54] - method_runs
+- CPU job `710c98a0-a4a` exited with code 1 after writing method outputs; the likely failure was `validate.py --compare` rejecting diagnostic sweep methods not present in `reference.json`.
+- Bias-free results improved fixed top-k SVD to `0.6357` and AdaRank to `0.6611`, with Task Arithmetic at `0.6738`; this supports the adaptive-rank-over-fixed-rank subclaim but does not yet restore the full core claim over Task Arithmetic.
+- Patched `eval/evaluate_outputs.py` to keep diagnostic sweep variants in the prediction artifact while writing only reference-comparable methods to `scoring/scores.json`.
+
 ## Stop Justification
