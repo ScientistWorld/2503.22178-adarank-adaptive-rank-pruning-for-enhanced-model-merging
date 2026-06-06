@@ -1,0 +1,24 @@
+{
+  "experiments": {
+    "synthetic_4task_merge": {
+      "results": {
+        "task_arithmetic": {
+          "avg_accuracy": 0.666015625,
+          "param_multiplier_vs_single": 1.0
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.5966796875,
+          "param_multiplier_vs_single": 1.0
+        },
+        "adarank": {
+          "avg_accuracy": 0.5302734375,
+          "param_multiplier_vs_single": 1.0
+        },
+        "individual": {
+          "avg_accuracy": 0.69921875,
+          "param_multiplier_vs_single": 4.0
+        }
+      }
+    }
+  }
+}
