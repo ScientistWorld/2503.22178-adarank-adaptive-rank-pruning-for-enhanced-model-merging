@@ -10,6 +10,8 @@ The method starts from a pretrained backbone and task-specific fine-tuned checkp
 
 Each singular component has a binary mask indicating whether it is preserved or pruned. AdaRank optimizes these masks at test time using unlabeled task data and an entropy-minimization objective. Continuous mask parameters are binarized in the forward pass and optimized with a straight-through estimator. The paper jointly adapts the layer/task merge coefficients and binary masks in its default setting, and applies this mechanism to several merging families including Task Arithmetic, TSV-M, CART, and Iso-CTS.
 
+The scaled reproduction implementation is in `method/adarank_synthetic.py`. The authors' official code release is cloned into `method/official_adarank/` as a reference for the full CLIP and GLUE experiments.
+
 ## Main Claims
 
 - **Primary claim**: adaptive singular-component selection improves average multi-task accuracy over fixed-rank or coefficient-only merging across vision and language model-merging benchmarks.

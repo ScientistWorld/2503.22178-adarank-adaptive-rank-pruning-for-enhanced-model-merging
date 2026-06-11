@@ -4,19 +4,23 @@
       "results": {
         "task_arithmetic": {
           "avg_accuracy": 0.673828125,
-          "param_multiplier_vs_single": 1.0
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
         },
         "fixed_topk_svd": {
           "avg_accuracy": 0.6396484375,
-          "param_multiplier_vs_single": 1.0
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
         },
         "individual": {
           "avg_accuracy": 0.689453125,
-          "param_multiplier_vs_single": 4.0
+          "param_multiplier_vs_single": 4.0,
+          "learnable_param_fraction": 0.0
         },
         "adarank": {
           "avg_accuracy": 0.66162109375,
-          "param_multiplier_vs_single": 1.0
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.013125512715340444
         }
       }
     }

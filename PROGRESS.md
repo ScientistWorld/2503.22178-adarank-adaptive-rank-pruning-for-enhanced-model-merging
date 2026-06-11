@@ -25,12 +25,16 @@
 - CPU job `dc87e060-3d2` regenerated the canonical final artifacts with that promoted default configuration and passed `python validate.py --compare`.
 - This reaches `core_claim` for the paper's central SVD-rank-selection claim: adaptive singular-component selection improves over rigid top-k truncation while preserving the single merged-model parameter budget. It does not reproduce the full paper ordering where AdaRank also beats full Task Arithmetic.
 - Continuation audit on 2026-06-11 confirmed the method/evaluation separation and real AdaRank implementation. The audit also corrected `scoring/reference.json` so `fixed_topk_svd` maps to the paper's TA top-16% fixed-rank ablation (`0.688`) rather than the CART row; validation passes after the correction.
+- Follow-up audit on 2026-06-11 found the official code release at `https://github.com/david3684/adarank`; it has been cloned into `method/official_adarank/` as a reference implementation. The local scaled implementation was cross-checked against the official mask/SVD/STE structure.
+- The evaluator now reports `learnable_param_fraction` in addition to `avg_accuracy` and `param_multiplier_vs_single`, matching the paper's efficiency claim that AdaRank uses a small number of learnable adaptation parameters.
+- The local STE mask initialization has been aligned with the official implementation's small signed mask parameters (`+/-0.1` before temperature scaling). The next submitted CPU job regenerates canonical outputs with this change.
 
 ## Remaining
 
 - Higher milestones would require expanding beyond the scaled synthetic setting, ideally toward the paper's CLIP ViT task suite or additional synthetic task suites.
 - The main remaining numerical gap is that AdaRank does not outperform full Task Arithmetic on this synthetic benchmark, although it does outperform fixed top-k SVD at the same parameter budget.
 - Final artifacts have been regenerated from the promoted default configuration: `outputs/adarank_synthetic/predictions.json`, `checkpoints/adarank_synthetic.pt`, and `scoring/scores.json`.
+- A stronger milestone would require either running the authors' full CLIP/GLUE setup from `method/official_adarank/` with downloaded checkpoints/datasets or designing additional non-trivial scaled task suites where entropy-adapted masks also beat full Task Arithmetic, not only fixed top-k SVD.
 
 ## Issues
 
@@ -41,6 +45,7 @@
 - The external log paths reported for job `710c98a0-a4a` were also not visible in this shell. The persisted output artifact was enough to diagnose the validation failure and update the evaluator.
 - The external log paths reported for job `dc87e060-3d2` were not visible in this shell, but the persisted artifacts and local validation confirmed the run completed successfully.
 - Continuation audit found one scoring-documentation mismatch: `fixed_topk_svd` previously used the paper's CART fixed-rank value even though the implemented baseline is Task Arithmetic top-k SVD. This is now fixed in `scoring/reference.json`.
+- The packaged default uses the paper's binary-mask adaptation ablation with a fixed TA coefficient because previous scaled runs showed joint lambda adaptation degraded this synthetic benchmark. The code still supports `--learn-lambda` for the paper's full default setting.
 
 ## Deviations from Paper
 

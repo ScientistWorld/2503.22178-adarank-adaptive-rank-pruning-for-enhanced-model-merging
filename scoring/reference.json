@@ -12,28 +12,36 @@
         "param_multiplier_vs_single": {
           "higher_is_better": false,
           "coefficient": -0.35
+        },
+        "learnable_param_fraction": {
+          "higher_is_better": false,
+          "coefficient": -0.1
         }
       },
       "results": {
         "individual": {
           "type": "baseline",
           "avg_accuracy": 0.905,
-          "param_multiplier_vs_single": 8.0
+          "param_multiplier_vs_single": 8.0,
+          "learnable_param_fraction": 0.0
         },
         "task_arithmetic": {
           "type": "baseline",
           "avg_accuracy": 0.692,
-          "param_multiplier_vs_single": 1.0
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
         },
         "fixed_topk_svd": {
           "type": "baseline",
           "avg_accuracy": 0.688,
-          "param_multiplier_vs_single": 1.0
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
         },
         "adarank": {
           "type": "proposed",
           "avg_accuracy": 0.879,
-          "param_multiplier_vs_single": 1.0
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.00032
         }
       }
     }

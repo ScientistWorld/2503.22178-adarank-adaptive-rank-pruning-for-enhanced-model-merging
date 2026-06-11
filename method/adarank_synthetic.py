@@ -139,7 +139,8 @@ def mask_logits_for_initial(mask: torch.Tensor) -> torch.Tensor:
     # AdaRank initializes binary masks to a chosen baseline, then adapts the
     # continuous STE parameters. Small signed logits keep the initial hard mask
     # intact while allowing components to cross the 0.5 threshold during TTA.
-    return torch.where(mask > 0, torch.full_like(mask, 1.0), torch.full_like(mask, -1.0))
+    # The official implementation uses +/-0.1 before dividing by T=10.
+    return torch.where(mask > 0, torch.full_like(mask, 0.1), torch.full_like(mask, -0.1))
 
 
 def init_masks(components: list[SVDComponent], num_tasks: int, mode: str, top_fraction: float) -> nn.ParameterList:

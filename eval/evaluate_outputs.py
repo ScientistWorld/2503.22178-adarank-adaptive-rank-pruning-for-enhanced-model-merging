@@ -25,6 +25,7 @@ def summarize_method(payload: dict) -> dict[str, float]:
     result = {
         "avg_accuracy": avg,
         "param_multiplier_vs_single": float(payload["param_multiplier_vs_single"]),
+        "learnable_param_fraction": float(payload.get("learnable_param_fraction", 0.0)),
     }
     return result
 
