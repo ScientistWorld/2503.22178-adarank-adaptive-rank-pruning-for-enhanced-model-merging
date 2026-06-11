@@ -1,5 +1,5 @@
-action: submit
+action: done
 gpus: 0
 test: false
-milestone: core_claim
-notes: "Run evaluate_train.sh and evaluate_test.sh on frozen saved predictions; populate scores_train.json and scores_test.json."
+milestone: method_runs
+notes: "Salted hash train/test split; 20 train and 20 test scalar scores across 4 methods. AdaRank train/test gaps are small (avg -0.010, bal -0.014, worst +0.021), but it trails task_arithmetic on benefit metrics with extra learnable-parameter cost, so core_claim is not supported."
