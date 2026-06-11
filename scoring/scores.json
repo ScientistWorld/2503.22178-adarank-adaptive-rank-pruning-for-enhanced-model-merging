@@ -7,15 +7,15 @@
           "param_multiplier_vs_single": 1.0
         },
         "fixed_topk_svd": {
-          "avg_accuracy": 0.6357421875,
+          "avg_accuracy": 0.6396484375,
           "param_multiplier_vs_single": 1.0
         },
         "individual": {
-          "avg_accuracy": 0.69091796875,
+          "avg_accuracy": 0.689453125,
           "param_multiplier_vs_single": 4.0
         },
         "adarank": {
-          "avg_accuracy": 0.6572265625,
+          "avg_accuracy": 0.66162109375,
           "param_multiplier_vs_single": 1.0
         }
       }
