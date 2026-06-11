@@ -12,5 +12,9 @@
 - The reproduced AdaRank mask adaptation improves over fixed top-k SVD while preserving a single merged-model parameter budget.
 - The evaluator now scores both average accuracy and efficiency constraints, including deployment parameter multiplier and learnable adaptation parameter fraction.
 
+### [2026-06-11 17:55] - core_claim
+- Job `39cba39c-61a` regenerated the canonical artifacts with the current official-aligned mask initialization and passed `python validate.py --compare`.
+- Final refreshed scores: AdaRank `0.6636` average accuracy versus fixed top-k SVD `0.6396`, both at `1.0x` deployment parameter multiplier.
+
 ## Stop Justification
-- Not stopped. The next submitted job regenerates final artifacts after the continuation audit confirmed the current method/evaluation code compiles and remains a real AdaRank implementation.
+- Stopped at `core_claim`. The scaled environment is complete and validated; reaching higher milestones would require either full CLIP-scale datasets/checkpoints from the paper or additional non-trivial benchmark settings beyond the current budgeted reproduction.

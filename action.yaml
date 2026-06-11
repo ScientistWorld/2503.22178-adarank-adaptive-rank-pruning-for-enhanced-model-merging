@@ -1,8 +1,8 @@
 # IMPORTANT: Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends. Sleeping blocks the entire pipeline.
-action: submit
+action: done
 gpus: 0
-test: true
+test: false
 milestone: core_claim
-notes: "Continuation audit passed lightweight checks; rerun the scaled AdaRank reproduction to refresh outputs and scores with the current official-aligned mask initialization."
+notes: "Core claim reproduced and validated by job 39cba39c-61a: AdaRank beats fixed top-k SVD at the same 1x deployment parameter budget, with efficiency constraints scored."
