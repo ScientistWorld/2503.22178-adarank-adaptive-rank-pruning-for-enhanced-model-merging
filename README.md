@@ -406,7 +406,7 @@ For a scaled reproduction, the minimum useful setting is the 8-task ViT-B/32 ben
 
 # Reproduction Milestones
 
-**Current: core_claim**
+**Current: method_runs**
 
 ## Stop Justification
-- Completed at milestone `core_claim`.
+- Completed at milestone `method_runs`.
