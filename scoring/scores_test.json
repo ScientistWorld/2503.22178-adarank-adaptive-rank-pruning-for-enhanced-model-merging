@@ -1,0 +1,38 @@
+{
+  "slice": "test",
+  "split_style": "per-task hidden salted hash sample from saved predictions with independently regenerated labels",
+  "experiments": {
+    "synthetic_4task_merge": {
+      "results": {
+        "adarank": {
+          "avg_accuracy": 0.6566147859922178,
+          "balanced_accuracy": 0.5574663503486338,
+          "worst_task_accuracy": 0.5252918287937743,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.013125512715340444
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6478599221789882,
+          "balanced_accuracy": 0.5649484423814888,
+          "worst_task_accuracy": 0.5486381322957199,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.6916342412451363,
+          "balanced_accuracy": 0.6231512035708667,
+          "worst_task_accuracy": 0.5875486381322957,
+          "param_multiplier_vs_single": 4.0,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.6712062256809339,
+          "balanced_accuracy": 0.5793913715651281,
+          "worst_task_accuracy": 0.5719844357976653,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        }
+      }
+    }
+  }
+}
