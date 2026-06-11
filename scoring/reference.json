@@ -7,15 +7,28 @@
       "metrics": {
         "avg_accuracy": {
           "higher_is_better": true,
-          "coefficient": 1.0
+          "coefficient": 1.0,
+          "description": "Mean classification accuracy across the synthetic tasks."
+        },
+        "balanced_accuracy": {
+          "higher_is_better": true,
+          "coefficient": 0.45,
+          "description": "Mean per-task macro recall, which catches methods that improve the average by neglecting minority classes."
+        },
+        "worst_task_accuracy": {
+          "higher_is_better": true,
+          "coefficient": 0.35,
+          "description": "Lowest task accuracy, which catches methods that sacrifice a hard task while preserving the overall mean."
         },
         "param_multiplier_vs_single": {
           "higher_is_better": false,
-          "coefficient": -0.35
+          "coefficient": -0.35,
+          "description": "Deployment parameter count as a multiple of one merged model; lower values preserve the paper's compactness constraint."
         },
         "learnable_param_fraction": {
           "higher_is_better": false,
-          "coefficient": -0.1
+          "coefficient": -0.1,
+          "description": "Learnable adaptation parameters as a fraction of all task-specific model parameters; lower values discourage hidden trainable capacity."
         }
       },
       "results": {
