@@ -13,4 +13,4 @@
 - The evaluator now scores both average accuracy and efficiency constraints, including deployment parameter multiplier and learnable adaptation parameter fraction.
 
 ## Stop Justification
-- Not stopped. The next submitted job regenerates final artifacts after aligning mask initialization and scoring with the paper and official code.
+- Not stopped. The next submitted job regenerates final artifacts after the continuation audit confirmed the current method/evaluation code compiles and remains a real AdaRank implementation.
