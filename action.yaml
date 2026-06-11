@@ -1,6 +1,8 @@
 # IMPORTANT: Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends. Sleeping blocks the entire pipeline.
-action: done
-milestone: core_claim
-notes: "Scaled AdaRank reproduction completed: adaptive SVD masks improve over fixed top-k SVD at the same 1x merged parameter budget; full Task Arithmetic remains a documented gap."
+action: submit
+gpus: 0
+test: false
+milestone: none
+notes: "CPU sweep of paper-consistent AdaRank init/adaptation settings to strengthen the core claim beyond the prior fixed-topk-only result."
