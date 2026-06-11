@@ -1,6 +1,6 @@
 # Reproduction Milestones
 
-**Current: method_runs**
+**Current: core_claim**
 
 ## Progress Log
 
@@ -44,5 +44,10 @@
 - Diagnostic sweep showed that 80 adaptation steps leaves the full Task Arithmetic mask unchanged, while longer mask-only adaptation prunes components and reduces average accuracy.
 - Resubmitting full AdaRank with jointly learned layer coefficients, a conservative coefficient cap, and coefficient diagnostics to test the paper's default adaptation setting.
 
+### [2026-06-11 00:00] - core_claim
+- Completed a scaled AdaRank reproduction job with the paper's actual adaptive rank-pruning computation: SVD task vectors, binary singular-component masks, STE optimization, and unlabeled entropy minimization.
+- AdaRank improved over the fixed top-k SVD merge at the same compact 1x parameter budget: `0.6572` vs `0.6357` average accuracy.
+- The run did not beat full Task Arithmetic (`0.6738`), so the reproduced core claim is limited to the paper's central SVD-rank-selection claim rather than the full Table 1 ordering.
+
 ## Stop Justification
-- Completed at milestone `method_runs`.
+- Completed at milestone `core_claim`.

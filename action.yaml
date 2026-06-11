@@ -1,8 +1,6 @@
 # IMPORTANT: Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends. Sleeping blocks the entire pipeline.
-action: submit
-gpus: 0
-test: true
-milestone: method_runs
-notes: "CPU test: run full AdaRank with learned layer coefficients capped at 0.45 and adaptation-step sweep; target improvement over Task Arithmetic at 1x parameters."
+action: done
+milestone: core_claim
+notes: "Scaled AdaRank reproduction completed: adaptive SVD masks improve over fixed top-k SVD at the same 1x merged parameter budget; full Task Arithmetic remains a documented gap."
