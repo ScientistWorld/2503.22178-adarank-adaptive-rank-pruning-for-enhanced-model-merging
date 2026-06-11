@@ -1,6 +1,8 @@
 # IMPORTANT: Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends. Sleeping blocks the entire pipeline.
-action: done
-milestone: core_claim
-notes: "Final standardized reproduction completed and validated. AdaRank improves fixed top-k SVD at the same 1x parameter budget on the scaled benchmark; Task Arithmetic remains a documented gap."
+action: pending
+gpus: 1
+test: false
+milestone: method_runs
+notes: ""
