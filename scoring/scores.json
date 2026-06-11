@@ -18,7 +18,7 @@
           "learnable_param_fraction": 0.0
         },
         "adarank": {
-          "avg_accuracy": 0.66162109375,
+          "avg_accuracy": 0.66357421875,
           "param_multiplier_vs_single": 1.0,
           "learnable_param_fraction": 0.013125512715340444
         }
