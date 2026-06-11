@@ -27,7 +27,7 @@
         },
         "fixed_topk_svd": {
           "type": "baseline",
-          "avg_accuracy": 0.847,
+          "avg_accuracy": 0.688,
           "param_multiplier_vs_single": 1.0
         },
         "adarank": {

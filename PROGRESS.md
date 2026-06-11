@@ -24,6 +24,7 @@
 - CPU sweep `4e2ceb25-e0e` compared several paper-consistent adaptation settings. The best primary configuration was conservative mask-only adaptation: Task Arithmetic `0.6738`, fixed top-k SVD `0.6396`, AdaRank `0.6616`, individual models `0.6895`.
 - CPU job `dc87e060-3d2` regenerated the canonical final artifacts with that promoted default configuration and passed `python validate.py --compare`.
 - This reaches `core_claim` for the paper's central SVD-rank-selection claim: adaptive singular-component selection improves over rigid top-k truncation while preserving the single merged-model parameter budget. It does not reproduce the full paper ordering where AdaRank also beats full Task Arithmetic.
+- Continuation audit on 2026-06-11 confirmed the method/evaluation separation and real AdaRank implementation. The audit also corrected `scoring/reference.json` so `fixed_topk_svd` maps to the paper's TA top-16% fixed-rank ablation (`0.688`) rather than the CART row; validation passes after the correction.
 
 ## Remaining
 
@@ -39,6 +40,7 @@
 - The external log paths reported for job `ad7760c6-e8e` were not visible in this shell, so this turn used the persisted workspace artifacts in `scoring/scores.json` and `outputs/adarank_synthetic/predictions.json` to assess the completed run.
 - The external log paths reported for job `710c98a0-a4a` were also not visible in this shell. The persisted output artifact was enough to diagnose the validation failure and update the evaluator.
 - The external log paths reported for job `dc87e060-3d2` were not visible in this shell, but the persisted artifacts and local validation confirmed the run completed successfully.
+- Continuation audit found one scoring-documentation mismatch: `fixed_topk_svd` previously used the paper's CART fixed-rank value even though the implemented baseline is Task Arithmetic top-k SVD. This is now fixed in `scoring/reference.json`.
 
 ## Deviations from Paper
 
