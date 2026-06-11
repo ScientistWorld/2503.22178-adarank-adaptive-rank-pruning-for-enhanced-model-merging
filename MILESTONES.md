@@ -17,4 +17,4 @@
 - Final refreshed scores: AdaRank `0.6636` average accuracy versus fixed top-k SVD `0.6396`, both at `1.0x` deployment parameter multiplier.
 
 ## Stop Justification
-- Stopped at `core_claim`. The scaled environment is complete and validated; reaching higher milestones would require either full CLIP-scale datasets/checkpoints from the paper or additional non-trivial benchmark settings beyond the current budgeted reproduction.
+- Completed at milestone `core_claim`.
