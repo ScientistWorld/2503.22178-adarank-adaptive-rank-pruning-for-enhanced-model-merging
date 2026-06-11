@@ -49,5 +49,11 @@
 - AdaRank improved over the fixed top-k SVD merge at the same compact 1x parameter budget: `0.6572` vs `0.6357` average accuracy.
 - The run did not beat full Task Arithmetic (`0.6738`), so the reproduced core claim is limited to the paper's central SVD-rank-selection claim rather than the full Table 1 ordering.
 
+### [2026-06-11 18:05] - core_claim
+- Audited the continuation workspace and confirmed the method code implements AdaRank's actual computation rather than a surrogate.
+- CPU sweep `4e2ceb25-e0e` tested full-mask, top-k initialization, learned-coefficient, and conservative mask-only adaptation settings.
+- The best primary AdaRank configuration was conservative mask-only adaptation: AdaRank `0.6616` vs fixed top-k SVD `0.6396` at the same 1x parameter budget; it still trails Task Arithmetic `0.6738`.
+- Promoted that setting to the default reproduction configuration and submitted a standardized final regeneration job.
+
 ## Stop Justification
 - Completed at milestone `core_claim`.

@@ -4,5 +4,5 @@
 action: submit
 gpus: 0
 test: false
-milestone: none
-notes: "CPU sweep of paper-consistent AdaRank init/adaptation settings to strengthen the core claim beyond the prior fixed-topk-only result."
+milestone: core_claim
+notes: "Standardized CPU reproduction run using the promoted conservative AdaRank mask-only defaults from sweep 4e2ceb25-e0e; regenerates canonical predictions, checkpoint, scores, and validation output."

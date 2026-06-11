@@ -20,12 +20,15 @@
 - The crash was caused by the evaluation/validation contract rather than the method run: diagnostic sweep entries such as `adarank_steps_80` were included in `scoring/scores.json` but are absent from `reference.json`. The evaluator now filters diagnostic methods by default while preserving them in the method output JSON for analysis.
 - Job `d675a6c5-bfd` completed successfully and confirmed those bias-free scores after the evaluator fix. The step sweep showed that the 80-step variant keeps all mask entries selected and exactly matches Task Arithmetic, while the longer variants prune around 40% of singular components and lose accuracy.
 - The learned-coefficient follow-up completed successfully with the paper's default joint adaptation of binary masks and layer coefficients, capped at `0.45`. Final packaged scores are Task Arithmetic `0.6738`, fixed top-k SVD `0.6357`, AdaRank `0.6572`, and individual models `0.6909`.
+- Continuation audit confirmed the implementation is real AdaRank: task vectors are decomposed with SVD, binary singular-component masks are optimized with an STE, and the adaptation objective uses unlabeled entropy minimization.
+- CPU sweep `4e2ceb25-e0e` compared several paper-consistent adaptation settings. The best primary configuration was conservative mask-only adaptation: Task Arithmetic `0.6738`, fixed top-k SVD `0.6396`, AdaRank `0.6616`, individual models `0.6895`.
 - This reaches `core_claim` for the paper's central SVD-rank-selection claim: adaptive singular-component selection improves over rigid top-k truncation while preserving the single merged-model parameter budget. It does not reproduce the full paper ordering where AdaRank also beats full Task Arithmetic.
 
 ## Remaining
 
 - Higher milestones would require expanding beyond the scaled synthetic setting, ideally toward the paper's CLIP ViT task suite or additional synthetic task suites.
 - The main remaining numerical gap is that AdaRank does not outperform full Task Arithmetic on this synthetic benchmark, although it does outperform fixed top-k SVD at the same parameter budget.
+- A standardized final run is being submitted to regenerate `outputs/adarank_synthetic/predictions.json`, `checkpoints/adarank_synthetic.pt`, and `scoring/scores.json` from the promoted default configuration.
 
 ## Issues
 
