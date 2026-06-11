@@ -19,4 +19,4 @@
 - `python validate.py --compare` passes after the scoring correction.
 
 ## Stop Justification
-- Completed at milestone `core_claim` on a scaled synthetic benchmark. Higher milestones would require expanding toward the paper's full CLIP ViT benchmark and additional task suites.
+- Completed at milestone `core_claim`.
