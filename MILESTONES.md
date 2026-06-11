@@ -55,5 +55,10 @@
 - The best primary AdaRank configuration was conservative mask-only adaptation: AdaRank `0.6616` vs fixed top-k SVD `0.6396` at the same 1x parameter budget; it still trails Task Arithmetic `0.6738`.
 - Promoted that setting to the default reproduction configuration and submitted a standardized final regeneration job.
 
+### [2026-06-11 18:25] - core_claim
+- CPU job `dc87e060-3d2` completed the standardized reproduction with exit code 0.
+- Final artifacts were regenerated at `outputs/adarank_synthetic/predictions.json`, `checkpoints/adarank_synthetic.pt`, and `scoring/scores.json`.
+- `python validate.py --compare` passes. Final reproduced scores are AdaRank `0.6616`, fixed top-k SVD `0.6396`, Task Arithmetic `0.6738`, and individual models `0.6895`.
+
 ## Stop Justification
 - Completed at milestone `core_claim`.

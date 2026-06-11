@@ -22,13 +22,14 @@
 - The learned-coefficient follow-up completed successfully with the paper's default joint adaptation of binary masks and layer coefficients, capped at `0.45`. Final packaged scores are Task Arithmetic `0.6738`, fixed top-k SVD `0.6357`, AdaRank `0.6572`, and individual models `0.6909`.
 - Continuation audit confirmed the implementation is real AdaRank: task vectors are decomposed with SVD, binary singular-component masks are optimized with an STE, and the adaptation objective uses unlabeled entropy minimization.
 - CPU sweep `4e2ceb25-e0e` compared several paper-consistent adaptation settings. The best primary configuration was conservative mask-only adaptation: Task Arithmetic `0.6738`, fixed top-k SVD `0.6396`, AdaRank `0.6616`, individual models `0.6895`.
+- CPU job `dc87e060-3d2` regenerated the canonical final artifacts with that promoted default configuration and passed `python validate.py --compare`.
 - This reaches `core_claim` for the paper's central SVD-rank-selection claim: adaptive singular-component selection improves over rigid top-k truncation while preserving the single merged-model parameter budget. It does not reproduce the full paper ordering where AdaRank also beats full Task Arithmetic.
 
 ## Remaining
 
 - Higher milestones would require expanding beyond the scaled synthetic setting, ideally toward the paper's CLIP ViT task suite or additional synthetic task suites.
 - The main remaining numerical gap is that AdaRank does not outperform full Task Arithmetic on this synthetic benchmark, although it does outperform fixed top-k SVD at the same parameter budget.
-- A standardized final run is being submitted to regenerate `outputs/adarank_synthetic/predictions.json`, `checkpoints/adarank_synthetic.pt`, and `scoring/scores.json` from the promoted default configuration.
+- Final artifacts have been regenerated from the promoted default configuration: `outputs/adarank_synthetic/predictions.json`, `checkpoints/adarank_synthetic.pt`, and `scoring/scores.json`.
 
 ## Issues
 
@@ -37,6 +38,7 @@
 - Jobs `0057ed8f-cb9` and `ad7760c6-e8e` showed that the original synthetic MLP had shared bias deltas that were always merged outside AdaRank's SVD masks. The next run uses bias-free shared layers to keep the scaled benchmark aligned with adaptive rank pruning over matrix task vectors.
 - The external log paths reported for job `ad7760c6-e8e` were not visible in this shell, so this turn used the persisted workspace artifacts in `scoring/scores.json` and `outputs/adarank_synthetic/predictions.json` to assess the completed run.
 - The external log paths reported for job `710c98a0-a4a` were also not visible in this shell. The persisted output artifact was enough to diagnose the validation failure and update the evaluator.
+- The external log paths reported for job `dc87e060-3d2` were not visible in this shell, but the persisted artifacts and local validation confirmed the run completed successfully.
 
 ## Deviations from Paper
 
