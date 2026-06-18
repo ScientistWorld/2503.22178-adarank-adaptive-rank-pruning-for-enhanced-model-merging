@@ -1,5 +1,3 @@
-action: submit
+action: done
 gpus: 0
-test: false
-milestone: method_runs
-notes: "Probe paper-consistent AdaRank hyperparameters and top-k rank settings; write outputs/core_claim_probe/summary.json with train/test deltas before selecting a final core-claim setting."
+notes: "Salted per-task hash train/test split over regenerated labels; 20 train metric values and 20 test metric values; train/test gaps are small, but AdaRank only beats fixed_topk_svd and remains behind task_arithmetic on accuracy."
