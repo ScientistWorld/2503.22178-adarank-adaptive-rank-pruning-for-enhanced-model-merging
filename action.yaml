@@ -1,4 +1,3 @@
-action: submit
+action: done
 gpus: 0
-test: false
-notes: "Run evaluate_train.sh and evaluate_test.sh against the frozen final prediction artifact; refresh split baseline scores."
+notes: "Salted per-task hash train/test split over regenerated labels; 20 train metrics and 20 test metrics populated; AdaRank train/test avg accuracy 0.6667/0.6566, with no saturation or byte-identical split failure; caveat: held-out AdaRank is below task_arithmetic on benefit metrics while keeping compactness."
