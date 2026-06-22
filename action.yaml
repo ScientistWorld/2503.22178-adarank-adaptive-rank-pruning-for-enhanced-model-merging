@@ -1,5 +1,5 @@
-action: submit
+action: done
 gpus: 0
-test: true
+test: false
 milestone: core_claim
-notes: "CPU test job to regenerate AdaRank synthetic artifacts and scores with the stricter evaluator that reports balanced and worst-task accuracy."
+notes: "Final verification passed after tightening method-agnostic docs, completing score metrics, and making train/test slices disjoint."

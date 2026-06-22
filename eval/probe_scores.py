@@ -16,15 +16,15 @@ from typing import Iterable
 from data.synthetic_tasks import make_tasks
 
 
-TRAIN_SALT = "researchgym-adarank-visible-train-v2"
-TEST_SALT = "researchgym-adarank-heldout-test-v2"
+SPLIT_SALT = "researchgym-adarank-disjoint-v3"
 
 
-def slice_indices(num_examples: int, salt: str) -> list[int]:
+def slice_indices(num_examples: int, split: str) -> list[int]:
     selected = []
     for idx in range(num_examples):
-        digest = hashlib.blake2b(f"{salt}:{idx}".encode(), digest_size=2).digest()
-        if int.from_bytes(digest, "big") % 100 < 50:
+        digest = hashlib.blake2b(f"{SPLIT_SALT}:{idx}".encode(), digest_size=2).digest()
+        bucket = int.from_bytes(digest, "big") % 100
+        if (split == "train" and bucket < 50) or (split == "test" and bucket >= 50):
             selected.append(idx)
     return selected
 
@@ -59,12 +59,12 @@ def macro_recall(pred: list[int], label: list[int], indices: Iterable[int], num_
     return sum(recalls) / len(recalls)
 
 
-def summarize_method(payload: dict, labels_by_task: dict[str, tuple[list[int], int]], salt: str) -> dict[str, float]:
+def summarize_method(payload: dict, labels_by_task: dict[str, tuple[list[int], int]], split: str) -> dict[str, float]:
     per_task = {}
     per_task_balanced = {}
     for record in payload["predictions"]:
         label, num_classes = labels_by_task[record["task"]]
-        indices = slice_indices(len(label), salt)
+        indices = slice_indices(len(label), split)
         per_task[record["task"]] = accuracy(record["pred"], label, indices)
         per_task_balanced[record["task"]] = macro_recall(record["pred"], label, indices, num_classes)
     return {
@@ -82,8 +82,8 @@ def score_artifact(path: Path) -> dict:
     config = raw.get("config", {})
     labels_by_task = labels_from_config(config)
     methods = raw["experiments"]["synthetic_4task_merge"]["methods"]
-    train = {name: summarize_method(payload, labels_by_task, TRAIN_SALT) for name, payload in methods.items()}
-    test = {name: summarize_method(payload, labels_by_task, TEST_SALT) for name, payload in methods.items()}
+    train = {name: summarize_method(payload, labels_by_task, "train") for name, payload in methods.items()}
+    test = {name: summarize_method(payload, labels_by_task, "test") for name, payload in methods.items()}
     fixed_train = train["fixed_topk_svd"]
     fixed_test = test["fixed_topk_svd"]
     ta_train = train["task_arithmetic"]

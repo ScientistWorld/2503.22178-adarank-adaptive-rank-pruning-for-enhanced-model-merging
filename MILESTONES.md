@@ -20,5 +20,9 @@
 - Audited the existing scaffold against the paper's computation and kept the current milestone at `core_claim`.
 - Tightened the main evaluator to compute every declared benefit and constraint metric from saved predictions with independently regenerated deterministic labels.
 
+### [2026-06-22 22:28] - core_claim
+- Completed final verification, including method-agnostic documentation cleanup, complete scored metrics, and disjoint train/test scoring slices.
+- Confirmed `python validate.py --compare` passes and kept the milestone at `core_claim`.
+
 ## Stop Justification
 - Completed at milestone `core_claim`.

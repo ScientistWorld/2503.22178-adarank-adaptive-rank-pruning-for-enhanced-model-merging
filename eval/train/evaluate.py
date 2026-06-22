@@ -24,11 +24,11 @@ EXPECTED_TRAIN_PER_TASK = 768
 EXPECTED_ADAPT_PER_TASK = 256
 EXPECTED_TEST_PER_TASK = 512
 EXPECTED_SEED = 7
-HASH_SALT = "researchgym-adarank-visible-train-v2"
+HASH_SALT = "researchgym-adarank-disjoint-v3"
 
 
 def slice_indices(num_examples: int) -> list[int]:
-    """Use a stable hash split so the visible slice is not positional."""
+    """Use one side of a stable hash partition as the visible slice."""
 
     selected = []
     for idx in range(num_examples):
@@ -113,7 +113,7 @@ def build_scores(raw: dict) -> dict:
     labels_by_task = expected_labels()
     scores = {
         "slice": SLICE_NAME,
-        "split_style": "per-task salted hash sample from saved predictions with independently regenerated labels",
+        "split_style": "visible side of a per-task disjoint salted hash partition from saved predictions with independently regenerated labels",
         "experiments": {},
     }
     for exp_name, exp_payload in raw["experiments"].items():

@@ -25,16 +25,16 @@ EXPECTED_TRAIN_PER_TASK = 768
 EXPECTED_ADAPT_PER_TASK = 256
 EXPECTED_TEST_PER_TASK = 512
 EXPECTED_SEED = 7
-HASH_SALT = "researchgym-adarank-heldout-test-v2"
+HASH_SALT = "researchgym-adarank-disjoint-v3"
 
 
 def slice_indices(num_examples: int) -> list[int]:
-    """Use a stable hidden hash split rather than a positional complement."""
+    """Use the held-out side of the same stable hash partition as train."""
 
     selected = []
     for idx in range(num_examples):
         digest = hashlib.blake2b(f"{HASH_SALT}:{idx}".encode(), digest_size=2).digest()
-        if int.from_bytes(digest, "big") % 100 < 50:
+        if int.from_bytes(digest, "big") % 100 >= 50:
             selected.append(idx)
     return selected
 
@@ -125,7 +125,7 @@ def build_scores(raw: dict, expected_methods: dict[str, set[str]] | None) -> dic
     labels_by_task = expected_labels()
     scores = {
         "slice": SLICE_NAME,
-        "split_style": "per-task hidden salted hash sample from saved predictions with independently regenerated labels",
+        "split_style": "held-out side of the same per-task disjoint salted hash partition from saved predictions with independently regenerated labels",
         "experiments": {},
     }
 
