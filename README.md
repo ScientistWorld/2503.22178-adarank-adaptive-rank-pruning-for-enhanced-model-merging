@@ -67,22 +67,23 @@ The scaled reproduction implementation is in `method/adarank_synthetic.py`. The 
 ## Metrics
 
 - **Average multi-task accuracy**: classification accuracy is computed separately for each task, then averaged across the tasks in the benchmark split. Higher is better.
-- **Total parameter pool**: number of task/backbone parameters involved in the merge or adaptation setup, reported in millions where available. Lower is better when comparing resource use.
+- **Worst-task accuracy**: the lowest task accuracy among the benchmark tasks. Higher is better because it discourages solutions that improve the mean by sacrificing a difficult task.
+- **Balanced accuracy**: macro recall computed per task and averaged across tasks. Higher is better because it detects class-imbalance failures.
+- **Deployment parameter multiplier**: deployed parameter count as a multiple of one merged model. Lower is better when comparing resource use.
 - **Learnable adaptation parameters**: number of parameters optimized during the unlabeled adaptation stage. Lower is better as a constraint, provided accuracy remains competitive.
 - **Learnable parameter percentage**: learnable adaptation parameters divided by the total parameter pool. Lower is better.
 
-Wall-clock SVD and test-time adaptation times appear in the paper, but they should not be used as scoring metrics in this gym because job hardware may vary.
+Wall-clock timing appears in the paper, but it should not be used as a scoring metric in this gym because job hardware may vary.
 
 ## Baselines and Targets
 
-The paper reports vision model merging results for CLIP ViT-B/32 and ViT-L/14 backbones on 8, 14, and 20 image-classification tasks. Reference methods include the pretrained backbone, individual fine-tuned models, Weight Averaging, Task Arithmetic, Ties-Merging, Consensus Merging, TSV-M, CART, Iso-CTS, AdaMerging variants, and the proposed AdaRank variants.
+The paper reports vision model merging results for two CLIP vision backbones on benchmarks with 8, 14, and 20 image-classification tasks. Reference methods include unmerged individual models, compact merged models, and adaptive compact merged models.
 
 The key paper targets used in `scoring/reference.json` are:
 
 - Table 1: average accuracy for the main vision merging benchmarks.
 - Table 4: 8-task ViT-B/32 and ViT-L/14 accuracy with total and learnable parameter counts.
-- Table 5: ablation comparing fixed top-16% selection, restricted adaptation, and full-range adaptation.
-- Table 6: ablation isolating coefficient adaptation and mask adaptation.
+- Ablations that compare fixed merge rules with adaptive compact merging while holding the deployed model size fixed.
 
 ## Evaluation Protocol
 
@@ -598,6 +599,36 @@ For a scaled reproduction, the minimum useful setting is the 8-task ViT-B/32 ben
 ### [2026-06-11 17:55] - core_claim
 - Job `39cba39c-61a` regenerated the canonical artifacts with the current official-aligned mask initialization and passed `python validate.py --compare`.
 - Final refreshed scores: AdaRank `0.6636` average accuracy versus fixed top-k SVD `0.6396`, both at `1.0x` deployment parameter multiplier.
+
+</details>
+
+### Iteration 8: gpt-5.5 (verifier)
+- **Milestone**: `core_claim` | **Status**: done
+- **Working time**: 9m | **GPU**: 0.0h
+- **Jobs**: 12 total (10 completed, 2 failed)
+
+<details>
+<summary>Progress Log</summary>
+
+### [2026-06-11 17:51] - method_runs
+- Implemented the AdaRank computation on a deterministic synthetic multi-task benchmark: task vectors from a shared pretrained backbone, per-task/per-layer SVD, binary singular-component masks, STE optimization, and unlabeled entropy minimization.
+- Completed end-to-end jobs that generated predictions, a checkpoint, and `scoring/scores.json`.
+
+### [2026-06-11 17:51] - core_claim
+- The reproduced AdaRank mask adaptation improves over fixed top-k SVD while preserving a single merged-model parameter budget.
+- The evaluator now scores both average accuracy and efficiency constraints, including deployment parameter multiplier and learnable adaptation parameter fraction.
+
+### [2026-06-11 17:55] - core_claim
+- Job `39cba39c-61a` regenerated the canonical artifacts with the current official-aligned mask initialization and passed `python validate.py --compare`.
+- Final refreshed scores: AdaRank `0.6636` average accuracy versus fixed top-k SVD `0.6396`, both at `1.0x` deployment parameter multiplier.
+
+### [2026-06-22 22:20] - core_claim
+- Audited the existing scaffold against the paper's computation and kept the current milestone at `core_claim`.
+- Tightened the main evaluator to compute every declared benefit and constraint metric from saved predictions with independently regenerated deterministic labels.
+
+### [2026-06-22 22:28] - core_claim
+- Completed final verification, including method-agnostic documentation cleanup, complete scored metrics, and disjoint train/test scoring slices.
+- Confirmed `python validate.py --compare` passes and kept the milestone at `core_claim`.
 
 </details>
 
