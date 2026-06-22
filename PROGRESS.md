@@ -34,6 +34,8 @@
 - Continuation audit on 2026-06-22 tightened `eval/evaluate_outputs.py` so the main evaluator now scores `artifact.pt` model states, regenerates deterministic labels from `data/`, recomputes predictions, and reports `balanced_accuracy` and `worst_task_accuracy` in addition to average accuracy and parameter constraints.
 - A follow-up audit on 2026-06-22 replaced self-reported parameter constraints with artifact-derived counts. The evaluator now rejects merged methods whose deployment parameter count does not match the fixed single-model budget and computes AdaRank's learnable mask-parameter fraction from the saved adaptation metadata. A CPU test job is submitted to regenerate canonical scores under this artifact-based evaluator.
 - Final verification on 2026-06-22 found that no `outputs/adarank_synthetic/artifact.pt` exists yet, so the artifact-based scoring refactor still needs a completed CPU test job before final sign-off.
+- CPU verification job `6d8997a4-7c1` completed successfully. It regenerated `outputs/adarank_synthetic/artifact.pt`, refreshed artifact-derived scoring files, ran train/test scoring, and passed `python validate.py --compare`.
+- Final artifact-derived scores are Task Arithmetic `0.6738`, fixed top-k SVD `0.6357`, AdaRank `0.6572`, and individual models `0.6909` average accuracy. AdaRank preserves the `1.0x` merged deployment parameter budget and improves over the compact fixed-rank baseline, satisfying `core_claim`.
 
 ## Remaining
 
@@ -53,7 +55,7 @@
 - Continuation audit found one scoring-documentation mismatch: `fixed_topk_svd` previously used the paper's CART fixed-rank value even though the implemented baseline is Task Arithmetic top-k SVD. This is now fixed in `scoring/reference.json`.
 - The packaged default uses the paper's binary-mask adaptation ablation with a fixed TA coefficient because previous scaled runs showed joint lambda adaptation degraded this synthetic benchmark. The code still supports `--learn-lambda` for the paper's full default setting.
 - Local `bash scripts/evaluate.sh` cannot run in the bare login shell because `torch` is not installed there; `torch` is installed through `environment/setup.sh` in the compute container, where the submitted job will run the evaluator.
-- Current `scoring/scores*.json` files are stale relative to the artifact-based evaluator until the final verification CPU job regenerates them from `artifact.pt`.
+- The final verification CPU job regenerated `scoring/scores*.json` from `artifact.pt`; local bare-login evaluation still requires the container because `torch` is not installed outside it.
 
 ## Deviations from Paper
 

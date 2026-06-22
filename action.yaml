@@ -1,5 +1,5 @@
-action: submit
+action: done
 gpus: 0
-test: true
+test: false
 milestone: core_claim
-notes: "Final verification CPU job: regenerate artifact.pt and refresh all artifact-derived scores before done."
+notes: "Final verification passed: artifact-derived scoring regenerated and validated; workspace ready at core_claim."

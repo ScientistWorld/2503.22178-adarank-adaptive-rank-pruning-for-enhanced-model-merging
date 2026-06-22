@@ -32,5 +32,9 @@
 - Final verification found that the artifact-scoring refactor had not yet been exercised in a completed job and no `artifact.pt` was present.
 - Cleaned method-agnostic documentation and prepared a CPU test submission to regenerate canonical artifact-derived scores before final sign-off.
 
+### [2026-06-22 22:56] - core_claim
+- CPU verification job `6d8997a4-7c1` completed successfully, regenerated `artifact.pt`, and refreshed artifact-derived canonical, train, and test scores.
+- `python validate.py --compare` passed in the compute container; final AdaRank score is `0.6572` average accuracy versus fixed top-k SVD `0.6357`, both at `1.0x` deployment parameter multiplier.
+
 ## Stop Justification
-- Pending final verification after artifact-based scoring job completes.
+- Completed at milestone `core_claim`: the actual AdaRank computation runs end-to-end on the scaled benchmark, improves over the compact fixed-rank baseline under the same deployment parameter budget, and the environment is packaged with artifact-derived reusable scoring.
