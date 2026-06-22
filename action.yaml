@@ -1,5 +1,5 @@
-action: submit
+action: done
 gpus: 0
 test: false
 milestone: core_claim
-notes: "Fresh CPU regeneration of the canonical AdaRank synthetic reproduction, standard scoring, validation, and train/test split scoring; central claim is AdaRank > fixed_topk_svd at the same 1x parameter budget."
+notes: "Packaging audit passed: no external downloads are required, paths are self-contained, and validation passes."
