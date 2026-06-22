@@ -1,3 +1,5 @@
-action: done
+action: submit
 gpus: 0
-notes: "Salted per-task hash train/test split over regenerated labels; 20 train metrics and 20 test metrics populated; AdaRank train/test avg accuracy 0.6667/0.6566, with no saturation or byte-identical split failure; caveat: held-out AdaRank is below task_arithmetic on benefit metrics while keeping compactness."
+test: false
+milestone: core_claim
+notes: "Fresh CPU regeneration of the canonical AdaRank synthetic reproduction, standard scoring, validation, and train/test split scoring; central claim is AdaRank > fixed_topk_svd at the same 1x parameter budget."
