@@ -37,4 +37,4 @@
 - `python validate.py --compare` passed in the compute container; final AdaRank score is `0.6572` average accuracy versus fixed top-k SVD `0.6357`, both at `1.0x` deployment parameter multiplier.
 
 ## Stop Justification
-- Completed at milestone `core_claim`: the actual AdaRank computation runs end-to-end on the scaled benchmark, improves over the compact fixed-rank baseline under the same deployment parameter budget, and the environment is packaged with artifact-derived reusable scoring.
+- Completed at milestone `core_claim`.
