@@ -1,5 +1,5 @@
-action: done
+action: submit
 gpus: 0
-test: false
+test: true
 milestone: core_claim
-notes: "Packaging audit passed: no external downloads are required, paths are self-contained, and validation passes."
+notes: "CPU test job to regenerate AdaRank synthetic artifacts and scores with the stricter evaluator that reports balanced and worst-task accuracy."
