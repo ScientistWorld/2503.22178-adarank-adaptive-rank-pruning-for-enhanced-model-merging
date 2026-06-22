@@ -2,6 +2,7 @@
   "experiments": {
     "synthetic_4task_merge": {
       "description": "Scaled AdaRank reproduction benchmark, referenced to the paper's ViT-B/32 8-task model-merging results and parameter-cost table.",
+      "notes": "Published avg_accuracy references are the paper's ViT-B/32 8-task values for Individual, Task Arithmetic, and TA+AdaRank. fixed_topk_svd uses the paper's fixed top-16% Task Arithmetic ablation as the compact fixed-rank reference for this scaled gym. The paper does not report balanced_accuracy or worst_task_accuracy aggregates; those are gym-only benefit metrics computed for reproduced artifacts.",
       "weight": 1.0,
       "primary_metric": "avg_accuracy",
       "metrics": {

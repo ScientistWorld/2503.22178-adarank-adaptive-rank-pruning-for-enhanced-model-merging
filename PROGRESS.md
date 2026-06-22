@@ -33,6 +33,7 @@
 - This confirms `core_claim`: the AdaRank singular-component mask adaptation outperforms fixed top-k SVD under the same single-merged-model deployment budget, with the evaluator also recording the learnable-parameter overhead constraint.
 - Continuation audit on 2026-06-22 tightened `eval/evaluate_outputs.py` so the main evaluator now scores `artifact.pt` model states, regenerates deterministic labels from `data/`, recomputes predictions, and reports `balanced_accuracy` and `worst_task_accuracy` in addition to average accuracy and parameter constraints.
 - A follow-up audit on 2026-06-22 replaced self-reported parameter constraints with artifact-derived counts. The evaluator now rejects merged methods whose deployment parameter count does not match the fixed single-model budget and computes AdaRank's learnable mask-parameter fraction from the saved adaptation metadata. A CPU test job is submitted to regenerate canonical scores under this artifact-based evaluator.
+- Final verification on 2026-06-22 found that no `outputs/adarank_synthetic/artifact.pt` exists yet, so the artifact-based scoring refactor still needs a completed CPU test job before final sign-off.
 
 ## Remaining
 
@@ -52,6 +53,7 @@
 - Continuation audit found one scoring-documentation mismatch: `fixed_topk_svd` previously used the paper's CART fixed-rank value even though the implemented baseline is Task Arithmetic top-k SVD. This is now fixed in `scoring/reference.json`.
 - The packaged default uses the paper's binary-mask adaptation ablation with a fixed TA coefficient because previous scaled runs showed joint lambda adaptation degraded this synthetic benchmark. The code still supports `--learn-lambda` for the paper's full default setting.
 - Local `bash scripts/evaluate.sh` cannot run in the bare login shell because `torch` is not installed there; `torch` is installed through `environment/setup.sh` in the compute container, where the submitted job will run the evaluator.
+- Current `scoring/scores*.json` files are stale relative to the artifact-based evaluator until the final verification CPU job regenerates them from `artifact.pt`.
 
 ## Deviations from Paper
 

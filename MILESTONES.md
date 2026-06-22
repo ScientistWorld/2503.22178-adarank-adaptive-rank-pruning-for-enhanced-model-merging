@@ -28,5 +28,9 @@
 - Reworked the evaluator contract to score saved model artifacts rather than self-reported prediction JSON.
 - Submitted a CPU test job to regenerate scores with artifact-derived predictions and parameter constraints.
 
+### [2026-06-22 22:47] - core_claim
+- Final verification found that the artifact-scoring refactor had not yet been exercised in a completed job and no `artifact.pt` was present.
+- Cleaned method-agnostic documentation and prepared a CPU test submission to regenerate canonical artifact-derived scores before final sign-off.
+
 ## Stop Justification
-- Completed at milestone `core_claim`.
+- Pending final verification after artifact-based scoring job completes.

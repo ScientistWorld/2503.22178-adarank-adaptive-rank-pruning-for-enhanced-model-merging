@@ -14,7 +14,7 @@ The submitted system must produce one merged shared-backbone checkpoint per expe
 
 ## Adaptation Budget
 
-Any test-time adaptation must use only unlabeled inputs from the allowed adaptation split and must report the number of learnable adaptation parameters. Methods may change the adaptation objective or parameterization, but they must keep the reported parameter counts auditable and must not hide additional trainable state in unreported modules.
+Any test-time adaptation must use only unlabeled inputs from the allowed adaptation split and must report the number of learnable adaptation parameters. Methods may change the adaptation objective or parameterization, but they must expose either a direct nonnegative `learnable_params` count or auditable structural metadata. They must not hide additional trainable state in unreported modules.
 
 ## Evaluation
 

@@ -17,7 +17,7 @@ Tests whether the merged solution keeps deployment compact rather than retaining
 
 ## Ablation: synthetic_4task_merge
 
-Compares the adaptive compact merged result against non-adaptive compact baselines under the same generated tasks, labels, and evaluation split.
+Compares a compact merged submission against compact baseline outputs under the same generated tasks, labels, and evaluation split.
 
 - **Metric**: `avg_accuracy` for the proposed method and compact baselines (higher is better)
 - **Metric**: `balanced_accuracy` and `worst_task_accuracy` to catch improvements that come from neglecting minority classes or the hardest task.

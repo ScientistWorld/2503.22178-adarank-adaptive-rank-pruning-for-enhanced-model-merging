@@ -155,6 +155,11 @@ def method_parameter_count(method_payload: dict) -> int:
 
 def learnable_adaptation_params(method_payload: dict) -> int:
     adaptation = method_payload.get("adaptation", {"type": "none"})
+    if "learnable_params" in adaptation:
+        value = int(adaptation["learnable_params"])
+        if value < 0:
+            raise ValueError("learnable_params must be nonnegative.")
+        return value
     if adaptation.get("type") == "none":
         return 0
     if adaptation.get("type") == "adarank_mask":

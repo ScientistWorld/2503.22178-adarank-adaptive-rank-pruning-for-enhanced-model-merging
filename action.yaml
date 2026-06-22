@@ -2,4 +2,4 @@ action: submit
 gpus: 0
 test: true
 milestone: core_claim
-notes: "CPU test job to regenerate AdaRank synthetic artifacts and validate artifact-derived scoring and parameter constraints."
+notes: "Final verification CPU job: regenerate artifact.pt and refresh all artifact-derived scores before done."

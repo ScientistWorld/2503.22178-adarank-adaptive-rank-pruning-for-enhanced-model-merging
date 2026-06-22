@@ -1,24 +1,30 @@
 # Verification Report
 
 ## Initial Assessment
-The workspace entered verification at `core_claim`. The implementation is a scaled synthetic reproduction of AdaRank: the method code implements task-vector SVD compression, adaptive binary singular-component masks, and unlabeled mask optimization; evaluation reads saved prediction artifacts rather than rerunning the method. The claimed milestone is justified as `core_claim`, with the limitation that the benchmark is synthetic and scaled down from the paper's full CLIP/GLUE evaluation.
+
+The workspace entered verification at `core_claim`. The paper method implementation appears to preserve the core computation in a scaled synthetic setting, and the latest committed evaluator is designed to score saved model artifacts rather than self-reported metrics. However, that artifact-based evaluator has not yet been exercised in a completed job: no `outputs/adarank_synthetic/artifact.pt` exists in the workspace, and the existing `scoring/scores*.json` files are stale outputs from the previous prediction-based evaluator.
 
 ## Issues Found
-- Minor: strict method-agnostic documentation leaked paper-specific method names and ablation details in `briefing/evaluation.md`, `scoring/EXPERIMENTS.md`, and `scoring/TARGETS.md`.
-- Minor: `scoring/scores.json` omitted `balanced_accuracy` and `worst_task_accuracy` even though they are nonzero scored metrics in `scoring/reference.json`.
-- Minor: train/test slices used independent salts, so visible and held-out subsets could overlap.
+
+- Critical/pending: canonical scores are stale relative to the artifact-derived evaluator, and the required saved artifact is missing. A CPU test job must regenerate the artifact and scores before final `done`.
+- Minor: strict method-agnostic documentation leaked paper-specific benchmark and method context in `briefing/evaluation.md` and `scoring/TARGETS.md`.
+- Minor: `scoring/reference.json` lacked notes explaining which values are published paper references and which active metrics are gym-only additions.
+- Minor: the artifact evaluator only accepted one adaptation metadata shape for learnable-parameter accounting, making it less reusable for future methods with a different auditable adaptation representation.
 - Cosmetic/residual: the root contains pre-existing unrelated modified special files and deleted trajectory logs (`README.md`, `manifest.json`, `trajectory/...`). These were not part of verification changes.
 
 ## Fixes Applied
-- Rewrote method-agnostic evaluation and target documentation to describe the problem, experiments, and metrics without naming the paper method or internal algorithm.
-- Recalculated `scoring/scores.json` from the saved prediction artifact so every declared scored metric is present.
-- Changed train/test scoring to use disjoint sides of one salted hash partition, updated `eval/probe_scores.py`, and refreshed `scoring/scores_train.json` and `scoring/scores_test.json`.
-- Ran `python validate.py --compare`, Python syntax checks for evaluator modules, and a split sanity check confirming zero train/test overlap.
+
+- Rewrote `briefing/evaluation.md` and tightened `scoring/TARGETS.md` so method-agnostic files describe the benchmark, metrics, and output contract without leaking the paper's method.
+- Added an explanatory `notes` field to `scoring/reference.json` for paper-derived references and gym-only scored metrics.
+- Extended `eval/artifact_scoring.py` to accept a direct nonnegative `learnable_params` metadata count as well as the existing structured adaptation metadata.
+- Removed the unused stale prediction-probe evaluator.
+- Kept the milestone at `core_claim` but will submit a CPU test job to regenerate artifact-derived canonical scores before final sign-off.
 
 ## Final Judgment
-The workspace is ready for gym use in improve mode and usable in from-scratch mode. Problem/evaluation/data separation is clean, scored coefficients reward accuracy while constraining parameter growth, and train/test scoring now uses disjoint artifact-only slices. The key limitation is that this is a scaled deterministic synthetic benchmark rather than the full paper benchmark.
+
+Pending compute verification. The workspace is not ready for final `done` until the artifact-based `scripts/reproduce.sh`, `scripts/evaluate.sh`, train split, and test split complete successfully and refresh the scoring files.
 
 - Milestone: core_claim
-- Ready for gym use: yes
+- Ready for gym use: partial
 - Confidence: medium
-- Key limitation: synthetic scaled benchmark only; AdaRank improves over fixed compact SVD but not over full task arithmetic on this substitute.
+- Key limitation: artifact-derived canonical scores still need regeneration in the compute container.
