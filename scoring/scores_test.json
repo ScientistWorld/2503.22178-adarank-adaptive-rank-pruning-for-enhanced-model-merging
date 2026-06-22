@@ -1,38 +1,38 @@
 {
-  "slice": "test",
-  "split_style": "held-out side of a per-task disjoint salted hash partition from saved predictions with independently regenerated labels",
   "experiments": {
     "synthetic_4task_merge": {
       "results": {
-        "task_arithmetic": {
-          "avg_accuracy": 0.6697154471544715,
-          "balanced_accuracy": 0.5780124828991182,
-          "worst_task_accuracy": 0.5934959349593496,
+        "adarank": {
+          "avg_accuracy": 0.6534552845528455,
+          "balanced_accuracy": 0.5615721343667059,
+          "worst_task_accuracy": 0.5528455284552846,
           "param_multiplier_vs_single": 1.0,
-          "learnable_param_fraction": 0.0
+          "learnable_param_fraction": 0.014914938242833839
         },
         "fixed_topk_svd": {
-          "avg_accuracy": 0.6371951219512195,
-          "balanced_accuracy": 0.5530126499248272,
-          "worst_task_accuracy": 0.5121951219512195,
+          "avg_accuracy": 0.6341463414634146,
+          "balanced_accuracy": 0.5517922375767329,
+          "worst_task_accuracy": 0.508130081300813,
           "param_multiplier_vs_single": 1.0,
           "learnable_param_fraction": 0.0
         },
         "individual": {
-          "avg_accuracy": 0.6991869918699187,
-          "balanced_accuracy": 0.6318782645840761,
+          "avg_accuracy": 0.7002032520325203,
+          "balanced_accuracy": 0.6327540998167229,
           "worst_task_accuracy": 0.6097560975609756,
-          "param_multiplier_vs_single": 4.0,
+          "param_multiplier_vs_single": 3.520098441345365,
           "learnable_param_fraction": 0.0
         },
-        "adarank": {
-          "avg_accuracy": 0.657520325203252,
-          "balanced_accuracy": 0.5663393443940624,
-          "worst_task_accuracy": 0.5487804878048781,
+        "task_arithmetic": {
+          "avg_accuracy": 0.6676829268292683,
+          "balanced_accuracy": 0.5759437430993617,
+          "worst_task_accuracy": 0.5934959349593496,
           "param_multiplier_vs_single": 1.0,
-          "learnable_param_fraction": 0.013125512715340444
+          "learnable_param_fraction": 0.0
         }
       }
     }
-  }
+  },
+  "slice": "test",
+  "split_style": "held-out side of the same per-task disjoint salted hash partition from saved model states"
 }
