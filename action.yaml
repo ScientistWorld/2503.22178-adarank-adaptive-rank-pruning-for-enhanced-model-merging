@@ -1,5 +1,4 @@
 action: submit
 gpus: 0
 test: false
-milestone: method_runs
-notes: "CPU sweep of paper-consistent AdaRank mask/coefficient adaptation settings; write outputs/core_claim_probe/{summary,best_rows}.json before selecting a stronger core-claim artifact."
+notes: "Run evaluate_train.sh and evaluate_test.sh against the frozen final prediction artifact; refresh split baseline scores."
