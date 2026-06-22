@@ -9,5 +9,5 @@ export PYTHONPATH="/home/user:${PYTHONPATH:-}"
 
 bash scripts/reproduce.sh
 python validate.py --compare
-bash scripts/evaluate_train.sh outputs/adarank_synthetic/predictions.json
-bash scripts/evaluate_test.sh outputs/adarank_synthetic/predictions.json
+bash scripts/evaluate_train.sh outputs/adarank_synthetic/artifact.pt
+bash scripts/evaluate_test.sh outputs/adarank_synthetic/artifact.pt

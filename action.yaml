@@ -1,5 +1,5 @@
-action: done
+action: submit
 gpus: 0
-test: false
+test: true
 milestone: core_claim
-notes: "Final verification passed after tightening method-agnostic docs, completing score metrics, and making train/test slices disjoint."
+notes: "CPU test job to regenerate AdaRank synthetic artifacts and validate artifact-derived scoring and parameter constraints."

@@ -23,30 +23,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+from data.synthetic_model import Backbone, TaskModel, functional_backbone, tensor_count
 from data.synthetic_tasks import TaskData, make_tasks
-
-
-class Backbone(nn.Module):
-    def __init__(self, input_dim: int = 32, hidden_dim: int = 64):
-        super().__init__()
-        # Keep shared backbone parameters as matrices so AdaRank's SVD masks
-        # control all merged task-vector components in this scaled benchmark.
-        self.fc1 = nn.Linear(input_dim, hidden_dim, bias=False)
-        self.fc2 = nn.Linear(hidden_dim, hidden_dim, bias=False)
-
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        x = F.relu(self.fc1(x))
-        return F.relu(self.fc2(x))
-
-
-class TaskModel(nn.Module):
-    def __init__(self, num_classes: int, input_dim: int = 32, hidden_dim: int = 64):
-        super().__init__()
-        self.backbone = Backbone(input_dim, hidden_dim)
-        self.head = nn.Linear(hidden_dim, num_classes)
-
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        return self.head(self.backbone(x))
 
 
 @dataclass
@@ -194,11 +172,6 @@ def construct_state(
     return state
 
 
-def functional_backbone(x: torch.Tensor, state: dict[str, torch.Tensor]) -> torch.Tensor:
-    x = F.relu(F.linear(x, state["fc1.weight"], state.get("fc1.bias")))
-    return F.relu(F.linear(x, state["fc2.weight"], state.get("fc2.bias")))
-
-
 def evaluate_state(tasks: list[TaskData], heads: list[nn.Linear], state: dict[str, torch.Tensor]) -> tuple[dict[str, float], list[dict[str, object]]]:
     accuracies: dict[str, float] = {}
     predictions = []
@@ -285,8 +258,55 @@ def adapt_adarank(
     return final_state, trace
 
 
-def parameter_count(backbone: Backbone, heads: list[nn.Linear]) -> int:
-    return sum(p.numel() for p in backbone.parameters()) + sum(p.numel() for h in heads for p in h.parameters())
+def module_state(module: nn.Module) -> dict[str, torch.Tensor]:
+    return {k: v.detach().cpu().clone() for k, v in module.state_dict().items()}
+
+
+def save_eval_artifact(
+    path: Path,
+    args: argparse.Namespace,
+    tasks: list[TaskData],
+    methods: dict[str, dict[str, object]],
+    components: list[SVDComponent],
+    task_backbones: list[Backbone],
+    task_heads: list[nn.Linear],
+) -> None:
+    method_states: dict[str, dict[str, object]] = {}
+    head_states = [module_state(head) for head in task_heads]
+    for name, payload in methods.items():
+        if name == "individual":
+            method_states[name] = {
+                "kind": "individual",
+                "backbone_states": [module_state(backbone) for backbone in task_backbones],
+                "head_states": head_states,
+            }
+            continue
+        state = payload.get("merged_state")
+        if not isinstance(state, dict):
+            raise ValueError(f"Missing merged state for {name}.")
+        method_states[name] = {
+            "kind": "merged",
+            "backbone_state": {k: v.detach().cpu().clone() for k, v in state.items()},
+            "head_states": head_states,
+            "adaptation": {"type": "none"},
+        }
+        if name.startswith("adarank"):
+            method_states[name]["adaptation"] = {
+                "type": "adarank_mask",
+                "num_tasks": len(tasks),
+                "matrix_ranks": [comp.task_s[0].numel() for comp in components],
+            }
+
+    artifact = {
+        "schema_version": 1,
+        "benchmark": "synthetic_4task_merge",
+        "config": vars(args),
+        "task_names": [task.name for task in tasks],
+        "task_num_classes": [task.num_classes for task in tasks],
+        "methods": method_states,
+    }
+    path.parent.mkdir(parents=True, exist_ok=True)
+    torch.save(artifact, path)
 
 
 def parse_step_list(raw: str) -> list[int]:
@@ -314,7 +334,7 @@ def run(args: argparse.Namespace) -> None:
     methods = {}
     for name, state in [("task_arithmetic", ta_state), ("fixed_topk_svd", topk_state)]:
         acc, preds = evaluate_state(tasks, task_heads, state)
-        methods[name] = {"task_accuracy": acc, "predictions": preds}
+        methods[name] = {"task_accuracy": acc, "predictions": preds, "merged_state": state}
     acc, preds = evaluate_individuals(tasks, task_backbones, task_heads)
     methods["individual"] = {"task_accuracy": acc, "predictions": preds}
 
@@ -340,14 +360,16 @@ def run(args: argparse.Namespace) -> None:
             max_lambda=args.max_lambda,
         )
         acc, preds = evaluate_state(tasks, task_heads, state)
-        methods[name] = {"task_accuracy": acc, "predictions": preds, "adaptation_trace": trace}
+        methods[name] = {"task_accuracy": acc, "predictions": preds, "adaptation_trace": trace, "merged_state": state}
         methods[name]["adaptation_trace"]["adapt_steps"] = float(steps)
         if name == "adarank":
             adarank_state = state
             adarank_trace = trace
 
-    base_params = parameter_count(pretrained, task_heads)
-    all_finetuned_params = base_params * len(tasks)
+    backbone_params = tensor_count(backbone_state(pretrained))
+    head_params = sum(tensor_count(module_state(head)) for head in task_heads)
+    base_params = backbone_params + head_params
+    all_finetuned_params = backbone_params * len(tasks) + head_params
     for name, payload in methods.items():
         avg = sum(payload["task_accuracy"].values()) / len(tasks)
         payload["avg_accuracy"] = avg
@@ -356,11 +378,14 @@ def run(args: argparse.Namespace) -> None:
         if name.startswith("adarank"):
             payload["learnable_param_fraction"] = payload["adaptation_trace"]["learnable_mask_params"] / all_finetuned_params
 
+    report_methods = {}
+    for name, payload in methods.items():
+        report_methods[name] = {k: v for k, v in payload.items() if k != "merged_state"}
     output = {
         "config": vars(args),
         "experiments": {
             "synthetic_4task_merge": {
-                "methods": methods,
+                "methods": report_methods,
                 "paper_reference": "AdaRank Table 1/Table 4 style: average multi-task accuracy with constant merged parameter count.",
             }
         },
@@ -369,6 +394,7 @@ def run(args: argparse.Namespace) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
     with (out_dir / "predictions.json").open("w") as f:
         json.dump(output, f, indent=2)
+    save_eval_artifact(out_dir / "artifact.pt", args, tasks, methods, components, task_backbones, task_heads)
     ckpt_dir = Path("checkpoints")
     ckpt_dir.mkdir(exist_ok=True)
     assert adarank_state is not None and adarank_trace is not None

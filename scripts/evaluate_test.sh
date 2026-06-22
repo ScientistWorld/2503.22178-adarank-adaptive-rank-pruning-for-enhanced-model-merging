@@ -1,7 +1,7 @@
 #!/bin/bash
 # Held-out test-slice evaluation script.
 #
-# Mirrors scripts/evaluate.sh's contract: read a saved method output artifact
+# Mirrors scripts/evaluate.sh's contract: read a saved model artifact
 # and write held-out scores. When train scores exist, this scores the same
 # method entries rather than a hardcoded method name.
 
@@ -12,7 +12,7 @@ export PYTHONPATH="/home/user:${PYTHONPATH:-}"
 
 mkdir -p scoring
 
-INPUT="${1:-outputs/adarank_synthetic/predictions.json}"
+INPUT="${1:-outputs/adarank_synthetic/artifact.pt}"
 python eval/test/evaluate.py \
   --input "$INPUT" \
   --output scoring/scores_test.json \

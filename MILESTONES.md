@@ -24,5 +24,9 @@
 - Completed final verification, including method-agnostic documentation cleanup, complete scored metrics, and disjoint train/test scoring slices.
 - Confirmed `python validate.py --compare` passes and kept the milestone at `core_claim`.
 
+### [2026-06-22 22:38] - core_claim
+- Reworked the evaluator contract to score saved model artifacts rather than self-reported prediction JSON.
+- Submitted a CPU test job to regenerate scores with artifact-derived predictions and parameter constraints.
+
 ## Stop Justification
 - Completed at milestone `core_claim`.

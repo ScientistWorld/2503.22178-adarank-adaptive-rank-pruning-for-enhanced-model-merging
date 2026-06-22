@@ -15,8 +15,7 @@
 # This file is read by the system for automated comparison.
 #
 # Example usage:
-#   ./evaluate.sh <method_and_run_name>                             # evaluate with defaults
-#   ./evaluate.sh <method_and_run_name> checkpoints/epoch_10.pt     # evaluate a specific checkpoint
+#   ./evaluate.sh outputs/adarank_synthetic/artifact.pt
 #
 # Called from run.sh after training, or independently.
 
@@ -27,5 +26,5 @@ export PYTHONPATH="/home/user:${PYTHONPATH:-}"
 
 mkdir -p scoring
 
-INPUT="${1:-outputs/adarank_synthetic/predictions.json}"
+INPUT="${1:-outputs/adarank_synthetic/artifact.pt}"
 python eval/evaluate_outputs.py --input "$INPUT" --output scoring/scores.json

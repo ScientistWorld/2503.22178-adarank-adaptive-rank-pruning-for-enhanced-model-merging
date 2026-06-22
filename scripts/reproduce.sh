@@ -21,4 +21,4 @@ export PYTHONPATH="/home/user:${PYTHONPATH:-}"
 
 python method/adarank_synthetic.py "$@"
 python baseline/task_arithmetic_synthetic.py --source outputs/adarank_synthetic/predictions.json
-bash scripts/evaluate.sh outputs/adarank_synthetic/predictions.json
+bash scripts/evaluate.sh outputs/adarank_synthetic/artifact.pt

@@ -22,4 +22,4 @@ if [ ! -f outputs/adarank_synthetic/predictions.json ]; then
   python method/adarank_synthetic.py
 fi
 python baseline/task_arithmetic_synthetic.py --source outputs/adarank_synthetic/predictions.json
-bash scripts/evaluate.sh outputs/baseline_synthetic/predictions.json
+bash scripts/evaluate.sh outputs/baseline_synthetic/artifact.pt
