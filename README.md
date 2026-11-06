@@ -31,7 +31,7 @@ AdaRank replaces fixed top-k rank truncation in SVD-based model merging with ada
 ## Run it
 
 ```bash
-pip install git+https://github.com/zlab-princeton/scientist_world_cli
+pip install sciworld
 sw research 2503.22178 --mode innovate --agent claude-code
 sw evaluate 2503.22178
 ```
