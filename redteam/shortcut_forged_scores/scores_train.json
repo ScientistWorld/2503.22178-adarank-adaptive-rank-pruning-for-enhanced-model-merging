@@ -1,0 +1,38 @@
+{
+  "experiments": {
+    "synthetic_4task_merge": {
+      "results": {
+        "adarank": {
+          "avg_accuracy": 0.33176691729323304,
+          "balanced_accuracy": 0.24999999999999997,
+          "worst_task_accuracy": 0.041353383458646614,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6372180451127819,
+          "balanced_accuracy": 0.5740533857774063,
+          "worst_task_accuracy": 0.5037593984962406,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.6823308270676692,
+          "balanced_accuracy": 0.6413327459456224,
+          "worst_task_accuracy": 0.5526315789473685,
+          "param_multiplier_vs_single": 3.520098441345365,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.6795112781954886,
+          "balanced_accuracy": 0.616259049800687,
+          "worst_task_accuracy": 0.5300751879699248,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        }
+      }
+    }
+  },
+  "slice": "train",
+  "split_style": "visible side of a per-task disjoint salted hash partition from saved model states"
+}

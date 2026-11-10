@@ -1,0 +1,38 @@
+{
+  "experiments": {
+    "synthetic_4task_merge": {
+      "results": {
+        "adarank": {
+          "avg_accuracy": 1.0,
+          "balanced_accuracy": 1.0,
+          "worst_task_accuracy": 1.0,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 1.0,
+          "balanced_accuracy": 1.0,
+          "worst_task_accuracy": 1.0,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 1.0,
+          "balanced_accuracy": 1.0,
+          "worst_task_accuracy": 1.0,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 1.0,
+          "balanced_accuracy": 1.0,
+          "worst_task_accuracy": 1.0,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        }
+      }
+    }
+  },
+  "slice": "test",
+  "split_style": "held-out side of the same per-task disjoint salted hash partition from saved model states"
+}

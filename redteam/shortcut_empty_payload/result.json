@@ -1,0 +1,27 @@
+{
+  "case": "shortcut_empty_payload",
+  "data_seed": 7,
+  "train_run": {
+    "command": [
+      "bash",
+      "scripts/evaluate_train.sh"
+    ],
+    "exit_code": 1,
+    "elapsed_seconds": 50.22667114800424
+  },
+  "test_run": {
+    "command": [
+      "bash",
+      "scripts/evaluate_test.sh"
+    ],
+    "exit_code": 1,
+    "elapsed_seconds": 20.06231320700317
+  },
+  "methods_on_disk": [
+    "adarank",
+    "fixed_topk_svd",
+    "individual",
+    "task_arithmetic"
+  ],
+  "test_score_written": false
+}

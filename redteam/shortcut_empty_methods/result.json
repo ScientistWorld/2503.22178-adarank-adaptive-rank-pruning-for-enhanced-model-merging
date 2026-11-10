@@ -1,0 +1,24 @@
+{
+  "case": "shortcut_empty_methods",
+  "data_seed": 7,
+  "shortcut": "Submit no methods; missing values receive no loss.",
+  "test_results": {},
+  "train_run": {
+    "command": [
+      "bash",
+      "scripts/evaluate_train.sh"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 12.491222646989627
+  },
+  "test_run": {
+    "command": [
+      "bash",
+      "scripts/evaluate_test.sh"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 22.053990072992747
+  },
+  "methods_on_disk": [],
+  "test_score_written": true
+}

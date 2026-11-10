@@ -1,0 +1,67 @@
+{
+  "case": "reference_seed_27",
+  "data_seed": 7,
+  "model_seed": 27,
+  "adaptation_trace": {
+    "entropy_step_0": 1.4657182693481445,
+    "entropy_step_499": 1.3371567726135254,
+    "mask_density": 0.5494791666666666,
+    "learnable_mask_params": 384.0,
+    "learned_lambda_mean": 0.30000001192092896,
+    "learned_lambda_min": 0.30000001192092896,
+    "learned_lambda_max": 0.30000001192092896
+  },
+  "test_results": {
+    "adarank": {
+      "avg_accuracy": 0.6544715447154472,
+      "balanced_accuracy": 0.5532950919946702,
+      "worst_task_accuracy": 0.5447154471544715,
+      "param_multiplier_vs_single": 1.0,
+      "learnable_param_fraction": 0.014914938242833839
+    },
+    "fixed_topk_svd": {
+      "avg_accuracy": 0.6341463414634146,
+      "balanced_accuracy": 0.5517922375767329,
+      "worst_task_accuracy": 0.508130081300813,
+      "param_multiplier_vs_single": 1.0,
+      "learnable_param_fraction": 0.0
+    },
+    "individual": {
+      "avg_accuracy": 0.7002032520325203,
+      "balanced_accuracy": 0.6327540998167229,
+      "worst_task_accuracy": 0.6097560975609756,
+      "param_multiplier_vs_single": 3.520098441345365,
+      "learnable_param_fraction": 0.0
+    },
+    "task_arithmetic": {
+      "avg_accuracy": 0.6676829268292683,
+      "balanced_accuracy": 0.5759437430993617,
+      "worst_task_accuracy": 0.5934959349593496,
+      "param_multiplier_vs_single": 1.0,
+      "learnable_param_fraction": 0.0
+    }
+  },
+  "train_run": {
+    "command": [
+      "bash",
+      "scripts/evaluate_train.sh"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 29.990698756009806
+  },
+  "test_run": {
+    "command": [
+      "bash",
+      "scripts/evaluate_test.sh"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 24.014021985
+  },
+  "methods_on_disk": [
+    "adarank",
+    "fixed_topk_svd",
+    "individual",
+    "task_arithmetic"
+  ],
+  "test_score_written": true
+}

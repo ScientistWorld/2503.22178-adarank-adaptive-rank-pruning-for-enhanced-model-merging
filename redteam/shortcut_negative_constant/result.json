@@ -1,0 +1,57 @@
+{
+  "case": "shortcut_negative_constant",
+  "data_seed": 7,
+  "test_results": {
+    "adarank": {
+      "avg_accuracy": 0.3231707317073171,
+      "balanced_accuracy": 0.23749999999999996,
+      "worst_task_accuracy": 0.056910569105691054,
+      "param_multiplier_vs_single": 1.0,
+      "learnable_param_fraction": -3728.7345607084594
+    },
+    "fixed_topk_svd": {
+      "avg_accuracy": 0.6341463414634146,
+      "balanced_accuracy": 0.5517922375767329,
+      "worst_task_accuracy": 0.508130081300813,
+      "param_multiplier_vs_single": 1.0,
+      "learnable_param_fraction": 0.0
+    },
+    "individual": {
+      "avg_accuracy": 0.7002032520325203,
+      "balanced_accuracy": 0.6327540998167229,
+      "worst_task_accuracy": 0.6097560975609756,
+      "param_multiplier_vs_single": 3.520098441345365,
+      "learnable_param_fraction": 0.0
+    },
+    "task_arithmetic": {
+      "avg_accuracy": 0.6676829268292683,
+      "balanced_accuracy": 0.5759437430993617,
+      "worst_task_accuracy": 0.5934959349593496,
+      "param_multiplier_vs_single": 1.0,
+      "learnable_param_fraction": 0.0
+    }
+  },
+  "train_run": {
+    "command": [
+      "bash",
+      "scripts/evaluate_train.sh"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 41.92890745200566
+  },
+  "test_run": {
+    "command": [
+      "bash",
+      "scripts/evaluate_test.sh"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 33.48710327400477
+  },
+  "methods_on_disk": [
+    "adarank",
+    "fixed_topk_svd",
+    "individual",
+    "task_arithmetic"
+  ],
+  "test_score_written": true
+}

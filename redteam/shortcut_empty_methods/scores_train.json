@@ -1,0 +1,9 @@
+{
+  "experiments": {
+    "synthetic_4task_merge": {
+      "results": {}
+    }
+  },
+  "slice": "train",
+  "split_style": "visible side of a per-task disjoint salted hash partition from saved model states"
+}

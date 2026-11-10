@@ -1,0 +1,1571 @@
+{
+  "normalization": "Population standard deviation across these audit runs, separately per method and metric. Unknown future population changes scalar ranks.",
+  "reference": {
+    "adarank": {
+      "avg_accuracy": 0.6534552845528455,
+      "balanced_accuracy": 0.5615721343667059,
+      "worst_task_accuracy": 0.5528455284552846,
+      "param_multiplier_vs_single": 1.0,
+      "learnable_param_fraction": 0.014914938242833839
+    },
+    "fixed_topk_svd": {
+      "avg_accuracy": 0.6341463414634146,
+      "balanced_accuracy": 0.5517922375767329,
+      "worst_task_accuracy": 0.508130081300813,
+      "param_multiplier_vs_single": 1.0,
+      "learnable_param_fraction": 0.0
+    },
+    "individual": {
+      "avg_accuracy": 0.7002032520325203,
+      "balanced_accuracy": 0.6327540998167229,
+      "worst_task_accuracy": 0.6097560975609756,
+      "param_multiplier_vs_single": 3.520098441345365,
+      "learnable_param_fraction": 0.0
+    },
+    "task_arithmetic": {
+      "avg_accuracy": 0.6676829268292683,
+      "balanced_accuracy": 0.5759437430993617,
+      "worst_task_accuracy": 0.5934959349593496,
+      "param_multiplier_vs_single": 1.0,
+      "learnable_param_fraction": 0.0
+    }
+  },
+  "metric_scales": {
+    "adarank": {
+      "avg_accuracy": 0.18548539826130334,
+      "balanced_accuracy": 0.20782804882011255,
+      "worst_task_accuracy": 0.25397169554454185,
+      "param_multiplier_vs_single": 0.524933721191153,
+      "learnable_param_fraction": 1071.9420500922902
+    },
+    "fixed_topk_svd": {
+      "avg_accuracy": 0.07620691288729224,
+      "balanced_accuracy": 0.09336118174415477,
+      "worst_task_accuracy": 0.10245596065958178,
+      "param_multiplier_vs_single": 0.0,
+      "learnable_param_fraction": 0.0
+    },
+    "individual": {
+      "avg_accuracy": 0.061137886583064315,
+      "balanced_accuracy": 0.07489286773696456,
+      "worst_task_accuracy": 0.07958287609456509,
+      "param_multiplier_vs_single": 0.513926497634468,
+      "learnable_param_fraction": 0.0
+    },
+    "task_arithmetic": {
+      "avg_accuracy": 0.06922127920595711,
+      "balanced_accuracy": 0.08833044982576431,
+      "worst_task_accuracy": 0.08467434765254693,
+      "param_multiplier_vs_single": 0.0,
+      "learnable_param_fraction": 0.0
+    }
+  },
+  "ranks": {
+    "reference_original": {
+      "audit_population_rank": 0.0,
+      "contributions": {
+        "adarank": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": -0.0
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_results": {
+        "adarank": {
+          "avg_accuracy": 0.6534552845528455,
+          "balanced_accuracy": 0.5615721343667059,
+          "worst_task_accuracy": 0.5528455284552846,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.014914938242833839
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6341463414634146,
+          "balanced_accuracy": 0.5517922375767329,
+          "worst_task_accuracy": 0.508130081300813,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.7002032520325203,
+          "balanced_accuracy": 0.6327540998167229,
+          "worst_task_accuracy": 0.6097560975609756,
+          "param_multiplier_vs_single": 3.520098441345365,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.6676829268292683,
+          "balanced_accuracy": 0.5759437430993617,
+          "worst_task_accuracy": 0.5934959349593496,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_exit_code": 0
+    },
+    "reference_seed_7": {
+      "audit_population_rank": 0.023194992353167992,
+      "contributions": {
+        "adarank": {
+          "avg_accuracy": 0.01643676815740449,
+          "balanced_accuracy": 0.006758224195763504,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": -0.0
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_results": {
+        "adarank": {
+          "avg_accuracy": 0.6565040650406504,
+          "balanced_accuracy": 0.5646933533624713,
+          "worst_task_accuracy": 0.5528455284552846,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.014914938242833839
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6341463414634146,
+          "balanced_accuracy": 0.5517922375767329,
+          "worst_task_accuracy": 0.508130081300813,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.7002032520325203,
+          "balanced_accuracy": 0.6327540998167229,
+          "worst_task_accuracy": 0.6097560975609756,
+          "param_multiplier_vs_single": 3.520098441345365,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.6676829268292683,
+          "balanced_accuracy": 0.5759437430993617,
+          "worst_task_accuracy": 0.5934959349593496,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_exit_code": 0
+    },
+    "reference_seed_17": {
+      "audit_population_rank": 0.06461431493714916,
+      "contributions": {
+        "adarank": {
+          "avg_accuracy": 0.03835245903394421,
+          "balanced_accuracy": 0.0206597976715122,
+          "worst_task_accuracy": 0.005602058231692746,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": -0.0
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_results": {
+        "adarank": {
+          "avg_accuracy": 0.660569105691057,
+          "balanced_accuracy": 0.5711136575646808,
+          "worst_task_accuracy": 0.556910569105691,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.014914938242833839
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6341463414634146,
+          "balanced_accuracy": 0.5517922375767329,
+          "worst_task_accuracy": 0.508130081300813,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.7002032520325203,
+          "balanced_accuracy": 0.6327540998167229,
+          "worst_task_accuracy": 0.6097560975609756,
+          "param_multiplier_vs_single": 3.520098441345365,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.6676829268292683,
+          "balanced_accuracy": 0.5759437430993617,
+          "worst_task_accuracy": 0.5934959349593496,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_exit_code": 0
+    },
+    "reference_seed_27": {
+      "audit_population_rank": -0.023647072376907975,
+      "contributions": {
+        "adarank": {
+          "avg_accuracy": 0.005478922719135229,
+          "balanced_accuracy": -0.017921878632657557,
+          "worst_task_accuracy": -0.011204116463385646,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": -0.0
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_results": {
+        "adarank": {
+          "avg_accuracy": 0.6544715447154472,
+          "balanced_accuracy": 0.5532950919946702,
+          "worst_task_accuracy": 0.5447154471544715,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.014914938242833839
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6341463414634146,
+          "balanced_accuracy": 0.5517922375767329,
+          "worst_task_accuracy": 0.508130081300813,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.7002032520325203,
+          "balanced_accuracy": 0.6327540998167229,
+          "worst_task_accuracy": 0.6097560975609756,
+          "param_multiplier_vs_single": 3.520098441345365,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.6676829268292683,
+          "balanced_accuracy": 0.5759437430993617,
+          "worst_task_accuracy": 0.5934959349593496,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_exit_code": 0
+    },
+    "weaker_short_training": {
+      "audit_population_rank": -2.4648251367510716,
+      "contributions": {
+        "adarank": {
+          "avg_accuracy": -1.473830211447268,
+          "balanced_accuracy": -0.660473489633929,
+          "worst_task_accuracy": -0.3305214356698748,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": -0.0
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_results": {
+        "adarank": {
+          "avg_accuracy": 0.3800813008130081,
+          "balanced_accuracy": 0.2565389862599719,
+          "worst_task_accuracy": 0.3130081300813008,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.014914938242833839
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6341463414634146,
+          "balanced_accuracy": 0.5517922375767329,
+          "worst_task_accuracy": 0.508130081300813,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.7002032520325203,
+          "balanced_accuracy": 0.6327540998167229,
+          "worst_task_accuracy": 0.6097560975609756,
+          "param_multiplier_vs_single": 3.520098441345365,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.6676829268292683,
+          "balanced_accuracy": 0.5759437430993617,
+          "worst_task_accuracy": 0.5934959349593496,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_exit_code": 0
+    },
+    "honest_alternative_no_masks": {
+      "audit_population_rank": 0.16384503952849605,
+      "contributions": {
+        "adarank": {
+          "avg_accuracy": 0.07670491806788782,
+          "balanced_accuracy": 0.031118147749598764,
+          "worst_task_accuracy": 0.05602058231692792,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": 1.3913940815690288e-06
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_results": {
+        "adarank": {
+          "avg_accuracy": 0.6676829268292683,
+          "balanced_accuracy": 0.5759437430993617,
+          "worst_task_accuracy": 0.5934959349593496,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6341463414634146,
+          "balanced_accuracy": 0.5517922375767329,
+          "worst_task_accuracy": 0.508130081300813,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.7002032520325203,
+          "balanced_accuracy": 0.6327540998167229,
+          "worst_task_accuracy": 0.6097560975609756,
+          "param_multiplier_vs_single": 3.520098441345365,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.6676829268292683,
+          "balanced_accuracy": 0.5759437430993617,
+          "worst_task_accuracy": 0.5934959349593496,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_exit_code": 0
+    },
+    "stronger_source_training": {
+      "audit_population_rank": 0.23616741412522374,
+      "contributions": {
+        "adarank": {
+          "avg_accuracy": 0.11505737710183142,
+          "balanced_accuracy": 0.07629357116985006,
+          "worst_task_accuracy": 0.04481646585354228,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": -0.0
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_results": {
+        "adarank": {
+          "avg_accuracy": 0.6747967479674797,
+          "balanced_accuracy": 0.5968075655528133,
+          "worst_task_accuracy": 0.5853658536585366,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.014914938242833839
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6341463414634146,
+          "balanced_accuracy": 0.5517922375767329,
+          "worst_task_accuracy": 0.508130081300813,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.7002032520325203,
+          "balanced_accuracy": 0.6327540998167229,
+          "worst_task_accuracy": 0.6097560975609756,
+          "param_multiplier_vs_single": 3.520098441345365,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.6676829268292683,
+          "balanced_accuracy": 0.5759437430993617,
+          "worst_task_accuracy": 0.5934959349593496,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_exit_code": 0
+    },
+    "stronger_joint_500": {
+      "audit_population_rank": -0.13795542582385148,
+      "contributions": {
+        "adarank": {
+          "avg_accuracy": -0.0712259953487532,
+          "balanced_accuracy": -0.03871913206979007,
+          "worst_task_accuracy": -0.028010291158464037,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": -7.246844174838644e-09
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_results": {
+        "adarank": {
+          "avg_accuracy": 0.6402439024390243,
+          "balanced_accuracy": 0.5436900862109888,
+          "worst_task_accuracy": 0.532520325203252,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.014992620212848598
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6341463414634146,
+          "balanced_accuracy": 0.5517922375767329,
+          "worst_task_accuracy": 0.508130081300813,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.7002032520325203,
+          "balanced_accuracy": 0.6327540998167229,
+          "worst_task_accuracy": 0.6097560975609756,
+          "param_multiplier_vs_single": 3.520098441345365,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.6676829268292683,
+          "balanced_accuracy": 0.5759437430993617,
+          "worst_task_accuracy": 0.5934959349593496,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_exit_code": 0
+    },
+    "stronger_joint_2000": {
+      "audit_population_rank": -0.5345420227987854,
+      "contributions": {
+        "adarank": {
+          "avg_accuracy": -0.2958618268332808,
+          "balanced_accuracy": -0.12103696585311179,
+          "worst_task_accuracy": -0.11764322286554867,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": -7.246844174838644e-09
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_results": {
+        "adarank": {
+          "avg_accuracy": 0.5985772357723577,
+          "balanced_accuracy": 0.5056724089259086,
+          "worst_task_accuracy": 0.46747967479674796,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.014992620212848598
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6341463414634146,
+          "balanced_accuracy": 0.5517922375767329,
+          "worst_task_accuracy": 0.508130081300813,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.7002032520325203,
+          "balanced_accuracy": 0.6327540998167229,
+          "worst_task_accuracy": 0.6097560975609756,
+          "param_multiplier_vs_single": 3.520098441345365,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.6676829268292683,
+          "balanced_accuracy": 0.5759437430993617,
+          "worst_task_accuracy": 0.5934959349593496,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_exit_code": 0
+    },
+    "stronger_joint_10000": {
+      "audit_population_rank": -1.317911725979893,
+      "contributions": {
+        "adarank": {
+          "avg_accuracy": -0.7725281033980104,
+          "balanced_accuracy": -0.3213012860673266,
+          "worst_task_accuracy": -0.22408232926771168,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": -7.246844174838644e-09
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_results": {
+        "adarank": {
+          "avg_accuracy": 0.5101626016260162,
+          "balanced_accuracy": 0.41318231355167195,
+          "worst_task_accuracy": 0.3902439024390244,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.014992620212848598
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6341463414634146,
+          "balanced_accuracy": 0.5517922375767329,
+          "worst_task_accuracy": 0.508130081300813,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.7002032520325203,
+          "balanced_accuracy": 0.6327540998167229,
+          "worst_task_accuracy": 0.6097560975609756,
+          "param_multiplier_vs_single": 3.520098441345365,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.6676829268292683,
+          "balanced_accuracy": 0.5759437430993617,
+          "worst_task_accuracy": 0.5934959349593496,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_exit_code": 0
+    },
+    "stronger_masks_10000": {
+      "audit_population_rank": 0.03749807379016445,
+      "contributions": {
+        "adarank": {
+          "avg_accuracy": 0.02191569087653912,
+          "balanced_accuracy": 0.009980324681932577,
+          "worst_task_accuracy": 0.005602058231692746,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": -0.0
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_results": {
+        "adarank": {
+          "avg_accuracy": 0.657520325203252,
+          "balanced_accuracy": 0.5661814486005665,
+          "worst_task_accuracy": 0.556910569105691,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.014914938242833839
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6341463414634146,
+          "balanced_accuracy": 0.5517922375767329,
+          "worst_task_accuracy": 0.508130081300813,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.7002032520325203,
+          "balanced_accuracy": 0.6327540998167229,
+          "worst_task_accuracy": 0.6097560975609756,
+          "param_multiplier_vs_single": 3.520098441345365,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.6676829268292683,
+          "balanced_accuracy": 0.5759437430993617,
+          "worst_task_accuracy": 0.5934959349593496,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_exit_code": 0
+    },
+    "brute_force_search": {
+      "audit_population_rank": 0.10612129480881752,
+      "contributions": {
+        "adarank": {
+          "avg_accuracy": 0.04383138175307824,
+          "balanced_accuracy": 0.02867617227150093,
+          "worst_task_accuracy": 0.03361234939015679,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": 1.3913940815690288e-06
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_results": {
+        "adarank": {
+          "avg_accuracy": 0.6615853658536585,
+          "balanced_accuracy": 0.5748159408796292,
+          "worst_task_accuracy": 0.5772357723577236,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6341463414634146,
+          "balanced_accuracy": 0.5517922375767329,
+          "worst_task_accuracy": 0.508130081300813,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.7002032520325203,
+          "balanced_accuracy": 0.6327540998167229,
+          "worst_task_accuracy": 0.6097560975609756,
+          "param_multiplier_vs_single": 3.520098441345365,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.6676829268292683,
+          "balanced_accuracy": 0.5759437430993617,
+          "worst_task_accuracy": 0.5934959349593496,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_exit_code": 0
+    },
+    "shortcut_label_leak": {
+      "audit_population_rank": 3.4338247872127377,
+      "contributions": {
+        "adarank": {
+          "avg_accuracy": 1.8683126472249754,
+          "balanced_accuracy": 0.9493066054127789,
+          "worst_task_accuracy": 0.6162264054862071,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": -2.087091122353543e-05
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_results": {
+        "adarank": {
+          "avg_accuracy": 1.0,
+          "balanced_accuracy": 1.0,
+          "worst_task_accuracy": 1.0,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.23863901188534142
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6341463414634146,
+          "balanced_accuracy": 0.5517922375767329,
+          "worst_task_accuracy": 0.508130081300813,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.7002032520325203,
+          "balanced_accuracy": 0.6327540998167229,
+          "worst_task_accuracy": 0.6097560975609756,
+          "param_multiplier_vs_single": 3.520098441345365,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.6676829268292683,
+          "balanced_accuracy": 0.5759437430993617,
+          "worst_task_accuracy": 0.5934959349593496,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_exit_code": 0
+    },
+    "shortcut_fixed_heads": {
+      "audit_population_rank": 1.2436161561991215,
+      "contributions": {
+        "adarank": {
+          "avg_accuracy": 0.6519918035770443,
+          "balanced_accuracy": 0.41796339544936123,
+          "worst_task_accuracy": 0.1736638051824765,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": -2.8480097607116054e-06
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_results": {
+        "adarank": {
+          "avg_accuracy": 0.774390243902439,
+          "balanced_accuracy": 0.7546043942655278,
+          "worst_task_accuracy": 0.6788617886178862,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.04544395245863435
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6341463414634146,
+          "balanced_accuracy": 0.5517922375767329,
+          "worst_task_accuracy": 0.508130081300813,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.7002032520325203,
+          "balanced_accuracy": 0.6327540998167229,
+          "worst_task_accuracy": 0.6097560975609756,
+          "param_multiplier_vs_single": 3.520098441345365,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.6676829268292683,
+          "balanced_accuracy": 0.5759437430993617,
+          "worst_task_accuracy": 0.5934959349593496,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_exit_code": 0
+    },
+    "shortcut_underreport": {
+      "audit_population_rank": 1.3913940815690288e-06,
+      "contributions": {
+        "adarank": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": 1.3913940815690288e-06
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_results": {
+        "adarank": {
+          "avg_accuracy": 0.6534552845528455,
+          "balanced_accuracy": 0.5615721343667059,
+          "worst_task_accuracy": 0.5528455284552846,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6341463414634146,
+          "balanced_accuracy": 0.5517922375767329,
+          "worst_task_accuracy": 0.508130081300813,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.7002032520325203,
+          "balanced_accuracy": 0.6327540998167229,
+          "worst_task_accuracy": 0.6097560975609756,
+          "param_multiplier_vs_single": 3.520098441345365,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.6676829268292683,
+          "balanced_accuracy": 0.5759437430993617,
+          "worst_task_accuracy": 0.5934959349593496,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_exit_code": 0
+    },
+    "shortcut_negative_count": {
+      "audit_population_rank": 0.3478499117863388,
+      "contributions": {
+        "adarank": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": 0.3478499117863388
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_results": {
+        "adarank": {
+          "avg_accuracy": 0.6534552845528455,
+          "balanced_accuracy": 0.5615721343667059,
+          "worst_task_accuracy": 0.5528455284552846,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": -3728.7345607084594
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6341463414634146,
+          "balanced_accuracy": 0.5517922375767329,
+          "worst_task_accuracy": 0.508130081300813,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.7002032520325203,
+          "balanced_accuracy": 0.6327540998167229,
+          "worst_task_accuracy": 0.6097560975609756,
+          "param_multiplier_vs_single": 3.520098441345365,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.6676829268292683,
+          "balanced_accuracy": 0.5759437430993617,
+          "worst_task_accuracy": 0.5934959349593496,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_exit_code": 0
+    },
+    "shortcut_constant": {
+      "audit_population_rank": -3.1657972802915175,
+      "contributions": {
+        "adarank": {
+          "avg_accuracy": -1.780649883718818,
+          "balanced_accuracy": -0.7016976837002609,
+          "worst_task_accuracy": -0.6834511042665207,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": 1.3913940815690288e-06
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_results": {
+        "adarank": {
+          "avg_accuracy": 0.3231707317073171,
+          "balanced_accuracy": 0.23749999999999996,
+          "worst_task_accuracy": 0.056910569105691054,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6341463414634146,
+          "balanced_accuracy": 0.5517922375767329,
+          "worst_task_accuracy": 0.508130081300813,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.7002032520325203,
+          "balanced_accuracy": 0.6327540998167229,
+          "worst_task_accuracy": 0.6097560975609756,
+          "param_multiplier_vs_single": 3.520098441345365,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.6676829268292683,
+          "balanced_accuracy": 0.5759437430993617,
+          "worst_task_accuracy": 0.5934959349593496,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_exit_code": 0
+    },
+    "shortcut_nan": {
+      "audit_population_rank": -3.1657972802915175,
+      "contributions": {
+        "adarank": {
+          "avg_accuracy": -1.780649883718818,
+          "balanced_accuracy": -0.7016976837002609,
+          "worst_task_accuracy": -0.6834511042665207,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": 1.3913940815690288e-06
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_results": {
+        "adarank": {
+          "avg_accuracy": 0.3231707317073171,
+          "balanced_accuracy": 0.23749999999999996,
+          "worst_task_accuracy": 0.056910569105691054,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6341463414634146,
+          "balanced_accuracy": 0.5517922375767329,
+          "worst_task_accuracy": 0.508130081300813,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.7002032520325203,
+          "balanced_accuracy": 0.6327540998167229,
+          "worst_task_accuracy": 0.6097560975609756,
+          "param_multiplier_vs_single": 3.520098441345365,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.6676829268292683,
+          "balanced_accuracy": 0.5759437430993617,
+          "worst_task_accuracy": 0.5934959349593496,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_exit_code": 0
+    },
+    "shortcut_forged_scores": {
+      "audit_population_rank": -3.1657972802915175,
+      "contributions": {
+        "adarank": {
+          "avg_accuracy": -1.780649883718818,
+          "balanced_accuracy": -0.7016976837002609,
+          "worst_task_accuracy": -0.6834511042665207,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": 1.3913940815690288e-06
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_results": {
+        "adarank": {
+          "avg_accuracy": 0.3231707317073171,
+          "balanced_accuracy": 0.23749999999999996,
+          "worst_task_accuracy": 0.056910569105691054,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6341463414634146,
+          "balanced_accuracy": 0.5517922375767329,
+          "worst_task_accuracy": 0.508130081300813,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.7002032520325203,
+          "balanced_accuracy": 0.6327540998167229,
+          "worst_task_accuracy": 0.6097560975609756,
+          "param_multiplier_vs_single": 3.520098441345365,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.6676829268292683,
+          "balanced_accuracy": 0.5759437430993617,
+          "worst_task_accuracy": 0.5934959349593496,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_exit_code": 0
+    },
+    "shortcut_empty_methods": {
+      "audit_population_rank": 0.0,
+      "contributions": {
+        "adarank": {},
+        "fixed_topk_svd": {},
+        "individual": {},
+        "task_arithmetic": {}
+      },
+      "test_results": {},
+      "test_exit_code": 0
+    },
+    "shortcut_filter_omission": {
+      "audit_population_rank": 0.0,
+      "contributions": {
+        "adarank": {},
+        "fixed_topk_svd": {},
+        "individual": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {}
+      },
+      "test_results": {
+        "individual": {
+          "avg_accuracy": 0.7002032520325203,
+          "balanced_accuracy": 0.6327540998167229,
+          "worst_task_accuracy": 0.6097560975609756,
+          "param_multiplier_vs_single": 3.520098441345365,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_exit_code": 0
+    },
+    "shortcut_data_labels": {
+      "audit_population_rank": 31.25947937999357,
+      "contributions": {
+        "adarank": {
+          "avg_accuracy": 1.8683126472249754,
+          "balanced_accuracy": 0.9493066054127789,
+          "worst_task_accuracy": 0.6162264054862071,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": 1.3913940815690288e-06
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 4.800793585191832,
+          "balanced_accuracy": 2.160357113336325,
+          "worst_task_accuracy": 1.6802777548171413,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 4.903616476179041,
+          "balanced_accuracy": 2.206627414280568,
+          "worst_task_accuracy": 1.7162657666626637,
+          "param_multiplier_vs_single": 1.7162657666626635,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 4.800793585191832,
+          "balanced_accuracy": 2.1603571133363246,
+          "worst_task_accuracy": 1.6802777548171413,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_results": {
+        "adarank": {
+          "avg_accuracy": 1.0,
+          "balanced_accuracy": 1.0,
+          "worst_task_accuracy": 1.0,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 1.0,
+          "balanced_accuracy": 1.0,
+          "worst_task_accuracy": 1.0,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 1.0,
+          "balanced_accuracy": 1.0,
+          "worst_task_accuracy": 1.0,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 1.0,
+          "balanced_accuracy": 1.0,
+          "worst_task_accuracy": 1.0,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_exit_code": 0
+    },
+    "shortcut_individual_routing": {
+      "audit_population_rank": -1.1956902437346022,
+      "contributions": {
+        "adarank": {
+          "avg_accuracy": 0.25203044508020195,
+          "balanced_accuracy": 0.1541268593645564,
+          "worst_task_accuracy": 0.07842881524369906,
+          "param_multiplier_vs_single": -1.680277754817141,
+          "learnable_param_fraction": 1.3913940815690288e-06
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_results": {
+        "adarank": {
+          "avg_accuracy": 0.7002032520325203,
+          "balanced_accuracy": 0.6327540998167229,
+          "worst_task_accuracy": 0.6097560975609756,
+          "param_multiplier_vs_single": 3.520098441345365,
+          "learnable_param_fraction": 0.0
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6341463414634146,
+          "balanced_accuracy": 0.5517922375767329,
+          "worst_task_accuracy": 0.508130081300813,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.7002032520325203,
+          "balanced_accuracy": 0.6327540998167229,
+          "worst_task_accuracy": 0.6097560975609756,
+          "param_multiplier_vs_single": 3.520098441345365,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.6676829268292683,
+          "balanced_accuracy": 0.5759437430993617,
+          "worst_task_accuracy": 0.5934959349593496,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_exit_code": 0
+    },
+    "shortcut_negative_constant": {
+      "audit_population_rank": -2.8179487598992603,
+      "contributions": {
+        "adarank": {
+          "avg_accuracy": -1.780649883718818,
+          "balanced_accuracy": -0.7016976837002609,
+          "worst_task_accuracy": -0.6834511042665207,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": 0.3478499117863388
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": -0.0,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0,
+          "param_multiplier_vs_single": 0.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_results": {
+        "adarank": {
+          "avg_accuracy": 0.3231707317073171,
+          "balanced_accuracy": 0.23749999999999996,
+          "worst_task_accuracy": 0.056910569105691054,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": -3728.7345607084594
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6341463414634146,
+          "balanced_accuracy": 0.5517922375767329,
+          "worst_task_accuracy": 0.508130081300813,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "individual": {
+          "avg_accuracy": 0.7002032520325203,
+          "balanced_accuracy": 0.6327540998167229,
+          "worst_task_accuracy": 0.6097560975609756,
+          "param_multiplier_vs_single": 3.520098441345365,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.6676829268292683,
+          "balanced_accuracy": 0.5759437430993617,
+          "worst_task_accuracy": 0.5934959349593496,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        }
+      },
+      "test_exit_code": 0
+    },
+    "shortcut_invalid_count": {
+      "audit_population_rank": 0.0,
+      "contributions": {
+        "adarank": {},
+        "fixed_topk_svd": {},
+        "individual": {},
+        "task_arithmetic": {}
+      },
+      "test_results": {},
+      "test_exit_code": 1
+    },
+    "shortcut_empty_payload": {
+      "audit_population_rank": 0.0,
+      "contributions": {
+        "adarank": {},
+        "fixed_topk_svd": {},
+        "individual": {},
+        "task_arithmetic": {}
+      },
+      "test_results": {},
+      "test_exit_code": 1
+    }
+  },
+  "seed_spread": {
+    "avg_accuracy": {
+      "min": 0.6544715447154472,
+      "max": 0.660569105691057,
+      "range": 0.0060975609756097615
+    },
+    "balanced_accuracy": {
+      "min": 0.5532950919946702,
+      "max": 0.5711136575646808,
+      "range": 0.017818565570010603
+    },
+    "worst_task_accuracy": {
+      "min": 0.5447154471544715,
+      "max": 0.556910569105691,
+      "range": 0.012195121951219523
+    },
+    "param_multiplier_vs_single": {
+      "min": 1.0,
+      "max": 1.0,
+      "range": 0.0
+    },
+    "learnable_param_fraction": {
+      "min": 0.014914938242833839,
+      "max": 0.014914938242833839,
+      "range": 0.0
+    }
+  },
+  "seed_rank_range": 0.08826138731405714,
+  "at_bound": {
+    "adarank": [
+      "param_multiplier_vs_single (minimum allowed for merged kind)"
+    ],
+    "baselines": [
+      "task_arithmetic.learnable_param_fraction (0)",
+      "fixed_topk_svd.learnable_param_fraction (0)",
+      "individual.learnable_param_fraction (0)",
+      "task_arithmetic.param_multiplier_vs_single (1)",
+      "fixed_topk_svd.param_multiplier_vs_single (1)"
+    ]
+  }
+}

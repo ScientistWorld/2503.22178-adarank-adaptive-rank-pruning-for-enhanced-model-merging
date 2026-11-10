@@ -1,0 +1,69 @@
+{
+  "case": "stronger_source_training",
+  "data_seed": 7,
+  "pretrain_epochs": 600,
+  "finetune_epochs": 300,
+  "adaptation_trace": {
+    "entropy_step_0": 0.5200501680374146,
+    "entropy_step_499": 0.44878700375556946,
+    "mask_density": 0.5286458333333334,
+    "learnable_mask_params": 384.0,
+    "learned_lambda_mean": 0.30000001192092896,
+    "learned_lambda_min": 0.30000001192092896,
+    "learned_lambda_max": 0.30000001192092896
+  },
+  "scope": "Quality control only: changes source training, not an in-scope merging improvement.",
+  "test_results": {
+    "adarank": {
+      "avg_accuracy": 0.6747967479674797,
+      "balanced_accuracy": 0.5968075655528133,
+      "worst_task_accuracy": 0.5853658536585366,
+      "param_multiplier_vs_single": 1.0,
+      "learnable_param_fraction": 0.014914938242833839
+    },
+    "fixed_topk_svd": {
+      "avg_accuracy": 0.6341463414634146,
+      "balanced_accuracy": 0.5517922375767329,
+      "worst_task_accuracy": 0.508130081300813,
+      "param_multiplier_vs_single": 1.0,
+      "learnable_param_fraction": 0.0
+    },
+    "individual": {
+      "avg_accuracy": 0.7002032520325203,
+      "balanced_accuracy": 0.6327540998167229,
+      "worst_task_accuracy": 0.6097560975609756,
+      "param_multiplier_vs_single": 3.520098441345365,
+      "learnable_param_fraction": 0.0
+    },
+    "task_arithmetic": {
+      "avg_accuracy": 0.6676829268292683,
+      "balanced_accuracy": 0.5759437430993617,
+      "worst_task_accuracy": 0.5934959349593496,
+      "param_multiplier_vs_single": 1.0,
+      "learnable_param_fraction": 0.0
+    }
+  },
+  "train_run": {
+    "command": [
+      "bash",
+      "scripts/evaluate_train.sh"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 34.39427871099906
+  },
+  "test_run": {
+    "command": [
+      "bash",
+      "scripts/evaluate_test.sh"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 21.466795736996573
+  },
+  "methods_on_disk": [
+    "adarank",
+    "fixed_topk_svd",
+    "individual",
+    "task_arithmetic"
+  ],
+  "test_score_written": true
+}

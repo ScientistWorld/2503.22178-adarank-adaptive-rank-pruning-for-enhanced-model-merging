@@ -1,0 +1,38 @@
+{
+  "case": "shortcut_filter_omission",
+  "data_seed": 7,
+  "shortcut": "Keep bad methods on disk while removing their names from editable train-score allowlist.",
+  "test_results": {
+    "individual": {
+      "avg_accuracy": 0.7002032520325203,
+      "balanced_accuracy": 0.6327540998167229,
+      "worst_task_accuracy": 0.6097560975609756,
+      "param_multiplier_vs_single": 3.520098441345365,
+      "learnable_param_fraction": 0.0
+    }
+  },
+  "train_run": {
+    "command": [
+      "bash",
+      "scripts/evaluate_train.sh"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 16.100628148997203
+  },
+  "test_run": {
+    "command": [
+      "bash",
+      "scripts/evaluate_test.sh"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 31.337005182998837
+  },
+  "methods_on_disk": [
+    "adarank",
+    "fixed_topk_svd",
+    "individual",
+    "task_arithmetic",
+    "unlisted_shortcut_bad"
+  ],
+  "test_score_written": true
+}
