@@ -1,0 +1,63 @@
+{
+  "experiments": {
+    "synthetic_4task_merge": {
+      "description": "Scaled AdaRank reproduction benchmark, referenced to the paper's ViT-B/32 8-task model-merging results and parameter-cost table.",
+      "notes": "Published avg_accuracy references are the paper's ViT-B/32 8-task values for Individual, Task Arithmetic, and TA+AdaRank. fixed_topk_svd uses the paper's fixed top-16% Task Arithmetic ablation as the compact fixed-rank reference for this scaled gym. The paper does not report balanced_accuracy or worst_task_accuracy aggregates; those are gym-only benefit metrics computed for reproduced artifacts.",
+      "weight": 1.0,
+      "primary_metric": "avg_accuracy",
+      "metrics": {
+        "avg_accuracy": {
+          "higher_is_better": true,
+          "coefficient": 1.0,
+          "description": "Mean classification accuracy across the synthetic tasks."
+        },
+        "balanced_accuracy": {
+          "higher_is_better": true,
+          "coefficient": 0.45,
+          "description": "Mean per-task macro recall, which catches methods that improve the average by neglecting minority classes."
+        },
+        "worst_task_accuracy": {
+          "higher_is_better": true,
+          "coefficient": 0.35,
+          "description": "Lowest task accuracy, which catches methods that sacrifice a hard task while preserving the overall mean."
+        },
+        "param_multiplier_vs_single": {
+          "higher_is_better": false,
+          "coefficient": -0.35,
+          "description": "Deployment parameter count as a multiple of one merged model; lower values preserve the paper's compactness constraint."
+        },
+        "learnable_param_fraction": {
+          "higher_is_better": false,
+          "coefficient": -0.1,
+          "description": "Learnable adaptation parameters as a fraction of all task-specific model parameters; lower values discourage hidden trainable capacity."
+        }
+      },
+      "results": {
+        "individual": {
+          "type": "baseline",
+          "avg_accuracy": 0.905,
+          "param_multiplier_vs_single": 8.0,
+          "learnable_param_fraction": 0.0
+        },
+        "task_arithmetic": {
+          "type": "baseline",
+          "avg_accuracy": 0.692,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "fixed_topk_svd": {
+          "type": "baseline",
+          "avg_accuracy": 0.688,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.0
+        },
+        "adarank": {
+          "type": "proposed",
+          "avg_accuracy": 0.879,
+          "param_multiplier_vs_single": 1.0,
+          "learnable_param_fraction": 0.00032
+        }
+      }
+    }
+  }
+}
