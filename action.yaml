@@ -1,8 +1,8 @@
 # Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends.
-action: submit
-gpus: 2
+action: pending
+gpus: 0
 test: false
 milestone: core_claim
-notes: "Headroom check: candidate better variants (TA/CART+AdaRank with information-maximisation objective, batch 64/task, seed weight-soup) + CART static diagnostics; rerun paired variant comparison through the hidden test (shortcut results reused); regenerate reference scores."
+notes: ""
