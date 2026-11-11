@@ -4,7 +4,8 @@ Reads the rows listed in ``assets/hidden_rows.json`` (disjoint from the public
 adaptation/dev rows) from ``data/downloads/raw/`` and writes
 ``downloads/hidden_<task>.pt`` (encoded image bytes + labels). On first build it
 records per-image sha256 digests and a label digest in ``assets/hidden_index.json``;
-afterwards every rebuild is verified against that index. Optionally copies the
+afterwards every rebuild is verified against that index. A task whose row list in
+``assets/hidden_rows.json`` no longer matches its index entry is rebuilt and re-indexed. Optionally copies the
 encoder/head assets built by ``data/build_heads.py`` (``--copy-assets``) and records
 the public checkpoint digests used to rebuild the baselines.
 """
@@ -70,10 +71,16 @@ def main() -> None:
     index = json.loads(index_path.read_text())["tasks"] if index_path.exists() else {}
     DOWNLOADS.mkdir(parents=True, exist_ok=True)
 
-    new_index = {}
+    new_index, changed = {}, False
     for task, (files, n_rows) in SOURCES.items():
         rows = rows_spec[task]["rows"]
         dest = DOWNLOADS / f"hidden_{task}.pt"
+        if task in index and index[task]["rows"] != rows:
+            # the row list was changed on purpose (e.g. the held-out split was enlarged):
+            # rebuild this task and record a fresh index entry
+            print(f"{task}: hidden row list changed; rebuilding")
+            del index[task]
+            dest.unlink(missing_ok=True)
         if dest.exists() and task in index:
             new_index[task] = index[task]
             print(f"{task}: hidden split exists")
@@ -93,8 +100,9 @@ def main() -> None:
             raise SystemExit(f"{task}: rebuilt hidden split differs from the recorded index")
         torch.save({"task": task, "rows": rows, "image_bytes": image_bytes, "labels": labels}, dest)
         new_index[task] = entry
+        changed |= task not in index
         print(f"{task}: wrote {dest.relative_to(ROOT)} ({len(rows)} rows)")
-    if not index:
+    if changed:
         index_path.write_text(json.dumps({"tasks": new_index}) + "\n")
         print(f"recorded {index_path.relative_to(ROOT)}")
 

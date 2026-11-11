@@ -1,6 +1,6 @@
 # Evaluation Targets
 
-All targets are measured in experiment `vit_b32_8task_merge` on 1,024 held-out test images per task (8,192 in total). The same metrics on the 256-per-task public dev rows are available for development.
+All targets are measured in experiment `vit_b32_8task_merge` on held-out test images: 4,096 per task for SUN397, Stanford Cars, SVHN, GTSRB and MNIST, 3,996 for RESISC45, and 1,024 for EuroSAT and DTD (26,524 in total; each task counts equally). The same metrics on the 256-per-task public dev rows are available for development.
 
 ## Primary: multi-task accuracy of one merged encoder
 

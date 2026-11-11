@@ -49,7 +49,12 @@ VARIANT_NOTES = {
     "seed_soup": "candidate better variant: weight average of the three reference seeds",
     "cart_static": "diagnostic: CART initialisation without adaptation (lambda 2.3, top-16%)",
     "cart_static_l1": "diagnostic: CART initialisation without adaptation (lambda 1.0, top-16%)",
+    "ref_seed0_run1": "reference recipe, seed 0, earlier run (same code path; run-to-run GPU nondeterminism)",
+    "distill": "candidate better variant: TA+AdaRank parameterisation, entropy replaced by KL to each task's own fine-tuned encoder on the unlabeled pool",
+    "distill_seed1": "candidate better variant: as distill, sampling seed 1",
+    "cart_distill": "candidate better variant: CART+AdaRank parameterisation with the KL-to-expert objective",
 }
+SEEDS = ("proposed", "ref_seed0_run1", "ref_seed1", "ref_seed2")
 SKIP_EXISTING = "--skip-existing" in sys.argv
 
 
@@ -121,7 +126,10 @@ def main() -> None:
     RESULTS.mkdir(parents=True, exist_ok=True)
     LOGS.mkdir(parents=True, exist_ok=True)
     # keep the reference submission safe for the whole run; restored at the end
-    if (MERGED / "proposed" / "model.safetensors").exists() and not REF_MODEL.exists():
+    if (MERGED / "proposed" / "model.safetensors").exists():
+        # always stash the current reference (a stale stash would silently test an old model)
+        if REF_MODEL.parent.exists():
+            shutil.rmtree(REF_MODEL.parent)
         shutil.copytree(MERGED / "proposed", REF_MODEL.parent)
     try:
         run_cases()
@@ -223,25 +231,47 @@ def run_cases() -> None:
         link_model(m / "task_arithmetic", zero_file)
         cases["baseline_name_collision"] = {"test": run_test("baseline_name_collision")}
 
+    with staged("name_collision_chain") as m:
+        # a submission named like a baseline AND one named like its renamed key: neither may
+        # overwrite the baseline or each other
+        link_model(m / "proposed", REF_MODEL)
+        link_model(m / "task_arithmetic", REF_MODEL)
+        link_model(m / "submission_task_arithmetic", zero_file)
+        cases["name_collision_chain"] = {"test": run_test("name_collision_chain")}
+
+    with staged("expert_copy") as m:
+        # a valid single encoder that is just one fine-tuned expert (no merging at all)
+        link_model(m / "proposed", ROOT / "data" / "downloads" / "models" / "experts" / "sun397" / "model.safetensors")
+        cases["expert_copy"] = {"test": run_test("expert_copy")}
+
     summarize(cases)
 
 
-def bootstrap_paired(a: dict, b: dict, n_boot: int = 2000, seed: int = 0) -> dict:
-    """Paired bootstrap over hidden rows (resampled within each task) of mean-accuracy differences."""
-    rng = random.Random(seed)
+def bootstrap_paired(a: dict, b: dict, n_boot: int = 1000, seed: int = 0) -> dict:
+    """Paired bootstrap over hidden rows (the same resampled rows for both methods, within each
+    task) of the avg- and worst-task-accuracy differences a - b."""
+    import numpy as np
+
+    rng = np.random.default_rng(seed)
     tasks = sorted(a)
-    diffs_task = {t: [x - y for x, y in zip(a[t], b[t])] for t in tasks}
-    point = statistics.mean(statistics.mean(diffs_task[t]) for t in tasks)
-    boots = []
-    for _ in range(n_boot):
-        tot = 0.0
-        for t in tasks:
-            d = diffs_task[t]
-            tot += sum(d[rng.randrange(len(d))] for _ in range(len(d))) / len(d)
-        boots.append(tot / len(tasks))
-    boots.sort()
-    return {"diff": point, "ci95": [boots[int(0.025 * n_boot)], boots[int(0.975 * n_boot)]],
-            "se": statistics.pstdev(boots)}
+    A = {t: np.asarray(a[t], dtype=np.float64) for t in tasks}
+    B = {t: np.asarray(b[t], dtype=np.float64) for t in tasks}
+    acc_a = np.zeros((n_boot, len(tasks)))
+    acc_b = np.zeros((n_boot, len(tasks)))
+    for j, t in enumerate(tasks):
+        idx = rng.integers(0, len(A[t]), size=(n_boot, len(A[t])))
+        acc_a[:, j] = A[t][idx].mean(axis=1)
+        acc_b[:, j] = B[t][idx].mean(axis=1)
+    out = {}
+    point_a = np.array([A[t].mean() for t in tasks])
+    point_b = np.array([B[t].mean() for t in tasks])
+    for name, fa, fb, pa, pb in (("avg_accuracy", acc_a.mean(1), acc_b.mean(1), point_a.mean(), point_b.mean()),
+                                 ("worst_task_accuracy", acc_a.min(1), acc_b.min(1), point_a.min(), point_b.min())):
+        d = np.sort(fa - fb)
+        se = float(d.std())
+        out[name] = {"diff": float(pa - pb), "ci95": [float(d[int(0.025 * n_boot)]), float(d[int(0.975 * n_boot)])],
+                     "se": se, "z": float((pa - pb) / se) if se > 0 else None}
+    return out
 
 
 def summarize(cases: dict) -> None:
@@ -256,7 +286,8 @@ def summarize(cases: dict) -> None:
         else:
             rows[f"shortcut:{case}"] = {"proposed_entry": res.get("proposed"),
                                         "all_entries": res, "failures": payload["test"].get("failures", {})}
-    pop = [r["proposed_entry"] for r in rows.values() if r["proposed_entry"]]
+    # normalise by the spread of the honest attempts (variants), not of the degenerate shortcuts
+    pop = [r["proposed_entry"] for k, r in rows.items() if k.startswith("variant:") and r["proposed_entry"]]
     std = {m: statistics.pstdev([p[m] for p in pop]) or 1.0 for m in METRICS}
     for r in rows.values():
         v = r["proposed_entry"]
@@ -268,7 +299,7 @@ def summarize(cases: dict) -> None:
         for name in corr:
             if name != "proposed":
                 paired[name] = bootstrap_paired(corr[name], corr["proposed"])
-    seeds = [cases["variants"]["test"]["experiments"][EXP]["results"].get(n) for n in ("proposed", "ref_seed1", "ref_seed2")]
+    seeds = [cases["variants"]["test"]["experiments"][EXP]["results"].get(n) for n in SEEDS]
     seeds = [s for s in seeds if s]
     seed_range = {m: max(s[m] for s in seeds) - min(s[m] for s in seeds) for m in METRICS} if len(seeds) > 1 else {}
     train = cases["variants"].get("train", {}).get("experiments", {}).get(EXP, {}).get("results", {})
@@ -278,7 +309,7 @@ def summarize(cases: dict) -> None:
         "coefficients": METRICS,
         "seed_range_test": seed_range,
         "rows": rows,
-        "paired_bootstrap_vs_reference_avg_accuracy": paired,
+        "paired_bootstrap_vs_reference": paired,
         "variants_train_vs_test": {n: {"train": train.get(n), "test": cases["variants"]["test"]["experiments"][EXP]["results"].get(n)}
                                    for n in cases["variants"]["test"]["experiments"][EXP]["results"]},
     }

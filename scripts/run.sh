@@ -1,66 +1,54 @@
 #!/bin/bash
-# Reference + hardening job (2 GPUs when available, otherwise sequential on 1 GPU).
-#  1. build the public splits, the held-out split and the fixed assets (heads, baselines)
-#  2. run AdaRank (TA, paper defaults) -> outputs/merged/proposed, plus variants
-#  3. push reference, variants and shortcuts through the hidden test
+# Hardening job (2 GPUs when available, otherwise sequential on 1 GPU).
+#  1. enlarge the held-out split (rows in eval/test/assets/hidden_rows.json), rebuild its
+#     index and the fixed baseline predictions on it, then scrub the raw parquet files
+#  2. rerun the reference (TA+AdaRank, paper defaults) from the final code into
+#     outputs/merged/proposed, plus the candidate better variants (KL-to-expert objective)
+#  3. push reference, variants and shortcuts through the hidden test (redteam/hardening/)
 #  4. regenerate scoring/scores_{train,test}.json and scoring/scores.json from the reference
-# Every finished run is skipped on resubmission (method runs also resume mid-way).
+# Finished steps are skipped on resubmission (method runs also resume mid-way).
 set -euo pipefail
 cd /home/user
 export PYTHONPATH=/home/user HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1
 LOG=logs/hardening
 mkdir -p "$LOG"
 nvidia-smi || true
-python -c "import torch, transformers; print('torch', torch.__version__, 'cuda', torch.version.cuda, 'transformers', transformers.__version__, 'gpus', torch.cuda.device_count())"
+python -c "import torch, transformers, os; print('torch', torch.__version__, 'transformers', transformers.__version__, 'gpus', torch.cuda.device_count(), 'cpus', len(os.sched_getaffinity(0)))"
 python -c "import torch, sys; sys.exit(0 if torch.cuda.is_available() else 'no GPU visible')"
 
 # Nodes can expose GPUs that other jobs are using: run on the two with the most free memory.
 read GA GB < <(python - << 'PY'
 import torch
 free = sorted(((torch.cuda.mem_get_info(i)[0], i) for i in range(torch.cuda.device_count())), reverse=True)
-for f, i in free:
-    print(f"# cuda:{i} free {f / 2**30:.1f} GiB", file=__import__("sys").stderr)
 ids = [i for _, i in free[:2]] + [free[0][1]]
 print(f"cuda:{ids[0]} cuda:{ids[1]}")
 PY
 )
 echo "using $GA and $GB"
 
-echo "== 1. splits and fixed assets"
+echo "== 1. held-out split, baselines"
 python data/prepare_data.py
 python eval/test/prepare_hidden.py
-[ -f data/assets/zeroshot_heads.safetensors ] || python data/build_heads.py
-python eval/test/prepare_hidden.py --copy-assets data/assets
-cp data/assets/zeroshot_heads.safetensors data/assets/vision_config.json data/assets/param_shapes.json eval/train/assets/
-python data/prepare_data.py --scrub-raw
-python -c "import data.clip_benchmark as cb; [cb.load_split(t, s) for t in cb.TASK_NAMES for s in ('adapt', 'dev')]; print('decoded public splits')"
-[ -f eval/test/assets/baseline_predictions.json ] || python eval/test/evaluate.py --rebuild-baselines --submissions /nonexistent --output "$LOG/baselines_test.json"
+python - << 'PY' || python eval/test/evaluate.py --rebuild-baselines --submissions /nonexistent --output "$LOG/baselines_test.json"
+import hashlib, json, sys
+idx = json.load(open("eval/test/assets/hidden_index.json"))["tasks"]
+base = json.load(open("eval/test/assets/baseline_predictions.json"))
+ok = all(base["rows_sha256"].get(t) == hashlib.sha256(json.dumps(v["rows"]).encode()).hexdigest() for t, v in idx.items())
+print("test baselines up to date" if ok else "test baselines stale: rebuilding")
+sys.exit(0 if ok else 1)
+PY
 [ -f eval/train/assets/baseline_predictions.json ] || python eval/train/evaluate.py --rebuild-baselines --submissions /nonexistent --output "$LOG/baselines_train.json"
+python data/prepare_data.py --scrub-raw
 
-echo "== 2. smoke test"
-python method/adarank_clip.py --name smoke --output-root tmp/smoke --steps 3 --log-every 1 --ckpt-every 0 --overwrite --device $GA
-python eval/test/evaluate.py --submissions tmp/smoke --output "$LOG/smoke_test.json"
-rm -rf tmp/smoke
-
-echo "== 3. method runs"
+echo "== 2. method runs"
 V="--output-root outputs/variants"
 queue_a() {
   python method/adarank_clip.py --device $GA --name proposed > "$LOG/proposed.log" 2>&1
-  python method/adarank_clip.py --device $GA $V --name cart_adarank --merge cart > "$LOG/cart_adarank.log" 2>&1
-  python method/adarank_clip.py --device $GA $V --name ref_seed1 --seed 1 > "$LOG/ref_seed1.log" 2>&1
-  # candidate better variants (headroom check)
-  python method/adarank_clip.py --device $GA $V --name adarank_im --objective im > "$LOG/adarank_im.log" 2>&1
-  python method/adarank_clip.py --device $GA $V --name cart_adarank_im --merge cart --objective im > "$LOG/cart_adarank_im.log" 2>&1
-  python method/adarank_clip.py --device $GA $V --name cart_static --merge cart --steps 0 > "$LOG/cart_static.log" 2>&1
-  python method/adarank_clip.py --device $GA $V --name cart_static_l1 --merge cart --prior 1.0 --steps 0 > "$LOG/cart_static_l1.log" 2>&1
+  python method/adarank_clip.py --device $GA $V --name distill_seed1 --objective distill --seed 1 > "$LOG/distill_seed1.log" 2>&1
 }
 queue_b() {
-  python method/adarank_clip.py --device $GB $V --name mask_only --mode mask_only > "$LOG/mask_only.log" 2>&1
-  python method/adarank_clip.py --device $GB $V --name adamerging --mode adamerging > "$LOG/adamerging.log" 2>&1
-  python method/adarank_clip.py --device $GB $V --name ref_seed2 --seed 2 > "$LOG/ref_seed2.log" 2>&1
-  python method/adarank_clip.py --device $GB $V --name ce_oracle_dev --mode ce_oracle --steps 2000 > "$LOG/ce_oracle_dev.log" 2>&1
-  [ -f outputs/variants/ta_lambda_grid_dev/model.safetensors ] || python redteam/hardening/lambda_grid.py --device $GB > "$LOG/lambda_grid.log" 2>&1
-  python method/adarank_clip.py --device $GB $V --name adarank_bs64 --batch-size 64 > "$LOG/adarank_bs64.log" 2>&1
+  python method/adarank_clip.py --device $GB $V --name distill --objective distill > "$LOG/distill.log" 2>&1
+  python method/adarank_clip.py --device $GB $V --name cart_distill --merge cart --objective distill > "$LOG/cart_distill.log" 2>&1
 }
 FAIL=0
 if [ "$GA" != "$GB" ]; then
@@ -72,16 +60,15 @@ else
   queue_a || FAIL=1
   queue_b || FAIL=1
 fi
-for f in "$LOG"/*.log; do echo "--- $f"; { grep -v "^step" "$f" | tail -n 25; grep "^step" "$f" | tail -n 2; } || true; done
+for f in proposed distill distill_seed1 cart_distill; do
+  echo "--- $f"; { grep -v "^step" "$LOG/$f.log" | tail -n 30; grep "^step" "$LOG/$f.log" | tail -n 2; } || true
+done
 [ "$FAIL" -eq 0 ] || { echo "a method run failed"; exit 1; }
 
-[ -f outputs/variants/seed_soup/model.safetensors ] || python redteam/hardening/soup.py --name seed_soup \
-  --inputs outputs/merged/proposed outputs/variants/ref_seed1 outputs/variants/ref_seed2
+echo "== 3. hidden-test checks (reference, variants, shortcuts)"
+python redteam/hardening/run_checks.py
 
-echo "== 4. hidden-test checks (shortcut results already on disk are reused; variants always rerun)"
-python redteam/hardening/run_checks.py --skip-existing
-
-echo "== 5. reference scores"
+echo "== 4. reference scores"
 bash scripts/evaluate_train.sh
 bash scripts/evaluate_test.sh
 bash scripts/evaluate.sh

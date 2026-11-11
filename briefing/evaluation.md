@@ -17,7 +17,7 @@ A submission scores the **worst value on every metric** (0.0) when:
 - any tensor has the wrong shape;
 - any tensor is not a float, or contains NaN or infinite values.
 
-The `proposed` entry is always written, so an absent submission also scores the worst values. A directory named like a fixed baseline is scored as `submission_<name>`.
+The `proposed` entry is always written, so an absent submission also scores the worst values. A directory named like a fixed baseline (or like an entry already scored) is scored as `submission_<name>`; it never replaces another entry.
 
 ## Metrics
 
@@ -31,13 +31,13 @@ Nothing reported by a solution (metadata, timings, parameter counts, scores) is 
 
 ## Splits
 
-Each task's public test split is partitioned into three disjoint parts:
+Each task's public test split is partitioned into three disjoint parts (the held-out part has 4,096 rows per task where the split is large enough; 3,996 for RESISC45, 1,024 for EuroSAT and DTD). Every task counts equally in every metric, whatever its number of rows:
 
 | Part | Size per task | Labels visible | Use |
 |---|---|---|---|
 | adaptation pool | 600–2,048 | no | any unlabeled adaptation |
 | dev | 256 | yes | development scoring (`scripts/evaluate_train.sh`, `scripts/evaluate.sh`) |
-| held-out | 1,024 | no (never shipped) | final scoring (`scripts/evaluate_test.sh`) |
+| held-out | 1,024–4,096 (26,524 in total) | no (never shipped) | final scoring (`scripts/evaluate_test.sh`) |
 
 Images are preprocessed identically everywhere:
 

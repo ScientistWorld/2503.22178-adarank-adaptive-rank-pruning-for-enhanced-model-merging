@@ -293,11 +293,12 @@ def main() -> None:
     if sub_root.is_dir():
         names |= {p.name for p in sub_root.iterdir() if p.is_dir() and not p.name.startswith(".")}
     for name in sorted(names):
-        if name in BASELINES:
-            failures[name] = "submission name collides with a fixed baseline; renamed to submission_" + name
-            key = "submission_" + name
-        else:
-            key = name
+        key = name
+        while key in BASELINES or key in results:
+            # never overwrite a fixed baseline or an entry that was already scored
+            key = "submission_" + key
+        if key != name:
+            failures[key] = f"submission name {name!r} collides with an existing entry; scored as {key!r}"
         try:
             state = read_submission(sub_root / name, shapes)
             preds = predict_all(module, lambda t, s=state: ("sub", s), data, bundle, device)

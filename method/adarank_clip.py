@@ -21,6 +21,11 @@ Computational steps (paper Sec. 4 and Algorithm 1; official code ``method/offici
    predictions on unlabeled inputs, 16 inputs per task per step, 10,000 steps.
 6. The final merged encoder is materialised from the final B and lambda.
 
+Objectives (``--objective``): ``entropy`` (the paper's, default); ``im`` and ``distill`` are
+non-paper variants used only to probe the benchmark's headroom (``distill`` replaces the
+entropy by the KL divergence to each task's own fine-tuned encoder on the same unlabeled
+pool).
+
 Modes: ``adarank`` (masks + lambda, default), ``mask_only`` (lambda fixed; Table 6),
 ``adamerging`` (lambda only, no masks; the AdaMerging baseline) and ``ce_oracle``
 (masks + lambda trained with cross-entropy on the labeled dev rows -- the paper's
@@ -176,6 +181,26 @@ def entropy(logits: torch.Tensor) -> torch.Tensor:
     return -(logits.softmax(dim=1) * logits.log_softmax(dim=1)).sum(dim=1)
 
 
+@torch.no_grad()
+def expert_log_probs(experts: list[dict], tasks: list[str], device: torch.device) -> list[torch.Tensor]:
+    """Log-probabilities of each task's own fine-tuned encoder on that task's unlabeled
+    adaptation pool (soft targets for ``--objective distill``; no labels involved)."""
+    module = cb.build_vision_module(device)
+    heads = cb.load_heads(device)
+    out = []
+    for task, expert in zip(tasks, experts):
+        images = cb.load_split(task, "adapt")["images"]
+        state = {k: v.to(device) for k, v in expert.items()}
+        chunks = []
+        for i in range(0, images.shape[0], 256):
+            x = cb.normalize(images[i:i + 256].to(device))
+            emb = cb.image_embeddings(module, state, x, heads["projection"])
+            chunks.append(cb.task_logits(emb, heads, task).log_softmax(dim=1))
+        out.append(torch.cat(chunks))
+        del state
+    return out
+
+
 def run(args: argparse.Namespace) -> Path:
     if args.device == "auto":
         device = cb.pick_device()
@@ -200,6 +225,7 @@ def run(args: argparse.Namespace) -> Path:
     prior = args.prior if args.prior is not None else (2.3 if args.merge == "cart" else 0.3)
     ratio = args.init_rank_ratio if args.init_rank_ratio is not None else (0.16 if args.merge == "cart" else 1.0)
     use_masks = args.mode != "adamerging"
+    teacher = expert_log_probs(experts, tasks, device) if args.objective == "distill" else None
     merger = AdaptiveMerger(origin, experts, use_masks, prior, ratio, args.temperature, device)
     del experts, base, origin
     merger.lam.requires_grad_(args.mode != "mask_only")
@@ -247,6 +273,10 @@ def run(args: argparse.Namespace) -> Path:
             logits = cb.task_logits(emb[i * args.batch_size:(i + 1) * args.batch_size], heads, t)
             if args.mode == "ce_oracle":
                 lt = F.cross_entropy(logits, labels[i][idx[i].to(device)])
+            elif args.objective == "distill":
+                # KL(expert || merged) on unlabeled inputs: the task's own fine-tuned encoder is the teacher
+                lt = F.kl_div(logits.log_softmax(dim=1), teacher[i][idx[i].to(device)], log_target=True,
+                              reduction="batchmean")
             elif args.objective == "im":
                 # information maximisation: confident per-sample predictions, diverse batch marginal
                 marginal = logits.softmax(dim=1).mean(dim=0)
@@ -311,8 +341,9 @@ def parse_args(argv=None) -> argparse.Namespace:
     p.add_argument("--output-root", default=str(cb.SUBMISSION_ROOT))
     p.add_argument("--merge", choices=["ta", "cart"], default="ta")
     p.add_argument("--mode", choices=["adarank", "mask_only", "adamerging", "ce_oracle"], default="adarank")
-    p.add_argument("--objective", choices=["entropy", "im"], default="entropy",
-                   help="entropy (paper) or information maximisation (entropy - entropy of the batch marginal)")
+    p.add_argument("--objective", choices=["entropy", "im", "distill"], default="entropy",
+                   help="entropy (paper), information maximisation (entropy - entropy of the batch marginal), "
+                        "or distill (KL to each task's fine-tuned encoder on the unlabeled pool)")
     p.add_argument("--div-weight", type=float, default=1.0)
     p.add_argument("--steps", type=int, default=10_000)
     p.add_argument("--lr", type=float, default=1e-3)
