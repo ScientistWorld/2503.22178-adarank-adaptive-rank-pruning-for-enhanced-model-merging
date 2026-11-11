@@ -1,8 +1,8 @@
 # Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends.
-action: pending
-gpus: 0
+action: submit
+gpus: 2
 test: false
 milestone: core_claim
-notes: ""
+notes: "Resubmit (prep already done; now runs on the two freest GPUs): TA+AdaRank reference (+2 seeds), CART+AdaRank, mask-only, AdaMerging, dev-label oracle, lambda grid; variants and 10 shortcuts through scripts/evaluate_test.sh; regenerate reference scores."
