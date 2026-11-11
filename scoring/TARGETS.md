@@ -1,23 +1,24 @@
 # Evaluation Targets
 
-## Primary: synthetic_4task_merge
+All targets are measured in experiment `vit_b32_8task_merge` on 1,024 held-out test images per task (8,192 in total). The same metrics on the 256-per-task public dev rows are available for development.
 
-Tests whether a single merged model maintains strong average classification accuracy across multiple task-specific evaluation splits after merging independently fine-tuned models from one pretrained backbone.
+## Primary: multi-task accuracy of one merged encoder
 
-- **Metric**: `avg_accuracy` (higher is better)
-- **Metric**: `balanced_accuracy` (higher is better)
-- **Metric**: `worst_task_accuracy` (higher is better)
+- **Metric**: `avg_accuracy` (higher is better, coefficient 1.0). The mean over the eight tasks of top-1 accuracy, using the fixed zero-shot heads.
+- **Reference points** (computed by the evaluator on the same images): `pretrained`, `task_arithmetic`, `fixed_topk_svd` and `individual`.
 
-## Constraint: synthetic_4task_merge
+## Secondary: no task or class left behind
 
-Tests whether the merged solution keeps deployment compact rather than retaining one full model per task or adding a large trainable router.
+- **Metric**: `worst_task_accuracy` (higher is better, coefficient 0.35). The lowest per-task accuracy.
+- **Metric**: `balanced_accuracy` (higher is better, coefficient 0.45). The per-task mean class recall, averaged over tasks.
 
-- **Metric**: `param_multiplier_vs_single` (lower is better)
-- **Metric**: `learnable_param_fraction` (lower is better)
+## Constraint: single compact encoder, label-free construction
 
-## Ablation: synthetic_4task_merge
+- **Deployment size** is enforced as a hard gate. The submission must be exactly one image encoder with the pretrained architecture: no extra tensors, routers, task-indexed weights or ensembles. Its parameter count therefore equals one model regardless of the number of tasks.
+- **Validity** is also a hard gate. Non-finite, non-float, misshaped, missing or unreadable weights score the worst value of every metric. The `proposed` entry is always scored, so an absent submission is a failed run, not a tie.
+- **Label-free construction** is a rule checked on the method, not a metric (see `CONSTRAINTS.md`). It covers held-out rows, dev labels and external labeled data.
 
-Compares a compact merged submission against compact baseline outputs under the same generated tasks, labels, and evaluation split.
+## Ablation (fixed comparison entries)
 
-- **Metric**: `avg_accuracy` for the proposed method and compact baselines (higher is better)
-- **Metric**: `balanced_accuracy` and `worst_task_accuracy` to catch improvements that come from neglecting minority classes or the hardest task.
+- `fixed_topk_svd` against `task_arithmetic`: whether a fixed low-rank truncation alone changes merged accuracy.
+- `individual`: the multi-model accuracy that merging tries to approach.

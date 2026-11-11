@@ -1,3 +1,5 @@
+> **Historical (pre-hardening).** Everything in this folder except `hardening/` audits the earlier synthetic 4-task MLP gym. That gym was replaced in the hardening iteration by the paper's CLIP ViT-B/32 8-task benchmark. `audit.py` and the case scripts import modules that no longer exist and are kept only as the record of the "before" scores in `REDTEAM.md`. The current checks are in `redteam/hardening/` (see `HARDENING.md`).
+
 This audit uses the visible generator, model definition, visible scorer, and
 reproduction implementation (improve mode). It never changes `eval/`, test
 scripts, or the Python environment. The paper is consulted only for the

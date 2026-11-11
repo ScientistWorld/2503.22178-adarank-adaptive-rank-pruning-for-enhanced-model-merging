@@ -54,7 +54,7 @@ queue_b() {
   python method/adarank_clip.py --device $GB $V --name adamerging --mode adamerging > "$LOG/adamerging.log" 2>&1
   python method/adarank_clip.py --device $GB $V --name ref_seed2 --seed 2 > "$LOG/ref_seed2.log" 2>&1
   python method/adarank_clip.py --device $GB $V --name ce_oracle_dev --mode ce_oracle --steps 2000 > "$LOG/ce_oracle_dev.log" 2>&1
-  python redteam/hardening/lambda_grid.py --device $GB > "$LOG/lambda_grid.log" 2>&1
+  [ -f outputs/variants/ta_lambda_grid_dev/model.safetensors ] || python redteam/hardening/lambda_grid.py --device $GB > "$LOG/lambda_grid.log" 2>&1
 }
 FAIL=0
 if [ "$GA" != "$GB" ]; then
@@ -66,7 +66,7 @@ else
   queue_a || FAIL=1
   queue_b || FAIL=1
 fi
-for f in "$LOG"/*.log; do echo "--- $f"; grep -v "^step" "$f" | tail -n 25; grep "^step" "$f" | tail -n 2; done
+for f in "$LOG"/*.log; do echo "--- $f"; { grep -v "^step" "$f" | tail -n 25; grep "^step" "$f" | tail -n 2; } || true; done
 [ "$FAIL" -eq 0 ] || { echo "a method run failed"; exit 1; }
 
 echo "== 4. hidden-test checks"

@@ -1,25 +1,64 @@
 # Evaluation
 
+## Submission Format
+
+A submission is a directory `outputs/merged/<name>/` containing `model.safetensors`. The file holds **exactly** the tensors of one CLIP ViT-B/32 image encoder: the `vision_model.*` parameters of `transformers.CLIPVisionModel`, with the same names and shapes as the pretrained encoder (199 tensors, 87.8M parameters).
+
+- Values must be finite floats.
+- Any other file in the directory is ignored.
+- `data.clip_benchmark.save_submission(state, name)` writes this format.
+
+The canonical entry is **`proposed`** (`outputs/merged/proposed/`). Every other directory under `outputs/merged/` is also scored, under its own name.
+
+A submission scores the **worst value on every metric** (0.0) when:
+
+- the file is missing or unreadable;
+- it contains extra, missing or misnamed tensors (for example extra heads, several encoders, or routing tables);
+- any tensor has the wrong shape;
+- any tensor is not a float, or contains NaN or infinite values.
+
+The `proposed` entry is always written, so an absent submission also scores the worst values. A directory named like a fixed baseline is scored as `submission_<name>`.
+
 ## Metrics
 
-- **Average multi-task accuracy**: classification accuracy is computed separately for each task, then averaged across the tasks in the benchmark split. Higher is better.
-- **Worst-task accuracy**: the lowest task accuracy among the benchmark tasks. Higher is better because it discourages solutions that improve the mean by sacrificing a difficult task.
-- **Balanced accuracy**: macro recall computed per task and averaged across tasks. Higher is better because it detects class-imbalance failures.
-- **Deployment parameter multiplier**: deployed parameter count as a multiple of one merged model. Lower is better when comparing resource use.
-- **Learnable adaptation parameter fraction**: parameters optimized during any unlabeled post-training adaptation divided by the total task-specific model parameter pool. Lower is better as a constraint, provided accuracy remains competitive.
+All metrics are computed from the encoder's predictions under the fixed heads and projection. Higher is better for every metric.
 
-Wall-clock time and throughput are excluded from scoring because job hardware may vary. Resource constraints are measured with machine-independent parameter counts.
+- **`avg_accuracy`** (primary): top-1 accuracy per task, averaged over the eight tasks.
+- **`balanced_accuracy`**: per task, the mean recall over the classes present, then averaged over tasks.
+- **`worst_task_accuracy`**: the lowest per-task accuracy.
 
-## Evaluation Protocol
+Nothing reported by a solution (metadata, timings, parameter counts, scores) is read. Wall-clock time is not scored. The single-encoder format is a hard constraint, not a metric.
 
-A submitted method must write a saved artifact containing the deployed model state for each method it wants scored. The evaluator reloads that artifact, regenerates the fixed deterministic benchmark data from `data/`, recomputes predictions from the saved model states, and writes `scoring/scores.json`.
+## Splits
 
-Labels from held-out evaluation examples are reserved for scoring. A method may use the benchmark's allowed training labels to construct task-specific source models and may use only unlabeled adaptation inputs for any post-training adaptation step.
+Each task's public test split is partitioned into three disjoint parts:
 
-The active experiment is `synthetic_4task_merge`: four deterministic heterogeneous classification tasks generated from tracked code, one fixed shared-backbone architecture, task-specific output heads, and held-out task evaluation splits. A valid compact submission deploys one shared backbone plus fixed task heads; the evaluator separately records any extra trainable adaptation capacity reported in the artifact metadata.
+| Part | Size per task | Labels visible | Use |
+|---|---|---|---|
+| adaptation pool | 600–2,048 | no | any unlabeled adaptation |
+| dev | 256 | yes | development scoring (`scripts/evaluate_train.sh`, `scripts/evaluate.sh`) |
+| held-out | 1,024 | no (never shipped) | final scoring (`scripts/evaluate_test.sh`) |
 
-## Output Contract
+Images are preprocessed identically everywhere:
 
-`scripts/evaluate.sh` accepts an artifact path as its first argument and defaults to the canonical reproduction artifact path. It calls only code in `eval/` and `data/`, not any solution implementation. The script must be usable by any future method that produces the same artifact schema.
+1. convert to RGB;
+2. bicubic-resize the short side to 224;
+3. center-crop to 224;
+4. normalise with the CLIP mean and std (`data.clip_benchmark.preprocess_image_bytes` / `normalize`).
 
-The evaluator writes the canonical result file `scoring/scores.json` with experiment key `synthetic_4task_merge` and one result entry per method found in the artifact.
+## Fixed Comparison Entries
+
+The evaluators compute these from the public checkpoints themselves; a solution cannot change them:
+
+- `pretrained`: the unmerged pretrained encoder;
+- `task_arithmetic`: pretrained + 0.3 × sum of the fine-tuning updates;
+- `fixed_topk_svd`: as `task_arithmetic`, but each weight-matrix update is truncated to its top 16% singular components;
+- `individual`: each task scored with its own fine-tuned encoder. This is the multi-model upper reference, not a valid single-encoder submission.
+
+## Scripts
+
+- `bash scripts/evaluate.sh` → `scoring/scores.json` (dev rows).
+- `bash scripts/evaluate_train.sh` → `scoring/scores_train.json` (dev rows).
+- `bash scripts/evaluate_test.sh` → `scoring/scores_test.json` (held-out rows; not available to solutions).
+
+None of them take arguments. Each scores every submission on disk plus the fixed comparison entries.

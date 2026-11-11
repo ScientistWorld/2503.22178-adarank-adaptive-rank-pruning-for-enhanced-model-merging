@@ -1,5 +1,15 @@
 # Experiment Overview
 
-## synthetic_4task_merge
+## vit_b32_8task_merge
 
-Tests the central model-merging question in a scaled, deterministic setting: whether one compact model can perform well across several heterogeneous classification tasks while avoiding the resource cost of storing all individual fine-tuned models. The experiment also reports adaptation-parameter overhead and includes compact baseline methods so future agents can tell whether improvements come from better merging rather than from a larger parameter budget.
+Establishes whether a single image encoder can serve eight heterogeneous classification tasks nearly as well as eight separately fine-tuned encoders, when it is built only from those fine-tuned encoders, their shared pretrained starting point, and unlabeled task images.
+
+The tasks are scenes, car models, aerial scenes, satellite land use, street-view digits, traffic signs, handwritten digits and textures. All share one CLIP ViT-B/32 architecture and fixed zero-shot readouts.
+
+The experiment compares the submitted encoder against fixed reference points that the evaluator computes itself on the same held-out images:
+
+- the unmerged pretrained encoder (lower reference);
+- plain weight-update addition, with and without a fixed low-rank truncation (simple merging baselines);
+- the individual fine-tuned encoders (multi-model upper reference).
+
+Average accuracy measures overall multi-task quality. Worst-task and balanced accuracy check that the gain is not bought by abandoning a task or the rarer classes of a task. The single-encoder submission format enforces the deployment constraint (no growth with the number of tasks) as a hard requirement.

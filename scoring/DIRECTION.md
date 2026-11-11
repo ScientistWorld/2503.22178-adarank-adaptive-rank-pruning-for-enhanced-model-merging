@@ -2,20 +2,28 @@
 
 ## Research Problem
 
-This benchmark studies multi-task model merging: combining several independently fine-tuned models that share one pretrained backbone into a single model that performs well across all of their tasks. The central question is how to reduce task interference during merging while preserving the practical benefit of a compact deployed model.
+Multi-task model merging: combine several encoders fine-tuned from one pretrained model into a single encoder of the same size that performs well on all of their tasks. The central difficulty is interference between the fine-tuning updates, which makes simple addition lose much of the experts' accuracy.
 
 ## Core Contribution Area
 
-A scientist should work on improving how task-specific weight updates are selected, transformed, weighted, or combined before producing the final merged checkpoint. The contribution must remain within model merging for homologous checkpoints rather than changing the problem into routing, ensembling, multitask retraining, or architecture scaling.
+Better ways to select, transform, weight or combine the task-specific weight updates into one set of weights. This includes ways to use the unlabeled adaptation images for that purpose.
 
 ## Approach Scope
 
-In-bounds work includes new ways to decompose task updates, select or weight update components, regularize interference, adapt merge parameters with unlabeled data, calibrate the merged model after merging, or improve coefficient search. The scientist may modify the merge objective, parameterization, initialization, or adaptation schedule as long as the final artifact is still one merged model for the fixed backbone and task set.
+In-bounds:
+
+- new decompositions or parameterisations of the task updates;
+- selecting or re-weighting update components per task and layer;
+- interference-reducing transformations such as orthogonalisation or re-centering;
+- better initialisation, objectives or schedules for unlabeled adaptation of merge parameters;
+- regularisation;
+- data-efficient use of the adaptation pool.
+
+The output must remain one encoder of the fixed architecture.
 
 ## Out of Bounds
 
-- Replacing the benchmark backbone with a larger or different pretrained architecture.
-- Keeping all task-specific models and using a router, task index, ensemble, or mixture of experts at inference.
-- Training a new multi-task model from the original labeled training sets instead of merging fine-tuned checkpoints.
-- Adding external labeled data or teacher predictions from outside the provided checkpoint and dataset set.
-- Optimizing for hardware-specific runtime instead of model-merging quality and resource constraints.
+- Using any labels (dev rows, held-out rows, external data) to build or select the merged encoder.
+- Keeping several encoders, routers, task-indexed weights, ensembles or mixtures of experts at inference.
+- Re-training experts or a multi-task model from labeled data; other or larger backbones.
+- Changing the fixed heads, projection, preprocessing or evaluation code.
