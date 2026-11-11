@@ -48,6 +48,11 @@ queue_a() {
   python method/adarank_clip.py --device $GA --name proposed > "$LOG/proposed.log" 2>&1
   python method/adarank_clip.py --device $GA $V --name cart_adarank --merge cart > "$LOG/cart_adarank.log" 2>&1
   python method/adarank_clip.py --device $GA $V --name ref_seed1 --seed 1 > "$LOG/ref_seed1.log" 2>&1
+  # candidate better variants (headroom check)
+  python method/adarank_clip.py --device $GA $V --name adarank_im --objective im > "$LOG/adarank_im.log" 2>&1
+  python method/adarank_clip.py --device $GA $V --name cart_adarank_im --merge cart --objective im > "$LOG/cart_adarank_im.log" 2>&1
+  python method/adarank_clip.py --device $GA $V --name cart_static --merge cart --steps 0 > "$LOG/cart_static.log" 2>&1
+  python method/adarank_clip.py --device $GA $V --name cart_static_l1 --merge cart --prior 1.0 --steps 0 > "$LOG/cart_static_l1.log" 2>&1
 }
 queue_b() {
   python method/adarank_clip.py --device $GB $V --name mask_only --mode mask_only > "$LOG/mask_only.log" 2>&1
@@ -55,6 +60,7 @@ queue_b() {
   python method/adarank_clip.py --device $GB $V --name ref_seed2 --seed 2 > "$LOG/ref_seed2.log" 2>&1
   python method/adarank_clip.py --device $GB $V --name ce_oracle_dev --mode ce_oracle --steps 2000 > "$LOG/ce_oracle_dev.log" 2>&1
   [ -f outputs/variants/ta_lambda_grid_dev/model.safetensors ] || python redteam/hardening/lambda_grid.py --device $GB > "$LOG/lambda_grid.log" 2>&1
+  python method/adarank_clip.py --device $GB $V --name adarank_bs64 --batch-size 64 > "$LOG/adarank_bs64.log" 2>&1
 }
 FAIL=0
 if [ "$GA" != "$GB" ]; then
@@ -69,8 +75,11 @@ fi
 for f in "$LOG"/*.log; do echo "--- $f"; { grep -v "^step" "$f" | tail -n 25; grep "^step" "$f" | tail -n 2; } || true; done
 [ "$FAIL" -eq 0 ] || { echo "a method run failed"; exit 1; }
 
-echo "== 4. hidden-test checks"
-python redteam/hardening/run_checks.py
+[ -f outputs/variants/seed_soup/model.safetensors ] || python redteam/hardening/soup.py --name seed_soup \
+  --inputs outputs/merged/proposed outputs/variants/ref_seed1 outputs/variants/ref_seed2
+
+echo "== 4. hidden-test checks (shortcut results already on disk are reused; variants always rerun)"
+python redteam/hardening/run_checks.py --skip-existing
 
 echo "== 5. reference scores"
 bash scripts/evaluate_train.sh

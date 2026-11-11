@@ -43,7 +43,14 @@ VARIANT_NOTES = {
     "adamerging": "weaker variant: coefficients only, no masks (AdaMerging)",
     "ce_oracle_dev": "shortcut left open: masks+coefficients trained with cross-entropy on visible dev labels",
     "ta_lambda_grid_dev": "brute force: Task Arithmetic coefficient grid-searched on visible dev labels",
+    "adarank_im": "candidate better variant: TA+AdaRank with an information-maximisation objective (entropy - marginal entropy)",
+    "cart_adarank_im": "candidate better variant: CART+AdaRank with the information-maximisation objective",
+    "adarank_bs64": "candidate better variant: TA+AdaRank with 64 adaptation images per task per step",
+    "seed_soup": "candidate better variant: weight average of the three reference seeds",
+    "cart_static": "diagnostic: CART initialisation without adaptation (lambda 2.3, top-16%)",
+    "cart_static_l1": "diagnostic: CART initialisation without adaptation (lambda 1.0, top-16%)",
 }
+SKIP_EXISTING = "--skip-existing" in sys.argv
 
 
 def sh(cmd: list[str], log: Path) -> None:
@@ -82,6 +89,9 @@ def link_model(dst_dir: Path, src_file: Path) -> None:
 
 def run_test(case: str, dump: bool = False) -> dict:
     out = RESULTS / case
+    if SKIP_EXISTING and case != "variants" and (out / "scores_test.json").exists():
+        print(f"{case}: reusing saved hidden-test result", flush=True)
+        return json.loads((out / "scores_test.json").read_text())
     out.mkdir(parents=True, exist_ok=True)
     scores = ROOT / "scoring" / "scores_test.json"
     if dump:
@@ -277,7 +287,7 @@ def summarize(cases: dict) -> None:
 
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1 and sys.argv[1] == "--summarize-only":
+    if "--summarize-only" in sys.argv:
         cases = {}
         for d in RESULTS.iterdir():
             c = {"test": json.loads((d / "scores_test.json").read_text())}

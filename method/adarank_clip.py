@@ -247,6 +247,10 @@ def run(args: argparse.Namespace) -> Path:
             logits = cb.task_logits(emb[i * args.batch_size:(i + 1) * args.batch_size], heads, t)
             if args.mode == "ce_oracle":
                 lt = F.cross_entropy(logits, labels[i][idx[i].to(device)])
+            elif args.objective == "im":
+                # information maximisation: confident per-sample predictions, diverse batch marginal
+                marginal = logits.softmax(dim=1).mean(dim=0)
+                lt = entropy(logits).mean() + args.div_weight * (marginal * marginal.clamp_min(1e-12).log()).sum()
             else:
                 lt = entropy(logits).mean()
             per_task.append(float(lt.detach()))
@@ -257,9 +261,9 @@ def run(args: argparse.Namespace) -> Path:
         if step % args.log_every == 0 or step == args.steps - 1:
             el = time.time() - t_loop
             rate = el / max(step - start + 1, 1)
-            print(f"step {step} loss {float(loss):.4f} per_task {[round(v, 3) for v in per_task]} "
+            print(f"step {step} loss {float(loss.detach()):.4f} per_task {[round(v, 3) for v in per_task]} "
                   f"{rate:.3f}s/step eta {(args.steps - step - 1) * rate / 60:.1f}min", flush=True)
-            history.append({"step": step, "loss": float(loss)})
+            history.append({"step": step, "loss": float(loss.detach())})
         if args.ckpt_every and (step + 1) % args.ckpt_every == 0 and step + 1 < args.steps:
             torch.save({"step": step + 1, "lam": merger.lam.detach(), "masks": [p.detach() for p in merger.masks],
                         "opt": opt.state_dict()}, ckpt_path)
@@ -273,6 +277,7 @@ def run(args: argparse.Namespace) -> Path:
         "method": "AdaRank" if args.mode == "adarank" else args.mode,
         "merge_base": args.merge,
         "mode": args.mode,
+        "objective": args.objective if args.mode != "ce_oracle" else "cross_entropy",
         "steps": args.steps,
         "lr": args.lr,
         "batch_size_per_task": args.batch_size,
@@ -306,6 +311,9 @@ def parse_args(argv=None) -> argparse.Namespace:
     p.add_argument("--output-root", default=str(cb.SUBMISSION_ROOT))
     p.add_argument("--merge", choices=["ta", "cart"], default="ta")
     p.add_argument("--mode", choices=["adarank", "mask_only", "adamerging", "ce_oracle"], default="adarank")
+    p.add_argument("--objective", choices=["entropy", "im"], default="entropy",
+                   help="entropy (paper) or information maximisation (entropy - entropy of the batch marginal)")
+    p.add_argument("--div-weight", type=float, default=1.0)
     p.add_argument("--steps", type=int, default=10_000)
     p.add_argument("--lr", type=float, default=1e-3)
     p.add_argument("--batch-size", type=int, default=16)
