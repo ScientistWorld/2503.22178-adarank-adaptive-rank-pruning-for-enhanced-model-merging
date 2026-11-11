@@ -21,21 +21,39 @@ The paper studies how to merge multiple independently fine-tuned models into a s
 
 ## Research Question
 
-How can several task-specialized models that share the same pretrained backbone be combined into one multi-task model that performs well across all tasks? The benchmark focuses on model merging: given a pretrained model and multiple independently fine-tuned checkpoints, produce a single set of model weights that can be evaluated on every task without training on the original labeled training sets.
+Several image encoders were fine-tuned, each on a different classification task, starting from the same pretrained encoder. How can they be combined into **one** encoder that performs well on all of the tasks at once, without labels and without retraining on the original training sets?
+
+## Setting
+
+- **Backbone:** CLIP ViT-B/32 image encoder (pretrained `openai/clip-vit-base-patch32`).
+- **Fine-tuned encoders (given, fixed):** one per task. All eight start from the same pretrained encoder:
+  - SUN397 (scenes, 397 classes)
+  - Stanford Cars (196)
+  - RESISC45 (remote sensing, 45)
+  - EuroSAT (satellite land use, 10)
+  - SVHN (house-number digits, 10)
+  - GTSRB (traffic signs, 43)
+  - MNIST (handwritten digits, 10)
+  - DTD (textures, 47)
+- **Classification:** each task is read out by a fixed zero-shot head built from the pretrained CLIP text encoder with the task's class names. The head is applied to the L2-normalised projected image embedding with logit scale 100. The heads and the visual projection are part of the problem, not of the solution.
+- **Data available to a solution:**
+  - the pretrained and fine-tuned weights;
+  - an unlabeled adaptation pool of test-split images per task (`data/downloads/prepared/adapt_<task>.pt`; 600–2,048 images per task);
+  - a small labeled dev slice (256 per task) that exists only for development scoring.
+
+  Utilities are in `data/clip_benchmark.py`.
 
 ## Why It Matters
 
-Maintaining one full model per task scales poorly in storage, memory, and deployment complexity. A strong merging procedure would let practitioners reuse public fine-tuned models while serving a compact multi-task model with much of the accuracy of the individual experts.
+Keeping one model per task multiplies storage and serving cost by the number of tasks. Naively adding the fine-tuning updates loses much of the experts' accuracy because the updates interfere with each other. A strong merging procedure recovers most of the experts' accuracy in a single model of the original size.
 
 ## Success Criteria
 
-A successful solution should:
+A good solution produces a single encoder of the original architecture and size that:
 
-- Achieve high average accuracy across all target tasks after merging.
-- Preserve performance as the number and diversity of tasks grows.
-- Use the same base architecture and evaluation data as the compared methods.
-- Avoid retaining a growing collection of task-specific parameters or routers at inference time.
-- Keep any adaptation-time learnable parameters small relative to the total parameter pool.
+- reaches high average accuracy over the eight tasks on held-out images, approaching the individually fine-tuned encoders;
+- does not sacrifice any task (worst-task accuracy) or any class within a task (balanced accuracy);
+- uses no labels for building the merged encoder.
 
 ---
 
@@ -51,7 +69,18 @@ The method starts from a pretrained backbone and task-specific fine-tuned checkp
 
 Each singular component has a binary mask indicating whether it is preserved or pruned. AdaRank optimizes these masks at test time using unlabeled task data and an entropy-minimization objective. Continuous mask parameters are binarized in the forward pass and optimized with a straight-through estimator. The paper jointly adapts the layer/task merge coefficients and binary masks in its default setting, and applies this mechanism to several merging families including Task Arithmetic, TSV-M, CART, and Iso-CTS.
 
-The scaled reproduction implementation is in `method/adarank_synthetic.py`. The authors' official code release is cloned into `method/official_adarank/` as a reference for the full CLIP and GLUE experiments.
+The reproduction is in `method/adarank_clip.py` and runs on the paper's own 8-task CLIP ViT-B/32 benchmark. It follows the official code (`method/official_adarank/`):
+- Task vectors are taken relative to the pretrained encoder (TA). CART, with the average of the fine-tuned encoders as origin, is available via `--merge cart`.
+- The q/k/v projections of a block are stacked into one 2304x768 matrix, as in open_clip. Each block therefore has 4 masked matrices of rank 768, giving 294,912 mask entries for 8 tasks.
+- Non-matrix parameters are merged with coefficients only.
+- Masks use a sigmoid straight-through estimator at temperature 10, initialised at +/-0.1. Coefficients are task- and layer-wise (8 x 151, initialised to 0.3).
+- Both are adapted jointly with Adam (lr 1e-3, betas 0.9/0.999) on the summed prediction entropy of unlabeled inputs: 16 per task per step, 10,000 steps.
+
+Departures from the paper:
+- Adaptation uses a pool of unlabeled test-split rows (at most 2,048 per task) that is disjoint from the scored rows. The paper adapts on the full test set it reports on.
+- The final adapted state is scored. The official code reports the best of periodic evaluations that use test labels.
+
+Modes `mask_only`, `adamerging` and `ce_oracle` reproduce the paper's ablations and its supervised oracle.
 
 ## Main Claims
 
@@ -64,29 +93,68 @@ The scaled reproduction implementation is in `method/adarank_synthetic.py`. The 
 
 # Evaluation
 
+## Submission Format
+
+A submission is a directory `outputs/merged/<name>/` containing `model.safetensors`. The file holds **exactly** the tensors of one CLIP ViT-B/32 image encoder: the `vision_model.*` parameters of `transformers.CLIPVisionModel`, with the same names and shapes as the pretrained encoder (199 tensors, 87.8M parameters).
+
+- Values must be finite floats.
+- Any other file in the directory is ignored.
+- `data.clip_benchmark.save_submission(state, name)` writes this format.
+
+The canonical entry is **`proposed`** (`outputs/merged/proposed/`). Every other directory under `outputs/merged/` is also scored, under its own name.
+
+A submission scores the **worst value on every metric** (0.0) when:
+
+- the file is missing or unreadable;
+- it contains extra, missing or misnamed tensors (for example extra heads, several encoders, or routing tables);
+- any tensor has the wrong shape;
+- any tensor is not a float, or contains NaN or infinite values.
+
+The `proposed` entry is always written, so an absent submission also scores the worst values. A directory named like a fixed baseline is scored as `submission_<name>`.
+
 ## Metrics
 
-- **Average multi-task accuracy**: classification accuracy is computed separately for each task, then averaged across the tasks in the benchmark split. Higher is better.
-- **Worst-task accuracy**: the lowest task accuracy among the benchmark tasks. Higher is better because it discourages solutions that improve the mean by sacrificing a difficult task.
-- **Balanced accuracy**: macro recall computed per task and averaged across tasks. Higher is better because it detects class-imbalance failures.
-- **Deployment parameter multiplier**: deployed parameter count as a multiple of one merged model. Lower is better when comparing resource use.
-- **Learnable adaptation parameter fraction**: parameters optimized during any unlabeled post-training adaptation divided by the total task-specific model parameter pool. Lower is better as a constraint, provided accuracy remains competitive.
+All metrics are computed from the encoder's predictions under the fixed heads and projection. Higher is better for every metric.
 
-Wall-clock time and throughput are excluded from scoring because job hardware may vary. Resource constraints are measured with machine-independent parameter counts.
+- **`avg_accuracy`** (primary): top-1 accuracy per task, averaged over the eight tasks.
+- **`balanced_accuracy`**: per task, the mean recall over the classes present, then averaged over tasks.
+- **`worst_task_accuracy`**: the lowest per-task accuracy.
 
-## Evaluation Protocol
+Nothing reported by a solution (metadata, timings, parameter counts, scores) is read. Wall-clock time is not scored. The single-encoder format is a hard constraint, not a metric.
 
-A submitted method must write a saved artifact containing the deployed model state for each method it wants scored. The evaluator reloads that artifact, regenerates the fixed deterministic benchmark data from `data/`, recomputes predictions from the saved model states, and writes `scoring/scores.json`.
+## Splits
 
-Labels from held-out evaluation examples are reserved for scoring. A method may use the benchmark's allowed training labels to construct task-specific source models and may use only unlabeled adaptation inputs for any post-training adaptation step.
+Each task's public test split is partitioned into three disjoint parts:
 
-The active experiment is `synthetic_4task_merge`: four deterministic heterogeneous classification tasks generated from tracked code, one fixed shared-backbone architecture, task-specific output heads, and held-out task evaluation splits. A valid compact submission deploys one shared backbone plus fixed task heads; the evaluator separately records any extra trainable adaptation capacity reported in the artifact metadata.
+| Part | Size per task | Labels visible | Use |
+|---|---|---|---|
+| adaptation pool | 600–2,048 | no | any unlabeled adaptation |
+| dev | 256 | yes | development scoring (`scripts/evaluate_train.sh`, `scripts/evaluate.sh`) |
+| held-out | 1,024 | no (never shipped) | final scoring (`scripts/evaluate_test.sh`) |
 
-## Output Contract
+Images are preprocessed identically everywhere:
 
-`scripts/evaluate.sh` accepts an artifact path as its first argument and defaults to the canonical reproduction artifact path. It calls only code in `eval/` and `data/`, not any solution implementation. The script must be usable by any future method that produces the same artifact schema.
+1. convert to RGB;
+2. bicubic-resize the short side to 224;
+3. center-crop to 224;
+4. normalise with the CLIP mean and std (`data.clip_benchmark.preprocess_image_bytes` / `normalize`).
 
-The evaluator writes the canonical result file `scoring/scores.json` with experiment key `synthetic_4task_merge` and one result entry per method found in the artifact.
+## Fixed Comparison Entries
+
+The evaluators compute these from the public checkpoints themselves; a solution cannot change them:
+
+- `pretrained`: the unmerged pretrained encoder;
+- `task_arithmetic`: pretrained + 0.3 × sum of the fine-tuning updates;
+- `fixed_topk_svd`: as `task_arithmetic`, but each weight-matrix update is truncated to its top 16% singular components;
+- `individual`: each task scored with its own fine-tuned encoder. This is the multi-model upper reference, not a valid single-encoder submission.
+
+## Scripts
+
+- `bash scripts/evaluate.sh` → `scoring/scores.json` (dev rows).
+- `bash scripts/evaluate_train.sh` → `scoring/scores_train.json` (dev rows).
+- `bash scripts/evaluate_test.sh` → `scoring/scores_test.json` (held-out rows; not available to solutions).
+
+None of them take arguments. Each scores every submission on disk plus the fixed comparison entries.
 
 ---
 
@@ -675,6 +743,48 @@ The evaluator writes the canonical result file `scoring/scores.json` with experi
 - **Milestone**: `core_claim` | **Status**: done
 - **Working time**: 6m | **GPU**: 0.0h
 - **Jobs**: 13 total (11 completed, 2 failed)
+
+<details>
+<summary>Progress Log</summary>
+
+### [2026-06-11 17:51] - method_runs
+- Implemented the AdaRank computation on a deterministic synthetic multi-task benchmark: task vectors from a shared pretrained backbone, per-task/per-layer SVD, binary singular-component masks, STE optimization, and unlabeled entropy minimization.
+- Completed end-to-end jobs that generated predictions, a checkpoint, and `scoring/scores.json`.
+
+### [2026-06-11 17:51] - core_claim
+- The reproduced AdaRank mask adaptation improves over fixed top-k SVD while preserving a single merged-model parameter budget.
+- The evaluator now scores both average accuracy and efficiency constraints, including deployment parameter multiplier and learnable adaptation parameter fraction.
+
+### [2026-06-11 17:55] - core_claim
+- Job `39cba39c-61a` regenerated the canonical artifacts with the current official-aligned mask initialization and passed `python validate.py --compare`.
+- Final refreshed scores: AdaRank `0.6636` average accuracy versus fixed top-k SVD `0.6396`, both at `1.0x` deployment parameter multiplier.
+
+### [2026-06-22 22:20] - core_claim
+- Audited the existing scaffold against the paper's computation and kept the current milestone at `core_claim`.
+- Tightened the main evaluator to compute every declared benefit and constraint metric from saved predictions with independently regenerated deterministic labels.
+
+### [2026-06-22 22:28] - core_claim
+- Completed final verification, including method-agnostic documentation cleanup, complete scored metrics, and disjoint train/test scoring slices.
+- Confirmed `python validate.py --compare` passes and kept the milestone at `core_claim`.
+
+### [2026-06-22 22:38] - core_claim
+- Reworked the evaluator contract to score saved model artifacts rather than self-reported prediction JSON.
+- Submitted a CPU test job to regenerate scores with artifact-derived predictions and parameter constraints.
+
+### [2026-06-22 22:47] - core_claim
+- Final verification found that the artifact-scoring refactor had not yet been exercised in a completed job and no `artifact.pt` was present.
+- Cleaned method-agnostic documentation and prepared a CPU test submission to regenerate canonical artifact-derived scores before final sign-off.
+
+### [2026-06-22 22:56] - core_claim
+- CPU verification job `6d8997a4-7c1` completed successfully, regenerated `artifact.pt`, and refreshed artifact-derived canonical, train, and test scores.
+- `python validate.py --compare` passed in the compute container; final AdaRank score is `0.6572` average accuracy versus fixed top-k SVD `0.6357`, both at `1.0x` deployment parameter multiplier.
+
+</details>
+
+### Iteration 11: claude-opus-5-5 (hardener)
+- **Milestone**: `core_claim` | **Status**: error
+- **Working time**: 35m | **GPU**: 5.1h
+- **Jobs**: 17 total (13 completed, 3 failed)
 
 <details>
 <summary>Progress Log</summary>
