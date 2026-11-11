@@ -1,2 +1,8 @@
-action: done
-notes: "Audit complete: 26 hidden-test trials, quality controls and three seeds, seven paying shortcut trials; evidence in REDTEAM.md and redteam; benchmark restored."
+# Once you set action to 'submit' or 'done', STOP immediately.
+# Do NOT sleep, poll, or wait for jobs. The system reads this file
+# only after your turn ends.
+action: pending
+gpus: 0
+test: false
+milestone: core_claim
+notes: ""
