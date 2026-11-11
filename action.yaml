@@ -5,4 +5,4 @@ action: submit
 gpus: 2
 test: false
 milestone: core_claim
-notes: "Resume (all method runs finished and are skipped): hidden-test checks for reference, seeds, CART+AdaRank, mask-only, AdaMerging, dev-label oracle, lambda grid and 10 shortcuts via scripts/evaluate_test.sh; regenerate reference scores; validate."
+notes: "Headroom check: candidate better variants (TA/CART+AdaRank with information-maximisation objective, batch 64/task, seed weight-soup) + CART static diagnostics; rerun paired variant comparison through the hidden test (shortcut results reused); regenerate reference scores."

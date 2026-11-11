@@ -27,10 +27,35 @@
           "balanced_accuracy": 0.8422013917711118,
           "worst_task_accuracy": 0.6904296875
         },
+        "adarank_bs64": {
+          "avg_accuracy": 0.861328125,
+          "balanced_accuracy": 0.8572146027176567,
+          "worst_task_accuracy": 0.705078125
+        },
+        "adarank_im": {
+          "avg_accuracy": 0.8687744140625,
+          "balanced_accuracy": 0.8676770645678101,
+          "worst_task_accuracy": 0.6806640625
+        },
         "cart_adarank": {
           "avg_accuracy": 0.86279296875,
           "balanced_accuracy": 0.8577609884374865,
           "worst_task_accuracy": 0.7099609375
+        },
+        "cart_adarank_im": {
+          "avg_accuracy": 0.85107421875,
+          "balanced_accuracy": 0.8541621883404114,
+          "worst_task_accuracy": 0.693359375
+        },
+        "cart_static": {
+          "avg_accuracy": 0.8446044921875,
+          "balanced_accuracy": 0.8397245303613217,
+          "worst_task_accuracy": 0.6953125
+        },
+        "cart_static_l1": {
+          "avg_accuracy": 0.7919921875,
+          "balanced_accuracy": 0.783623727748236,
+          "worst_task_accuracy": 0.66015625
         },
         "ce_oracle_dev": {
           "avg_accuracy": 0.8616943359375,
@@ -56,6 +81,11 @@
           "avg_accuracy": 0.86376953125,
           "balanced_accuracy": 0.858189544333103,
           "worst_task_accuracy": 0.708984375
+        },
+        "seed_soup": {
+          "avg_accuracy": 0.8658447265625,
+          "balanced_accuracy": 0.8601762817150167,
+          "worst_task_accuracy": 0.7177734375
         },
         "ta_lambda_grid_dev": {
           "avg_accuracy": 0.6905517578125,
@@ -117,6 +147,26 @@
       "mnist": 0.9814453125,
       "dtd": 0.740234375
     },
+    "adarank_bs64": {
+      "sun397": 0.705078125,
+      "cars": 0.732421875,
+      "resisc45": 0.88671875,
+      "eurosat": 0.958984375,
+      "svhn": 0.9345703125,
+      "gtsrb": 0.9716796875,
+      "mnist": 0.986328125,
+      "dtd": 0.71484375
+    },
+    "adarank_im": {
+      "sun397": 0.6806640625,
+      "cars": 0.763671875,
+      "resisc45": 0.9091796875,
+      "eurosat": 0.96484375,
+      "svhn": 0.927734375,
+      "gtsrb": 0.9658203125,
+      "mnist": 0.9853515625,
+      "dtd": 0.7529296875
+    },
     "cart_adarank": {
       "sun397": 0.7109375,
       "cars": 0.7099609375,
@@ -126,6 +176,36 @@
       "gtsrb": 0.9755859375,
       "mnist": 0.9853515625,
       "dtd": 0.73828125
+    },
+    "cart_adarank_im": {
+      "sun397": 0.693359375,
+      "cars": 0.72265625,
+      "resisc45": 0.90625,
+      "eurosat": 0.9677734375,
+      "svhn": 0.87109375,
+      "gtsrb": 0.927734375,
+      "mnist": 0.984375,
+      "dtd": 0.7353515625
+    },
+    "cart_static": {
+      "sun397": 0.6953125,
+      "cars": 0.736328125,
+      "resisc45": 0.88671875,
+      "eurosat": 0.9482421875,
+      "svhn": 0.857421875,
+      "gtsrb": 0.9248046875,
+      "mnist": 0.984375,
+      "dtd": 0.7236328125
+    },
+    "cart_static_l1": {
+      "sun397": 0.7021484375,
+      "cars": 0.7294921875,
+      "resisc45": 0.8232421875,
+      "eurosat": 0.904296875,
+      "svhn": 0.7578125,
+      "gtsrb": 0.796875,
+      "mnist": 0.9619140625,
+      "dtd": 0.66015625
     },
     "ce_oracle_dev": {
       "sun397": 0.7119140625,
@@ -176,6 +256,16 @@
       "gtsrb": 0.966796875,
       "mnist": 0.986328125,
       "dtd": 0.73046875
+    },
+    "seed_soup": {
+      "sun397": 0.7177734375,
+      "cars": 0.7587890625,
+      "resisc45": 0.8779296875,
+      "eurosat": 0.96484375,
+      "svhn": 0.92578125,
+      "gtsrb": 0.9697265625,
+      "mnist": 0.986328125,
+      "dtd": 0.7255859375
     },
     "ta_lambda_grid_dev": {
       "sun397": 0.6474609375,

@@ -5,9 +5,9 @@
     "worst_task_accuracy": 0.716796875
   },
   "population_std": {
-    "avg_accuracy": 0.41045431405528293,
-    "balanced_accuracy": 0.405968548397177,
-    "worst_task_accuracy": 0.3406748498526984
+    "avg_accuracy": 0.39122144026679023,
+    "balanced_accuracy": 0.3875262387750913,
+    "worst_task_accuracy": 0.3249966864743004
   },
   "coefficients": {
     "avg_accuracy": 1.0,
@@ -27,7 +27,25 @@
         "worst_task_accuracy": 0.6904296875
       },
       "note": "weaker variant: coefficients only, no masks (AdaMerging)",
-      "R_vs_reference": -0.07689369744930978
+      "R_vs_reference": -0.08062443416881501
+    },
+    "variant:adarank_bs64": {
+      "proposed_entry": {
+        "avg_accuracy": 0.861328125,
+        "balanced_accuracy": 0.8572146027176567,
+        "worst_task_accuracy": 0.705078125
+      },
+      "note": "candidate better variant: TA+AdaRank with 64 adaptation images per task per step",
+      "R_vs_reference": -0.013404947138263242
+    },
+    "variant:adarank_im": {
+      "proposed_entry": {
+        "avg_accuracy": 0.8687744140625,
+        "balanced_accuracy": 0.8676770645678101,
+        "worst_task_accuracy": 0.6806640625
+      },
+      "note": "candidate better variant: TA+AdaRank with an information-maximisation objective (entropy - marginal entropy)",
+      "R_vs_reference": -0.008514711376173722
     },
     "variant:cart_adarank": {
       "proposed_entry": {
@@ -36,7 +54,34 @@
         "worst_task_accuracy": 0.7099609375
       },
       "note": "better variant: CART+AdaRank (paper's stronger base, lambda 2.3, top-16% init)",
-      "R_vs_reference": -0.0035948786442998775
+      "R_vs_reference": -0.003767727674391442
+    },
+    "variant:cart_adarank_im": {
+      "proposed_entry": {
+        "avg_accuracy": 0.85107421875,
+        "balanced_accuracy": 0.8541621883404114,
+        "worst_task_accuracy": 0.693359375
+      },
+      "note": "candidate better variant: CART+AdaRank with the information-maximisation objective",
+      "R_vs_reference": -0.05577974770382021
+    },
+    "variant:cart_static": {
+      "proposed_entry": {
+        "avg_accuracy": 0.8446044921875,
+        "balanced_accuracy": 0.8397245303613217,
+        "worst_task_accuracy": 0.6953125
+      },
+      "note": "diagnostic: CART initialisation without adaptation (lambda 2.3, top-16%)",
+      "R_vs_reference": -0.08697878763350478
+    },
+    "variant:cart_static_l1": {
+      "proposed_entry": {
+        "avg_accuracy": 0.7919921875,
+        "balanced_accuracy": 0.783623727748236,
+        "worst_task_accuracy": 0.66015625
+      },
+      "note": "diagnostic: CART initialisation without adaptation (lambda 1.0, top-16%)",
+      "R_vs_reference": -0.32446681950075923
     },
     "variant:ce_oracle_dev": {
       "proposed_entry": {
@@ -45,7 +90,7 @@
         "worst_task_accuracy": 0.7119140625
       },
       "note": "shortcut left open: masks+coefficients trained with cross-entropy on visible dev labels",
-      "R_vs_reference": -0.004119657221943254
+      "R_vs_reference": -0.004320379441408824
     },
     "variant:mask_only": {
       "proposed_entry": {
@@ -54,7 +99,7 @@
         "worst_task_accuracy": 0.587890625
       },
       "note": "weaker variant: masks only, coefficients frozen at 0.3 (paper Table 6)",
-      "R_vs_reference": -0.4034655714551725
+      "R_vs_reference": -0.4230400551138629
     },
     "variant:proposed": {
       "proposed_entry": {
@@ -72,7 +117,7 @@
         "worst_task_accuracy": 0.7109375
       },
       "note": "reference recipe, sampling seed 1",
-      "R_vs_reference": -0.0021309383403245595
+      "R_vs_reference": -0.0022315962010467493
     },
     "variant:ref_seed2": {
       "proposed_entry": {
@@ -81,7 +126,16 @@
         "worst_task_accuracy": 0.708984375
       },
       "note": "reference recipe, sampling seed 2",
-      "R_vs_reference": -0.0017439116254856033
+      "R_vs_reference": -0.00182558837002987
+    },
+    "variant:seed_soup": {
+      "proposed_entry": {
+        "avg_accuracy": 0.8658447265625,
+        "balanced_accuracy": 0.8601762817150167,
+        "worst_task_accuracy": 0.7177734375
+      },
+      "note": "candidate better variant: weight average of the three reference seeds",
+      "R_vs_reference": 0.015251075821997941
     },
     "variant:ta_lambda_grid_dev": {
       "proposed_entry": {
@@ -90,7 +144,7 @@
         "worst_task_accuracy": 0.52734375
       },
       "note": "brute force: Task Arithmetic coefficient grid-searched on visible dev labels",
-      "R_vs_reference": -0.8100327580890494
+      "R_vs_reference": -0.8493653764122772
     },
     "shortcut:empty_submissions": {
       "proposed_entry": {
@@ -128,7 +182,7 @@
       "failures": {
         "proposed": "model.safetensors missing"
       },
-      "R_vs_reference": -3.7858270977423554
+      "R_vs_reference": -3.9697735599841737
     },
     "shortcut:filter_omission": {
       "proposed_entry": {
@@ -169,7 +223,7 @@
         }
       },
       "failures": {},
-      "R_vs_reference": -3.6370278449194458
+      "R_vs_reference": -3.813742600984019
     },
     "shortcut:extra_head_tensors": {
       "proposed_entry": {
@@ -207,7 +261,7 @@
       "failures": {
         "proposed": "tensor names differ from one image encoder (extra=['head.svhn.weight'], missing=[])"
       },
-      "R_vs_reference": -3.7858270977423554
+      "R_vs_reference": -3.9697735599841737
     },
     "shortcut:metadata_underreport": {
       "proposed_entry": {
@@ -281,7 +335,7 @@
       "failures": {
         "proposed": "tensor names differ from one image encoder (extra=['cars.vision_model.embeddings.class_embedding', 'cars.vision_model.embeddings.patch_embedding.weight', 'cars.vision_model.embeddings.position_embedding.weight'], missing=['vision_model.embeddings.class_embedding', 'vision_model.embeddings.patch_embedding.weight', 'vision_model.embeddings.position_embedding.weight'])"
       },
-      "R_vs_reference": -3.7858270977423554
+      "R_vs_reference": -3.9697735599841737
     },
     "shortcut:nan_weights": {
       "proposed_entry": {
@@ -319,7 +373,7 @@
       "failures": {
         "proposed": "vision_model.embeddings.class_embedding: non-finite values"
       },
-      "R_vs_reference": -3.7858270977423554
+      "R_vs_reference": -3.9697735599841737
     },
     "shortcut:forged_scores": {
       "proposed_entry": {
@@ -355,7 +409,7 @@
         }
       },
       "failures": {},
-      "R_vs_reference": -3.6370278449194458
+      "R_vs_reference": -3.813742600984019
     },
     "shortcut:data_tamper": {
       "proposed_entry": {
@@ -391,7 +445,7 @@
         }
       },
       "failures": {},
-      "R_vs_reference": -3.6370278449194458
+      "R_vs_reference": -3.813742600984019
     },
     "shortcut:empty_payload": {
       "proposed_entry": {
@@ -429,7 +483,7 @@
       "failures": {
         "proposed": "cannot read model.safetensors: SafetensorError: Error while deserializing header: header too small"
       },
-      "R_vs_reference": -3.7858270977423554
+      "R_vs_reference": -3.9697735599841737
     },
     "shortcut:baseline_name_collision": {
       "proposed_entry": {
@@ -516,6 +570,22 @@
       ],
       "se": 0.003044179417845029
     },
+    "adarank_bs64": {
+      "diff": -0.000732421875,
+      "ci95": [
+        -0.0054931640625,
+        0.0037841796875
+      ],
+      "se": 0.00232706731734119
+    },
+    "adarank_im": {
+      "diff": 0.0067138671875,
+      "ci95": [
+        0.001220703125,
+        0.0120849609375
+      ],
+      "se": 0.0027468409267900956
+    },
     "cart_adarank": {
       "diff": 0.000732421875,
       "ci95": [
@@ -523,6 +593,30 @@
         0.0062255859375
       ],
       "se": 0.0029205351195126738
+    },
+    "cart_adarank_im": {
+      "diff": -0.010986328125,
+      "ci95": [
+        -0.017333984375,
+        -0.0042724609375
+      ],
+      "se": 0.0033523694447457463
+    },
+    "cart_static": {
+      "diff": -0.0174560546875,
+      "ci95": [
+        -0.0242919921875,
+        -0.010986328125
+      ],
+      "se": 0.003430328900052234
+    },
+    "cart_static_l1": {
+      "diff": -0.070068359375,
+      "ci95": [
+        -0.0780029296875,
+        -0.062255859375
+      ],
+      "se": 0.004050531650015533
     },
     "ce_oracle_dev": {
       "diff": -0.0003662109375,
@@ -555,6 +649,14 @@
         0.005859375
       ],
       "se": 0.0021857009028889676
+    },
+    "seed_soup": {
+      "diff": 0.0037841796875,
+      "ci95": [
+        0.00048828125,
+        0.0072021484375
+      ],
+      "se": 0.0017125947048546623
     },
     "ta_lambda_grid_dev": {
       "diff": -0.1715087890625,
@@ -626,6 +728,30 @@
         "worst_task_accuracy": 0.6904296875
       }
     },
+    "adarank_bs64": {
+      "train": {
+        "avg_accuracy": 0.85791015625,
+        "balanced_accuracy": 0.8559188005379965,
+        "worst_task_accuracy": 0.6640625
+      },
+      "test": {
+        "avg_accuracy": 0.861328125,
+        "balanced_accuracy": 0.8572146027176567,
+        "worst_task_accuracy": 0.705078125
+      }
+    },
+    "adarank_im": {
+      "train": {
+        "avg_accuracy": 0.86865234375,
+        "balanced_accuracy": 0.8653823642085727,
+        "worst_task_accuracy": 0.6875
+      },
+      "test": {
+        "avg_accuracy": 0.8687744140625,
+        "balanced_accuracy": 0.8676770645678101,
+        "worst_task_accuracy": 0.6806640625
+      }
+    },
     "cart_adarank": {
       "train": {
         "avg_accuracy": 0.85791015625,
@@ -636,6 +762,42 @@
         "avg_accuracy": 0.86279296875,
         "balanced_accuracy": 0.8577609884374865,
         "worst_task_accuracy": 0.7099609375
+      }
+    },
+    "cart_adarank_im": {
+      "train": {
+        "avg_accuracy": 0.85302734375,
+        "balanced_accuracy": 0.8532963703101312,
+        "worst_task_accuracy": 0.65625
+      },
+      "test": {
+        "avg_accuracy": 0.85107421875,
+        "balanced_accuracy": 0.8541621883404114,
+        "worst_task_accuracy": 0.693359375
+      }
+    },
+    "cart_static": {
+      "train": {
+        "avg_accuracy": 0.8525390625,
+        "balanced_accuracy": 0.8409178112469858,
+        "worst_task_accuracy": 0.671875
+      },
+      "test": {
+        "avg_accuracy": 0.8446044921875,
+        "balanced_accuracy": 0.8397245303613217,
+        "worst_task_accuracy": 0.6953125
+      }
+    },
+    "cart_static_l1": {
+      "train": {
+        "avg_accuracy": 0.798828125,
+        "balanced_accuracy": 0.7899172584799846,
+        "worst_task_accuracy": 0.64453125
+      },
+      "test": {
+        "avg_accuracy": 0.7919921875,
+        "balanced_accuracy": 0.783623727748236,
+        "worst_task_accuracy": 0.66015625
       }
     },
     "ce_oracle_dev": {
@@ -696,6 +858,18 @@
         "avg_accuracy": 0.86376953125,
         "balanced_accuracy": 0.858189544333103,
         "worst_task_accuracy": 0.708984375
+      }
+    },
+    "seed_soup": {
+      "train": {
+        "avg_accuracy": 0.8671875,
+        "balanced_accuracy": 0.8650019339766805,
+        "worst_task_accuracy": 0.6875
+      },
+      "test": {
+        "avg_accuracy": 0.8658447265625,
+        "balanced_accuracy": 0.8601762817150167,
+        "worst_task_accuracy": 0.7177734375
       }
     },
     "ta_lambda_grid_dev": {
