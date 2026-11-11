@@ -1,64 +1,34 @@
 # Progress
 
-## What Works
+## Current state
 
-- Paper analysis and benchmark packaging are complete for a scaled reproduction.
-- `method/adarank_synthetic.py` implements the AdaRank computational pipeline on a deterministic synthetic multi-task classification benchmark: fine-tune task models from a shared pretrained backbone, form task vectors, SVD matrix weights, adapt binary masks with STE and unlabeled entropy minimization, and evaluate a merged model.
-- `eval/evaluate_outputs.py` scores saved model artifacts without importing from `method/`: it regenerates the deterministic benchmark data, recomputes predictions from the stored model states, and computes parameter constraints from the artifact structure.
-- `python validate.py --compare` passes structurally.
-- Completed jobs executed the AdaRank pipeline end-to-end and wrote `outputs/adarank_synthetic/predictions.json`, `checkpoints/adarank_synthetic.pt`, and `scoring/scores.json`.
+- **Benchmark:** the paper's own benchmark, merging eight CLIP ViT-B/32 image encoders fine-tuned on SUN397, Stanford Cars, RESISC45, EuroSAT, SVHN, GTSRB, MNIST and DTD (public tanganke checkpoints, standard zero-shot heads). Earlier iterations used a four-task synthetic stand-in; it was replaced because there the reproduced method lost to Task Arithmetic (see `REDTEAM.md`).
+- **Method:** `method/adarank_clip.py`. It implements TA+AdaRank with the official defaults:
+  - per-matrix SVD of the task vectors, with q/k/v stacked;
+  - binary singular-component masks (STE, temperature 10);
+  - task- and layer-wise coefficients;
+  - joint Adam adaptation on the prediction entropy of unlabeled pool images, 10,000 steps.
 
-## Results
+  It also covers the CART base and the paper's ablations.
+- **Evaluation:**
+  - `eval/test/evaluate.py` is self-contained and scores `outputs/merged/<name>/model.safetensors` on 26,524 held-out rows;
+  - `eval/train/evaluate.py` scores the 256-per-task dev rows;
+  - the fixed baselines are computed by the evaluators.
 
-- First successful run, before the latest fix: Task Arithmetic `0.6660`, fixed top-k SVD `0.5967`, AdaRank `0.5303`, individual models `0.6992` average accuracy. This establishes `method_runs` but not `core_claim`.
-- The failed AdaRank result came from initializing TA+AdaRank with top-k masks and saturated mask logits; the implementation is now corrected to initialize TA+AdaRank from full Task Arithmetic masks, use small signed STE logits, and learn layer coefficients with a conservative separate learning rate.
-- Second successful run after the initialization fix improved AdaRank to `0.6274`, but it still trailed Task Arithmetic `0.6660`. The adaptation trace showed the learned coefficient mean rising from the TA value `0.3` to `0.6026`, hurting the hardest task.
-- The next run uses the paper's mask-only ablation setting for this scaled benchmark: AdaRank still adapts binary singular-component masks with STE and entropy minimization, while keeping the TA coefficient fixed to isolate adaptive rank pruning.
-- Third successful run with mask-only adaptation reached `0.6572`, close to but still below Task Arithmetic `0.6660`; the remaining loss was concentrated on the hardest task.
-- The next job removes shared backbone biases from the synthetic MLP so all shared task-vector components are matrix components controlled by AdaRank SVD masks, and it reports an adaptation-step sweep in one training run.
-- Job `710c98a0-a4a` wrote the bias-free prediction artifact before exiting with code 1. The saved scores are Task Arithmetic `0.6738`, fixed top-k SVD `0.6357`, AdaRank `0.6611`, and individual models `0.6909`. AdaRank improved over the fixed-rank SVD baseline at the same 1x parameter budget, but still trailed full Task Arithmetic.
-- The crash was caused by the evaluation/validation contract rather than the method run: diagnostic sweep entries such as `adarank_steps_80` were included in `scoring/scores.json` but are absent from `reference.json`. The evaluator now filters diagnostic methods by default while preserving them in the method output JSON for analysis.
-- Job `d675a6c5-bfd` completed successfully and confirmed those bias-free scores after the evaluator fix. The step sweep showed that the 80-step variant keeps all mask entries selected and exactly matches Task Arithmetic, while the longer variants prune around 40% of singular components and lose accuracy.
-- The learned-coefficient follow-up completed successfully with the paper's default joint adaptation of binary masks and layer coefficients, capped at `0.45`. Final packaged scores are Task Arithmetic `0.6738`, fixed top-k SVD `0.6357`, AdaRank `0.6572`, and individual models `0.6909`.
-- Continuation audit confirmed the implementation is real AdaRank: task vectors are decomposed with SVD, binary singular-component masks are optimized with an STE, and the adaptation objective uses unlabeled entropy minimization.
-- CPU sweep `4e2ceb25-e0e` compared several paper-consistent adaptation settings. The best primary configuration was conservative mask-only adaptation: Task Arithmetic `0.6738`, fixed top-k SVD `0.6396`, AdaRank `0.6616`, individual models `0.6895`.
-- CPU job `dc87e060-3d2` regenerated the canonical final artifacts with that promoted default configuration and passed `python validate.py --compare`.
-- This reaches `core_claim` for the paper's central SVD-rank-selection claim: adaptive singular-component selection improves over rigid top-k truncation while preserving the single merged-model parameter budget. It does not reproduce the full paper ordering where AdaRank also beats full Task Arithmetic.
-- Continuation audit on 2026-06-11 confirmed the method/evaluation separation and real AdaRank implementation. The audit also corrected `scoring/reference.json` so `fixed_topk_svd` maps to the paper's TA top-16% fixed-rank ablation (`0.688`) rather than the CART row; validation passes after the correction.
-- Follow-up audit on 2026-06-11 found the official code release at `https://github.com/david3684/adarank`; it has been cloned into `method/official_adarank/` as a reference implementation. The local scaled implementation was cross-checked against the official mask/SVD/STE structure.
-- The evaluator now reports `learnable_param_fraction` in addition to `avg_accuracy` and `param_multiplier_vs_single`, matching the paper's efficiency claim that AdaRank uses a small number of learnable adaptation parameters.
-- The local STE mask initialization has been aligned with the official implementation's small signed mask parameters (`+/-0.1` before temperature scaling). The next submitted CPU job regenerates canonical outputs with this change.
-- Continuation audit on 2026-06-11 17:54 UTC compiled the method, baseline, data, and evaluation modules successfully. A fresh CPU test submission is queued to ensure `outputs/` and `scoring/scores.json` are regenerated by the current code rather than older artifacts.
-- CPU job `39cba39c-61a` completed successfully with the current official-aligned implementation. Final refreshed scores are Task Arithmetic `0.6738`, fixed top-k SVD `0.6396`, AdaRank `0.6636`, and individual models `0.6895`; `python validate.py --compare` passed in the job.
-- This confirms `core_claim`: the AdaRank singular-component mask adaptation outperforms fixed top-k SVD under the same single-merged-model deployment budget, with the evaluator also recording the learnable-parameter overhead constraint.
-- Continuation audit on 2026-06-22 tightened `eval/evaluate_outputs.py` so the main evaluator now scores `artifact.pt` model states, regenerates deterministic labels from `data/`, recomputes predictions, and reports `balanced_accuracy` and `worst_task_accuracy` in addition to average accuracy and parameter constraints.
-- A follow-up audit on 2026-06-22 replaced self-reported parameter constraints with artifact-derived counts. The evaluator now rejects merged methods whose deployment parameter count does not match the fixed single-model budget and computes AdaRank's learnable mask-parameter fraction from the saved adaptation metadata. A CPU test job is submitted to regenerate canonical scores under this artifact-based evaluator.
-- Final verification on 2026-06-22 found that no `outputs/adarank_synthetic/artifact.pt` exists yet, so the artifact-based scoring refactor still needs a completed CPU test job before final sign-off.
-- CPU verification job `6d8997a4-7c1` completed successfully. It regenerated `outputs/adarank_synthetic/artifact.pt`, refreshed artifact-derived scoring files, ran train/test scoring, and passed `python validate.py --compare`.
-- Final artifact-derived scores are Task Arithmetic `0.6738`, fixed top-k SVD `0.6357`, AdaRank `0.6572`, and individual models `0.6909` average accuracy. AdaRank preserves the `1.0x` merged deployment parameter budget and improves over the compact fixed-rank baseline, satisfying `core_claim`.
+## Results (held-out, avg / balanced / worst-task accuracy, %)
 
-## Remaining
+| Entry | Score |
+|---|---|
+| TA+AdaRank (reference) | 86.21 / 85.71 / 71.61 |
+| Task Arithmetic | 67.80 / 65.89 / 48.63 |
+| Fixed top-16% SVD | 67.54 / 65.61 / 49.32 |
+| Pretrained | 47.98 / 46.70 / 31.08 |
+| Individual experts (8 models) | 90.58 / 90.56 / 75.17 |
 
-- Higher milestones would require expanding beyond the scaled synthetic setting, ideally toward the paper's CLIP ViT task suite or additional synthetic task suites.
-- The main remaining numerical gap is that AdaRank does not outperform full Task Arithmetic on this synthetic benchmark, although it does outperform fixed top-k SVD at the same parameter budget.
-- Final artifacts have been regenerated from the promoted default configuration after the official-code mask-initialization alignment: `outputs/adarank_synthetic/predictions.json`, `checkpoints/adarank_synthetic.pt`, and `scoring/scores.json`.
-- A stronger milestone would require either running the authors' full CLIP/GLUE setup from `method/official_adarank/` with downloaded checkpoints/datasets or designing additional non-trivial scaled task suites where entropy-adapted masks also beat full Task Arithmetic, not only fixed top-k SVD.
+The paper reports 87.9 for TA+AdaRank and 69.2 for Task Arithmetic. Seed range of the reference is 0.36 points avg. A label-free KL-to-expert variant reaches 88.5, which demonstrates headroom. See `HARDENING.md` for variants, shortcuts and noise.
 
-## Issues
+## Remaining gaps
 
-- The original full paper benchmark depends on many large vision datasets and fine-tuned CLIP checkpoints. This turn packages a scaled benchmark first to establish the actual AdaRank method and a reusable scoring loop within the available budget.
-- Job `0c730250-84c` failed before running the method because Python executed `method/adarank_synthetic.py` with `/home/user/method` as `sys.path[0]`, making sibling package `data/` unavailable. Fixed by exporting `PYTHONPATH=/home/user` in all shell entry points.
-- Jobs `0057ed8f-cb9` and `ad7760c6-e8e` showed that the original synthetic MLP had shared bias deltas that were always merged outside AdaRank's SVD masks. The next run uses bias-free shared layers to keep the scaled benchmark aligned with adaptive rank pruning over matrix task vectors.
-- The external log paths reported for job `ad7760c6-e8e` were not visible in this shell, so this turn used the persisted workspace artifacts in `scoring/scores.json` and `outputs/adarank_synthetic/predictions.json` to assess the completed run.
-- The external log paths reported for job `710c98a0-a4a` were also not visible in this shell. The persisted output artifact was enough to diagnose the validation failure and update the evaluator.
-- The external scratch log paths reported for some jobs were not visible in this shell, but local job copies under `/home/user/jobs/` and persisted workspace artifacts were available for the final audit.
-- Continuation audit found one scoring-documentation mismatch: `fixed_topk_svd` previously used the paper's CART fixed-rank value even though the implemented baseline is Task Arithmetic top-k SVD. This is now fixed in `scoring/reference.json`.
-- The packaged default uses the paper's binary-mask adaptation ablation with a fixed TA coefficient because previous scaled runs showed joint lambda adaptation degraded this synthetic benchmark. The code still supports `--learn-lambda` for the paper's full default setting.
-- Local `bash scripts/evaluate.sh` cannot run in the bare login shell because `torch` is not installed there; `torch` is installed through `environment/setup.sh` in the compute container, where the submitted job will run the evaluator.
-- The final verification CPU job regenerated `scoring/scores*.json` from `artifact.pt`; local bare-login evaluation still requires the container because `torch` is not installed outside it.
-
-## Deviations from Paper
-
-- Paper setting: CLIP ViT-B/32 and ViT-L/14 checkpoints fine-tuned on 8, 14, and 20 image-classification tasks.
-- Reproduction setting for the first job: a small MLP backbone fine-tuned on four deterministic synthetic classification tasks.
-- Reason: the full benchmark requires many large datasets and external fine-tuned checkpoints; the scaled benchmark preserves the paper's model-merging procedure and AdaRank computation while enabling a quick end-to-end validation job.
+- CART+AdaRank ties TA+AdaRank here (86.5); the paper reports +1.3.
+- The 14- and 20-task settings, ViT-L/14, TSV-M/Iso-CTS bases and the language-model experiments are not reproduced.
+- The labels of the public test splits are obtainable from the internet. Using them is forbidden by `scoring/CONSTRAINTS.md` and must be caught by the grader.

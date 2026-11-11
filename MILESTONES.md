@@ -36,5 +36,9 @@
 - CPU verification job `6d8997a4-7c1` completed successfully, regenerated `artifact.pt`, and refreshed artifact-derived canonical, train, and test scores.
 - `python validate.py --compare` passed in the compute container; final AdaRank score is `0.6572` average accuracy versus fixed top-k SVD `0.6357`, both at `1.0x` deployment parameter multiplier.
 
+### [2026-11-11 05:40] - core_claim
+- Hardening (final): the gym runs on the paper's CLIP ViT-B/32 8-task benchmark. TA+AdaRank (official defaults) scores 86.21% avg accuracy vs Task Arithmetic 67.80% on 26,524 held-out rows (paper: 87.9% vs 69.2%); seed range 0.36 points.
+- Held-out test enlarged 3.2x, submission keys made collision-safe, every shortcut re-run through the hidden test (none pays), and a label-free KL-to-expert variant (88.5%) confirms headroom. See `HARDENING.md`.
+
 ## Stop Justification
 - Completed at milestone `core_claim`.
