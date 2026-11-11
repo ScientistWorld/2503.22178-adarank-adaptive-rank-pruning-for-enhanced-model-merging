@@ -110,7 +110,7 @@ A submission scores the **worst value on every metric** (0.0) when:
 - any tensor has the wrong shape;
 - any tensor is not a float, or contains NaN or infinite values.
 
-The `proposed` entry is always written, so an absent submission also scores the worst values. A directory named like a fixed baseline is scored as `submission_<name>`.
+The `proposed` entry is always written, so an absent submission also scores the worst values. A directory named like a fixed baseline (or like an entry already scored) is scored as `submission_<name>`; it never replaces another entry.
 
 ## Metrics
 
@@ -124,13 +124,13 @@ Nothing reported by a solution (metadata, timings, parameter counts, scores) is 
 
 ## Splits
 
-Each task's public test split is partitioned into three disjoint parts:
+Each task's public test split is partitioned into three disjoint parts (the held-out part has 4,096 rows per task where the split is large enough; 3,996 for RESISC45, 1,024 for EuroSAT and DTD). Every task counts equally in every metric, whatever its number of rows:
 
 | Part | Size per task | Labels visible | Use |
 |---|---|---|---|
 | adaptation pool | 600–2,048 | no | any unlabeled adaptation |
 | dev | 256 | yes | development scoring (`scripts/evaluate_train.sh`, `scripts/evaluate.sh`) |
-| held-out | 1,024 | no (never shipped) | final scoring (`scripts/evaluate_test.sh`) |
+| held-out | 1,024–4,096 (26,524 in total) | no (never shipped) | final scoring (`scripts/evaluate_test.sh`) |
 
 Images are preprocessed identically everywhere:
 
@@ -820,6 +820,52 @@ None of them take arguments. Each scores every submission on disk plus the fixed
 ### [2026-06-22 22:56] - core_claim
 - CPU verification job `6d8997a4-7c1` completed successfully, regenerated `artifact.pt`, and refreshed artifact-derived canonical, train, and test scores.
 - `python validate.py --compare` passed in the compute container; final AdaRank score is `0.6572` average accuracy versus fixed top-k SVD `0.6357`, both at `1.0x` deployment parameter multiplier.
+
+</details>
+
+### Iteration 11: claude-opus-5-5 (hardener)
+- **Milestone**: `core_claim` | **Status**: done
+- **Working time**: 11m | **GPU**: 3.1h
+- **Jobs**: 18 total (14 completed, 3 failed)
+
+<details>
+<summary>Progress Log</summary>
+
+### [2026-06-11 17:51] - method_runs
+- Implemented the AdaRank computation on a deterministic synthetic multi-task benchmark: task vectors from a shared pretrained backbone, per-task/per-layer SVD, binary singular-component masks, STE optimization, and unlabeled entropy minimization.
+- Completed end-to-end jobs that generated predictions, a checkpoint, and `scoring/scores.json`.
+
+### [2026-06-11 17:51] - core_claim
+- The reproduced AdaRank mask adaptation improves over fixed top-k SVD while preserving a single merged-model parameter budget.
+- The evaluator now scores both average accuracy and efficiency constraints, including deployment parameter multiplier and learnable adaptation parameter fraction.
+
+### [2026-06-11 17:55] - core_claim
+- Job `39cba39c-61a` regenerated the canonical artifacts with the current official-aligned mask initialization and passed `python validate.py --compare`.
+- Final refreshed scores: AdaRank `0.6636` average accuracy versus fixed top-k SVD `0.6396`, both at `1.0x` deployment parameter multiplier.
+
+### [2026-06-22 22:20] - core_claim
+- Audited the existing scaffold against the paper's computation and kept the current milestone at `core_claim`.
+- Tightened the main evaluator to compute every declared benefit and constraint metric from saved predictions with independently regenerated deterministic labels.
+
+### [2026-06-22 22:28] - core_claim
+- Completed final verification, including method-agnostic documentation cleanup, complete scored metrics, and disjoint train/test scoring slices.
+- Confirmed `python validate.py --compare` passes and kept the milestone at `core_claim`.
+
+### [2026-06-22 22:38] - core_claim
+- Reworked the evaluator contract to score saved model artifacts rather than self-reported prediction JSON.
+- Submitted a CPU test job to regenerate scores with artifact-derived predictions and parameter constraints.
+
+### [2026-06-22 22:47] - core_claim
+- Final verification found that the artifact-scoring refactor had not yet been exercised in a completed job and no `artifact.pt` was present.
+- Cleaned method-agnostic documentation and prepared a CPU test submission to regenerate canonical artifact-derived scores before final sign-off.
+
+### [2026-06-22 22:56] - core_claim
+- CPU verification job `6d8997a4-7c1` completed successfully, regenerated `artifact.pt`, and refreshed artifact-derived canonical, train, and test scores.
+- `python validate.py --compare` passed in the compute container; final AdaRank score is `0.6572` average accuracy versus fixed top-k SVD `0.6357`, both at `1.0x` deployment parameter multiplier.
+
+### [2026-11-11 05:40] - core_claim
+- Hardening (final): the gym runs on the paper's CLIP ViT-B/32 8-task benchmark. TA+AdaRank (official defaults) scores 86.21% avg accuracy vs Task Arithmetic 67.80% on 26,524 held-out rows (paper: 87.9% vs 69.2%); seed range 0.36 points.
+- Held-out test enlarged 3.2x, submission keys made collision-safe, every shortcut re-run through the hidden test (none pays), and a label-free KL-to-expert variant (88.5%) confirms headroom. See `HARDENING.md`.
 
 </details>
 
