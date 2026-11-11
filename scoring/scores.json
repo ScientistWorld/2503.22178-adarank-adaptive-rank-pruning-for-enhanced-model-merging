@@ -1,0 +1,87 @@
+{
+  "experiments": {
+    "vit_b32_8task_merge": {
+      "results": {
+        "pretrained": {
+          "avg_accuracy": 0.4765625,
+          "balanced_accuracy": 0.46258066956164334,
+          "worst_task_accuracy": 0.3046875
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.67236328125,
+          "balanced_accuracy": 0.6576010924628708,
+          "worst_task_accuracy": 0.46875
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6708984375,
+          "balanced_accuracy": 0.6566650520422203,
+          "worst_task_accuracy": 0.46875
+        },
+        "individual": {
+          "avg_accuracy": 0.9013671875,
+          "balanced_accuracy": 0.8966680623827497,
+          "worst_task_accuracy": 0.7265625
+        },
+        "proposed": {
+          "avg_accuracy": 0.8603515625,
+          "balanced_accuracy": 0.8582639802149942,
+          "worst_task_accuracy": 0.6796875
+        }
+      }
+    }
+  },
+  "slice": "train",
+  "per_task_accuracy": {
+    "pretrained": {
+      "sun397": 0.640625,
+      "cars": 0.5625,
+      "resisc45": 0.59375,
+      "eurosat": 0.41796875,
+      "svhn": 0.3046875,
+      "gtsrb": 0.328125,
+      "mnist": 0.4609375,
+      "dtd": 0.50390625
+    },
+    "task_arithmetic": {
+      "sun397": 0.5234375,
+      "cars": 0.55859375,
+      "resisc45": 0.6328125,
+      "eurosat": 0.75,
+      "svhn": 0.77734375,
+      "gtsrb": 0.6953125,
+      "mnist": 0.97265625,
+      "dtd": 0.46875
+    },
+    "fixed_topk_svd": {
+      "sun397": 0.51953125,
+      "cars": 0.55078125,
+      "resisc45": 0.62890625,
+      "eurosat": 0.75390625,
+      "svhn": 0.78125,
+      "gtsrb": 0.69140625,
+      "mnist": 0.97265625,
+      "dtd": 0.46875
+    },
+    "individual": {
+      "sun397": 0.7265625,
+      "cars": 0.78125,
+      "resisc45": 0.9375,
+      "eurosat": 0.9921875,
+      "svhn": 0.984375,
+      "gtsrb": 0.98828125,
+      "mnist": 1.0,
+      "dtd": 0.80078125
+    },
+    "proposed": {
+      "sun397": 0.6796875,
+      "cars": 0.75,
+      "resisc45": 0.90234375,
+      "eurosat": 0.96484375,
+      "svhn": 0.8984375,
+      "gtsrb": 0.96875,
+      "mnist": 0.98828125,
+      "dtd": 0.73046875
+    }
+  },
+  "failures": {}
+}

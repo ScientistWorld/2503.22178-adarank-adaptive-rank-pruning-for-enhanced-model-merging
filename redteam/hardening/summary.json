@@ -1,0 +1,714 @@
+{
+  "reference_proposed_test": {
+    "avg_accuracy": 0.862060546875,
+    "balanced_accuracy": 0.8562780678059346,
+    "worst_task_accuracy": 0.716796875
+  },
+  "population_std": {
+    "avg_accuracy": 0.41045431405528293,
+    "balanced_accuracy": 0.405968548397177,
+    "worst_task_accuracy": 0.3406748498526984
+  },
+  "coefficients": {
+    "avg_accuracy": 1.0,
+    "balanced_accuracy": 0.45,
+    "worst_task_accuracy": 0.35
+  },
+  "seed_range_test": {
+    "avg_accuracy": 0.001708984375,
+    "balanced_accuracy": 0.0019114765271683876,
+    "worst_task_accuracy": 0.0078125
+  },
+  "rows": {
+    "variant:adamerging": {
+      "proposed_entry": {
+        "avg_accuracy": 0.8480224609375,
+        "balanced_accuracy": 0.8422013917711118,
+        "worst_task_accuracy": 0.6904296875
+      },
+      "note": "weaker variant: coefficients only, no masks (AdaMerging)",
+      "R_vs_reference": -0.07689369744930978
+    },
+    "variant:cart_adarank": {
+      "proposed_entry": {
+        "avg_accuracy": 0.86279296875,
+        "balanced_accuracy": 0.8577609884374865,
+        "worst_task_accuracy": 0.7099609375
+      },
+      "note": "better variant: CART+AdaRank (paper's stronger base, lambda 2.3, top-16% init)",
+      "R_vs_reference": -0.0035948786442998775
+    },
+    "variant:ce_oracle_dev": {
+      "proposed_entry": {
+        "avg_accuracy": 0.8616943359375,
+        "balanced_accuracy": 0.8578920356714377,
+        "worst_task_accuracy": 0.7119140625
+      },
+      "note": "shortcut left open: masks+coefficients trained with cross-entropy on visible dev labels",
+      "R_vs_reference": -0.004119657221943254
+    },
+    "variant:mask_only": {
+      "proposed_entry": {
+        "avg_accuracy": 0.7869873046875,
+        "balanced_accuracy": 0.7767731626211278,
+        "worst_task_accuracy": 0.587890625
+      },
+      "note": "weaker variant: masks only, coefficients frozen at 0.3 (paper Table 6)",
+      "R_vs_reference": -0.4034655714551725
+    },
+    "variant:proposed": {
+      "proposed_entry": {
+        "avg_accuracy": 0.862060546875,
+        "balanced_accuracy": 0.8562780678059346,
+        "worst_task_accuracy": 0.716796875
+      },
+      "note": "reference: TA+AdaRank, paper defaults, seed 0",
+      "R_vs_reference": 0.0
+    },
+    "variant:ref_seed1": {
+      "proposed_entry": {
+        "avg_accuracy": 0.86328125,
+        "balanced_accuracy": 0.8571033510345224,
+        "worst_task_accuracy": 0.7109375
+      },
+      "note": "reference recipe, sampling seed 1",
+      "R_vs_reference": -0.0021309383403245595
+    },
+    "variant:ref_seed2": {
+      "proposed_entry": {
+        "avg_accuracy": 0.86376953125,
+        "balanced_accuracy": 0.858189544333103,
+        "worst_task_accuracy": 0.708984375
+      },
+      "note": "reference recipe, sampling seed 2",
+      "R_vs_reference": -0.0017439116254856033
+    },
+    "variant:ta_lambda_grid_dev": {
+      "proposed_entry": {
+        "avg_accuracy": 0.6905517578125,
+        "balanced_accuracy": 0.6780644553385669,
+        "worst_task_accuracy": 0.52734375
+      },
+      "note": "brute force: Task Arithmetic coefficient grid-searched on visible dev labels",
+      "R_vs_reference": -0.8100327580890494
+    },
+    "shortcut:empty_submissions": {
+      "proposed_entry": {
+        "avg_accuracy": 0.0,
+        "balanced_accuracy": 0.0,
+        "worst_task_accuracy": 0.0
+      },
+      "all_entries": {
+        "pretrained": {
+          "avg_accuracy": 0.469970703125,
+          "balanced_accuracy": 0.4613941711141648,
+          "worst_task_accuracy": 0.3046875
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.6766357421875,
+          "balanced_accuracy": 0.6589061961194361,
+          "worst_task_accuracy": 0.486328125
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6739501953125,
+          "balanced_accuracy": 0.657245681783324,
+          "worst_task_accuracy": 0.4931640625
+        },
+        "individual": {
+          "avg_accuracy": 0.906982421875,
+          "balanced_accuracy": 0.9060757214954842,
+          "worst_task_accuracy": 0.7548828125
+        },
+        "proposed": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0
+        }
+      },
+      "failures": {
+        "proposed": "model.safetensors missing"
+      },
+      "R_vs_reference": -3.7858270977423554
+    },
+    "shortcut:filter_omission": {
+      "proposed_entry": {
+        "avg_accuracy": 0.0389404296875,
+        "balanced_accuracy": 0.04684077156301248,
+        "worst_task_accuracy": 0.001953125
+      },
+      "all_entries": {
+        "pretrained": {
+          "avg_accuracy": 0.469970703125,
+          "balanced_accuracy": 0.4613941711141648,
+          "worst_task_accuracy": 0.3046875
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.6766357421875,
+          "balanced_accuracy": 0.6589061961194361,
+          "worst_task_accuracy": 0.486328125
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6739501953125,
+          "balanced_accuracy": 0.657245681783324,
+          "worst_task_accuracy": 0.4931640625
+        },
+        "individual": {
+          "avg_accuracy": 0.906982421875,
+          "balanced_accuracy": 0.9060757214954842,
+          "worst_task_accuracy": 0.7548828125
+        },
+        "proposed": {
+          "avg_accuracy": 0.0389404296875,
+          "balanced_accuracy": 0.04684077156301248,
+          "worst_task_accuracy": 0.001953125
+        },
+        "unlisted_extra": {
+          "avg_accuracy": 0.862060546875,
+          "balanced_accuracy": 0.8562780678059346,
+          "worst_task_accuracy": 0.716796875
+        }
+      },
+      "failures": {},
+      "R_vs_reference": -3.6370278449194458
+    },
+    "shortcut:extra_head_tensors": {
+      "proposed_entry": {
+        "avg_accuracy": 0.0,
+        "balanced_accuracy": 0.0,
+        "worst_task_accuracy": 0.0
+      },
+      "all_entries": {
+        "pretrained": {
+          "avg_accuracy": 0.469970703125,
+          "balanced_accuracy": 0.4613941711141648,
+          "worst_task_accuracy": 0.3046875
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.6766357421875,
+          "balanced_accuracy": 0.6589061961194361,
+          "worst_task_accuracy": 0.486328125
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6739501953125,
+          "balanced_accuracy": 0.657245681783324,
+          "worst_task_accuracy": 0.4931640625
+        },
+        "individual": {
+          "avg_accuracy": 0.906982421875,
+          "balanced_accuracy": 0.9060757214954842,
+          "worst_task_accuracy": 0.7548828125
+        },
+        "proposed": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0
+        }
+      },
+      "failures": {
+        "proposed": "tensor names differ from one image encoder (extra=['head.svhn.weight'], missing=[])"
+      },
+      "R_vs_reference": -3.7858270977423554
+    },
+    "shortcut:metadata_underreport": {
+      "proposed_entry": {
+        "avg_accuracy": 0.862060546875,
+        "balanced_accuracy": 0.8562780678059346,
+        "worst_task_accuracy": 0.716796875
+      },
+      "all_entries": {
+        "pretrained": {
+          "avg_accuracy": 0.469970703125,
+          "balanced_accuracy": 0.4613941711141648,
+          "worst_task_accuracy": 0.3046875
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.6766357421875,
+          "balanced_accuracy": 0.6589061961194361,
+          "worst_task_accuracy": 0.486328125
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6739501953125,
+          "balanced_accuracy": 0.657245681783324,
+          "worst_task_accuracy": 0.4931640625
+        },
+        "individual": {
+          "avg_accuracy": 0.906982421875,
+          "balanced_accuracy": 0.9060757214954842,
+          "worst_task_accuracy": 0.7548828125
+        },
+        "proposed": {
+          "avg_accuracy": 0.862060546875,
+          "balanced_accuracy": 0.8562780678059346,
+          "worst_task_accuracy": 0.716796875
+        }
+      },
+      "failures": {},
+      "R_vs_reference": 0.0
+    },
+    "shortcut:individual_routing": {
+      "proposed_entry": {
+        "avg_accuracy": 0.0,
+        "balanced_accuracy": 0.0,
+        "worst_task_accuracy": 0.0
+      },
+      "all_entries": {
+        "pretrained": {
+          "avg_accuracy": 0.469970703125,
+          "balanced_accuracy": 0.4613941711141648,
+          "worst_task_accuracy": 0.3046875
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.6766357421875,
+          "balanced_accuracy": 0.6589061961194361,
+          "worst_task_accuracy": 0.486328125
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6739501953125,
+          "balanced_accuracy": 0.657245681783324,
+          "worst_task_accuracy": 0.4931640625
+        },
+        "individual": {
+          "avg_accuracy": 0.906982421875,
+          "balanced_accuracy": 0.9060757214954842,
+          "worst_task_accuracy": 0.7548828125
+        },
+        "proposed": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0
+        }
+      },
+      "failures": {
+        "proposed": "tensor names differ from one image encoder (extra=['cars.vision_model.embeddings.class_embedding', 'cars.vision_model.embeddings.patch_embedding.weight', 'cars.vision_model.embeddings.position_embedding.weight'], missing=['vision_model.embeddings.class_embedding', 'vision_model.embeddings.patch_embedding.weight', 'vision_model.embeddings.position_embedding.weight'])"
+      },
+      "R_vs_reference": -3.7858270977423554
+    },
+    "shortcut:nan_weights": {
+      "proposed_entry": {
+        "avg_accuracy": 0.0,
+        "balanced_accuracy": 0.0,
+        "worst_task_accuracy": 0.0
+      },
+      "all_entries": {
+        "pretrained": {
+          "avg_accuracy": 0.469970703125,
+          "balanced_accuracy": 0.4613941711141648,
+          "worst_task_accuracy": 0.3046875
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.6766357421875,
+          "balanced_accuracy": 0.6589061961194361,
+          "worst_task_accuracy": 0.486328125
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6739501953125,
+          "balanced_accuracy": 0.657245681783324,
+          "worst_task_accuracy": 0.4931640625
+        },
+        "individual": {
+          "avg_accuracy": 0.906982421875,
+          "balanced_accuracy": 0.9060757214954842,
+          "worst_task_accuracy": 0.7548828125
+        },
+        "proposed": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0
+        }
+      },
+      "failures": {
+        "proposed": "vision_model.embeddings.class_embedding: non-finite values"
+      },
+      "R_vs_reference": -3.7858270977423554
+    },
+    "shortcut:forged_scores": {
+      "proposed_entry": {
+        "avg_accuracy": 0.0389404296875,
+        "balanced_accuracy": 0.04684077156301248,
+        "worst_task_accuracy": 0.001953125
+      },
+      "all_entries": {
+        "pretrained": {
+          "avg_accuracy": 0.469970703125,
+          "balanced_accuracy": 0.4613941711141648,
+          "worst_task_accuracy": 0.3046875
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.6766357421875,
+          "balanced_accuracy": 0.6589061961194361,
+          "worst_task_accuracy": 0.486328125
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6739501953125,
+          "balanced_accuracy": 0.657245681783324,
+          "worst_task_accuracy": 0.4931640625
+        },
+        "individual": {
+          "avg_accuracy": 0.906982421875,
+          "balanced_accuracy": 0.9060757214954842,
+          "worst_task_accuracy": 0.7548828125
+        },
+        "proposed": {
+          "avg_accuracy": 0.0389404296875,
+          "balanced_accuracy": 0.04684077156301248,
+          "worst_task_accuracy": 0.001953125
+        }
+      },
+      "failures": {},
+      "R_vs_reference": -3.6370278449194458
+    },
+    "shortcut:data_tamper": {
+      "proposed_entry": {
+        "avg_accuracy": 0.0389404296875,
+        "balanced_accuracy": 0.04684077156301248,
+        "worst_task_accuracy": 0.001953125
+      },
+      "all_entries": {
+        "pretrained": {
+          "avg_accuracy": 0.469970703125,
+          "balanced_accuracy": 0.4613941711141648,
+          "worst_task_accuracy": 0.3046875
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.6766357421875,
+          "balanced_accuracy": 0.6589061961194361,
+          "worst_task_accuracy": 0.486328125
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6739501953125,
+          "balanced_accuracy": 0.657245681783324,
+          "worst_task_accuracy": 0.4931640625
+        },
+        "individual": {
+          "avg_accuracy": 0.906982421875,
+          "balanced_accuracy": 0.9060757214954842,
+          "worst_task_accuracy": 0.7548828125
+        },
+        "proposed": {
+          "avg_accuracy": 0.0389404296875,
+          "balanced_accuracy": 0.04684077156301248,
+          "worst_task_accuracy": 0.001953125
+        }
+      },
+      "failures": {},
+      "R_vs_reference": -3.6370278449194458
+    },
+    "shortcut:empty_payload": {
+      "proposed_entry": {
+        "avg_accuracy": 0.0,
+        "balanced_accuracy": 0.0,
+        "worst_task_accuracy": 0.0
+      },
+      "all_entries": {
+        "pretrained": {
+          "avg_accuracy": 0.469970703125,
+          "balanced_accuracy": 0.4613941711141648,
+          "worst_task_accuracy": 0.3046875
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.6766357421875,
+          "balanced_accuracy": 0.6589061961194361,
+          "worst_task_accuracy": 0.486328125
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6739501953125,
+          "balanced_accuracy": 0.657245681783324,
+          "worst_task_accuracy": 0.4931640625
+        },
+        "individual": {
+          "avg_accuracy": 0.906982421875,
+          "balanced_accuracy": 0.9060757214954842,
+          "worst_task_accuracy": 0.7548828125
+        },
+        "proposed": {
+          "avg_accuracy": 0.0,
+          "balanced_accuracy": 0.0,
+          "worst_task_accuracy": 0.0
+        }
+      },
+      "failures": {
+        "proposed": "cannot read model.safetensors: SafetensorError: Error while deserializing header: header too small"
+      },
+      "R_vs_reference": -3.7858270977423554
+    },
+    "shortcut:baseline_name_collision": {
+      "proposed_entry": {
+        "avg_accuracy": 0.862060546875,
+        "balanced_accuracy": 0.8562780678059346,
+        "worst_task_accuracy": 0.716796875
+      },
+      "all_entries": {
+        "pretrained": {
+          "avg_accuracy": 0.469970703125,
+          "balanced_accuracy": 0.4613941711141648,
+          "worst_task_accuracy": 0.3046875
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.6766357421875,
+          "balanced_accuracy": 0.6589061961194361,
+          "worst_task_accuracy": 0.486328125
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6739501953125,
+          "balanced_accuracy": 0.657245681783324,
+          "worst_task_accuracy": 0.4931640625
+        },
+        "individual": {
+          "avg_accuracy": 0.906982421875,
+          "balanced_accuracy": 0.9060757214954842,
+          "worst_task_accuracy": 0.7548828125
+        },
+        "proposed": {
+          "avg_accuracy": 0.862060546875,
+          "balanced_accuracy": 0.8562780678059346,
+          "worst_task_accuracy": 0.716796875
+        },
+        "submission_task_arithmetic": {
+          "avg_accuracy": 0.0389404296875,
+          "balanced_accuracy": 0.04684077156301248,
+          "worst_task_accuracy": 0.001953125
+        }
+      },
+      "failures": {
+        "task_arithmetic": "submission name collides with a fixed baseline; renamed to submission_task_arithmetic"
+      },
+      "R_vs_reference": 0.0
+    }
+  },
+  "paired_bootstrap_vs_reference_avg_accuracy": {
+    "pretrained": {
+      "diff": -0.39208984375,
+      "ci95": [
+        -0.403076171875,
+        -0.3804931640625
+      ],
+      "se": 0.005687584577379578
+    },
+    "task_arithmetic": {
+      "diff": -0.1854248046875,
+      "ci95": [
+        -0.19580078125,
+        -0.17578125
+      ],
+      "se": 0.0049828394001222385
+    },
+    "fixed_topk_svd": {
+      "diff": -0.1881103515625,
+      "ci95": [
+        -0.1981201171875,
+        -0.1788330078125
+      ],
+      "se": 0.005005080949536462
+    },
+    "individual": {
+      "diff": 0.044921875,
+      "ci95": [
+        0.038330078125,
+        0.0511474609375
+      ],
+      "se": 0.003211958265826778
+    },
+    "adamerging": {
+      "diff": -0.0140380859375,
+      "ci95": [
+        -0.020263671875,
+        -0.0081787109375
+      ],
+      "se": 0.003044179417845029
+    },
+    "cart_adarank": {
+      "diff": 0.000732421875,
+      "ci95": [
+        -0.0050048828125,
+        0.0062255859375
+      ],
+      "se": 0.0029205351195126738
+    },
+    "ce_oracle_dev": {
+      "diff": -0.0003662109375,
+      "ci95": [
+        -0.00634765625,
+        0.00537109375
+      ],
+      "se": 0.003018333868800438
+    },
+    "mask_only": {
+      "diff": -0.0750732421875,
+      "ci95": [
+        -0.0828857421875,
+        -0.0672607421875
+      ],
+      "se": 0.004036581474599815
+    },
+    "ref_seed1": {
+      "diff": 0.001220703125,
+      "ci95": [
+        -0.0029296875,
+        0.0052490234375
+      ],
+      "se": 0.0021268625432772623
+    },
+    "ref_seed2": {
+      "diff": 0.001708984375,
+      "ci95": [
+        -0.0025634765625,
+        0.005859375
+      ],
+      "se": 0.0021857009028889676
+    },
+    "ta_lambda_grid_dev": {
+      "diff": -0.1715087890625,
+      "ci95": [
+        -0.18115234375,
+        -0.16162109375
+      ],
+      "se": 0.004946262791103476
+    }
+  },
+  "variants_train_vs_test": {
+    "pretrained": {
+      "train": {
+        "avg_accuracy": 0.4765625,
+        "balanced_accuracy": 0.46258066956164334,
+        "worst_task_accuracy": 0.3046875
+      },
+      "test": {
+        "avg_accuracy": 0.469970703125,
+        "balanced_accuracy": 0.4613941711141648,
+        "worst_task_accuracy": 0.3046875
+      }
+    },
+    "task_arithmetic": {
+      "train": {
+        "avg_accuracy": 0.67236328125,
+        "balanced_accuracy": 0.6576010924628708,
+        "worst_task_accuracy": 0.46875
+      },
+      "test": {
+        "avg_accuracy": 0.6766357421875,
+        "balanced_accuracy": 0.6589061961194361,
+        "worst_task_accuracy": 0.486328125
+      }
+    },
+    "fixed_topk_svd": {
+      "train": {
+        "avg_accuracy": 0.6708984375,
+        "balanced_accuracy": 0.6566650520422203,
+        "worst_task_accuracy": 0.46875
+      },
+      "test": {
+        "avg_accuracy": 0.6739501953125,
+        "balanced_accuracy": 0.657245681783324,
+        "worst_task_accuracy": 0.4931640625
+      }
+    },
+    "individual": {
+      "train": {
+        "avg_accuracy": 0.9013671875,
+        "balanced_accuracy": 0.8966680623827497,
+        "worst_task_accuracy": 0.7265625
+      },
+      "test": {
+        "avg_accuracy": 0.906982421875,
+        "balanced_accuracy": 0.9060757214954842,
+        "worst_task_accuracy": 0.7548828125
+      }
+    },
+    "adamerging": {
+      "train": {
+        "avg_accuracy": 0.85595703125,
+        "balanced_accuracy": 0.8449147100407751,
+        "worst_task_accuracy": 0.6796875
+      },
+      "test": {
+        "avg_accuracy": 0.8480224609375,
+        "balanced_accuracy": 0.8422013917711118,
+        "worst_task_accuracy": 0.6904296875
+      }
+    },
+    "cart_adarank": {
+      "train": {
+        "avg_accuracy": 0.85791015625,
+        "balanced_accuracy": 0.8504225277041924,
+        "worst_task_accuracy": 0.66015625
+      },
+      "test": {
+        "avg_accuracy": 0.86279296875,
+        "balanced_accuracy": 0.8577609884374865,
+        "worst_task_accuracy": 0.7099609375
+      }
+    },
+    "ce_oracle_dev": {
+      "train": {
+        "avg_accuracy": 0.98828125,
+        "balanced_accuracy": 0.9839076740911878,
+        "worst_task_accuracy": 0.96484375
+      },
+      "test": {
+        "avg_accuracy": 0.8616943359375,
+        "balanced_accuracy": 0.8578920356714377,
+        "worst_task_accuracy": 0.7119140625
+      }
+    },
+    "mask_only": {
+      "train": {
+        "avg_accuracy": 0.783203125,
+        "balanced_accuracy": 0.7727599383394342,
+        "worst_task_accuracy": 0.56640625
+      },
+      "test": {
+        "avg_accuracy": 0.7869873046875,
+        "balanced_accuracy": 0.7767731626211278,
+        "worst_task_accuracy": 0.587890625
+      }
+    },
+    "proposed": {
+      "train": {
+        "avg_accuracy": 0.8603515625,
+        "balanced_accuracy": 0.8582639802149942,
+        "worst_task_accuracy": 0.6796875
+      },
+      "test": {
+        "avg_accuracy": 0.862060546875,
+        "balanced_accuracy": 0.8562780678059346,
+        "worst_task_accuracy": 0.716796875
+      }
+    },
+    "ref_seed1": {
+      "train": {
+        "avg_accuracy": 0.86328125,
+        "balanced_accuracy": 0.858475904159069,
+        "worst_task_accuracy": 0.6796875
+      },
+      "test": {
+        "avg_accuracy": 0.86328125,
+        "balanced_accuracy": 0.8571033510345224,
+        "worst_task_accuracy": 0.7109375
+      }
+    },
+    "ref_seed2": {
+      "train": {
+        "avg_accuracy": 0.86083984375,
+        "balanced_accuracy": 0.8568861929475903,
+        "worst_task_accuracy": 0.671875
+      },
+      "test": {
+        "avg_accuracy": 0.86376953125,
+        "balanced_accuracy": 0.858189544333103,
+        "worst_task_accuracy": 0.708984375
+      }
+    },
+    "ta_lambda_grid_dev": {
+      "train": {
+        "avg_accuracy": 0.705078125,
+        "balanced_accuracy": 0.6898929522781775,
+        "worst_task_accuracy": 0.52734375
+      },
+      "test": {
+        "avg_accuracy": 0.6905517578125,
+        "balanced_accuracy": 0.6780644553385669,
+        "worst_task_accuracy": 0.52734375
+      }
+    }
+  }
+}
