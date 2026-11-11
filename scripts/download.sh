@@ -1,23 +1,24 @@
 #!/bin/bash
-# Download all data and models needed for this environment.
+# Download all data and models needed for this environment (run on a node with internet).
 #
-# Run on a node with internet access BEFORE building the container
-# or submitting compute jobs.
+# Estimated total download size: ~12 GB
+#   - pretrained CLIP ViT-B/32 (openai/clip-vit-base-patch32, 0.6 GB)
+#   - 8 task-specific fine-tuned CLIP ViT-B/32 image encoders (tanganke/clip-vit-base-patch32_<task>, 2.8 GB)
+#   - public test-split parquet files of SUN397, Stanford Cars, RESISC45, EuroSAT, SVHN,
+#     GTSRB, MNIST and DTD (8.6 GB; only fetched while the prepared splits are missing)
+# Estimated disk usage after preparation: ~4.5 GB (the raw parquet files are deleted by
+#   `python data/prepare_data.py --scrub-raw` once the splits are built)
 #
-# This script should be idempotent — safe to run multiple times.
-# It should skip files that already exist.
+# All files come from pinned Hugging Face revisions and are checked against the sha256
+# digests recorded in data/tasks.json. Idempotent: verified files are skipped.
 #
-# Update the storage estimate below as you add downloads.
-#
-# Estimated total download size: 0 GB
-# Estimated disk usage after extraction: 0 GB
-#
-# This reproduction uses deterministic synthetic data generated from tracked
-# code, so there are no external resources to fetch.
+# Building the splits needs pyarrow (installed in the container), so it runs at the
+# start of the first job (scripts/run.sh / scripts/reproduce.sh):
+#   python data/prepare_data.py            # public adaptation + dev splits
+#   python eval/test/prepare_hidden.py     # held-out split (evaluation side only)
+#   python data/prepare_data.py --scrub-raw
 
-set -e
-
-cd /home/user
-
+set -euo pipefail
+cd "$(dirname "$0")/.."
 mkdir -p data/downloads
-echo "No external downloads are required; the benchmark data is generated deterministically by data/synthetic_tasks.py."
+python3 data/fetch.py "$@"

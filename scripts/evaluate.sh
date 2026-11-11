@@ -1,30 +1,13 @@
 #!/bin/bash
-# Evaluation script — the standard way to evaluate work in this environment.
+# Standard evaluation: scores every submission under outputs/merged/<name>/ and the fixed
+# baselines on the public labeled dev rows; writes scoring/scores.json.
 #
-# This script must be SELF-CONTAINED using only code in eval/.
-# Do NOT import from method/ — evaluate.sh must work even when the
-# paper's method code is hidden from a scientist agent.
-#
-# Design it so that anyone following the same output format can run
-# this script to evaluate their results.
-#
-# OUTPUT CONTRACT: This script MUST write scoring/scores.json containing
-# a JSON dict nested by experiment, e.g.:
-#   {"imagenet_classification": {"top1_accuracy": 82.1, "top5_accuracy": 94.8}}
-# Experiment and metric names must match the keys in scoring/reference.json.
-# This file is read by the system for automated comparison.
-#
-# Example usage:
-#   ./evaluate.sh outputs/adarank_synthetic/artifact.pt
-#
-# Called from run.sh after training, or independently.
-
-set -e
-
-cd /home/user
-export PYTHONPATH="/home/user:${PYTHONPATH:-}"
-
+# Submission format: outputs/merged/<name>/model.safetensors holding exactly the tensors of
+# one CLIP ViT-B/32 image encoder (transformers CLIPVisionModel names/shapes, finite floats).
+# The fixed zero-shot heads and visual projection are attached by the evaluator.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+export PYTHONPATH="$(pwd):${PYTHONPATH:-}"
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1
 mkdir -p scoring
-
-INPUT="${1:-outputs/adarank_synthetic/artifact.pt}"
-python eval/evaluate_outputs.py --input "$INPUT" --output scoring/scores.json
+python eval/train/evaluate.py --output scoring/scores.json

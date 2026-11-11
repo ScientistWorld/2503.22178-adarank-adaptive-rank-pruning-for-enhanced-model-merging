@@ -1,24 +1,15 @@
 #!/bin/bash
-# Reproduce the paper's results end-to-end.
-#
-# This script runs inside the compute container and should call
-# scripts/baseline.sh and scripts/method.sh to run baselines and
-# the paper's method, each of which calls scripts/evaluate.sh.
-#
-# Assumes:
-#   - Container is built (environment/container.sif)
-#   - Data and models are downloaded (via scripts/download.sh)
-#   - Working directory is /home/user
-#
-# This is the "gold standard" reproduction — 
-# You do not need to run this, but keep this in good shape
-# so other agents can easily run a full loop of reproduction and get the paper's numbers.
-
-set -e
-
-cd /home/user
-export PYTHONPATH="/home/user:${PYTHONPATH:-}"
-
-python method/adarank_synthetic.py "$@"
-python baseline/task_arithmetic_synthetic.py --source outputs/adarank_synthetic/predictions.json
-bash scripts/evaluate.sh outputs/adarank_synthetic/artifact.pt
+# Reproduce the reference end to end inside the compute container (no internet needed
+# once scripts/download.sh has run): build the splits, run AdaRank (TA, paper defaults)
+# into outputs/merged/proposed/, and score it on the dev and held-out rows.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+export PYTHONPATH="$(pwd):${PYTHONPATH:-}"
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1
+python data/prepare_data.py
+if [ -f eval/test/prepare_hidden.py ]; then python eval/test/prepare_hidden.py; fi
+python data/prepare_data.py --scrub-raw
+[ -f data/assets/zeroshot_heads.safetensors ] || python data/build_heads.py
+bash scripts/method.sh "$@"
+bash scripts/evaluate_train.sh
+if [ -f eval/test/evaluate.py ]; then bash scripts/evaluate_test.sh; fi

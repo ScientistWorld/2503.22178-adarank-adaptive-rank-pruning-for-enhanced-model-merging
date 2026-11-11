@@ -1,19 +1,11 @@
 #!/bin/bash
-# Held-out test-slice evaluation script.
-#
-# Mirrors scripts/evaluate.sh's contract: read a saved model artifact
-# and write held-out scores. When train scores exist, this scores the same
-# method entries rather than a hardcoded method name.
-
-set -e
-
-cd /home/user
-export PYTHONPATH="/home/user:${PYTHONPATH:-}"
-
+# Held-out evaluation: scores every submission under outputs/merged/<name>/ (plus the
+# fixed baselines) on the hidden rows and writes scoring/scores_test.json.
+# Takes no arguments. Builds the held-out split first if it is not prepared yet.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+export PYTHONPATH="$(pwd):${PYTHONPATH:-}"
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1
 mkdir -p scoring
-
-INPUT="${1:-outputs/adarank_synthetic/artifact.pt}"
-python eval/test/evaluate.py \
-  --input "$INPUT" \
-  --output scoring/scores_test.json \
-  --train-scores scoring/scores_train.json
+python eval/test/prepare_hidden.py
+python eval/test/evaluate.py

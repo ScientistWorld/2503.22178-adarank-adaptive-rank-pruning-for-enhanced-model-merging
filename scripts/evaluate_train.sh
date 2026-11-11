@@ -1,15 +1,10 @@
 #!/bin/bash
-# Visible train-slice evaluation script.
-#
-# Mirrors scripts/evaluate.sh's contract: read a saved model artifact
-# and write a scoring JSON without importing method/ or rerunning inference.
-
-set -e
-
-cd /home/user
-export PYTHONPATH="/home/user:${PYTHONPATH:-}"
-
+# Visible dev-slice evaluation: scores every submission under outputs/merged/<name>/
+# (plus the fixed baselines) on the labeled public dev rows and writes
+# scoring/scores_train.json. Takes no arguments.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+export PYTHONPATH="$(pwd):${PYTHONPATH:-}"
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1
 mkdir -p scoring
-
-INPUT="${1:-outputs/adarank_synthetic/artifact.pt}"
-python eval/train/evaluate.py --input "$INPUT" --output scoring/scores_train.json
+python eval/train/evaluate.py

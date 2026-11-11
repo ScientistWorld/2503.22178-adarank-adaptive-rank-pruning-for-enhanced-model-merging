@@ -1,19 +1,13 @@
 #!/bin/bash
-# Install Python packages into the container overlay.
+# Install Python packages into the container overlay (run by the system on a node with
+# internet). Installs into the SYSTEM Python; no virtual environments.
 #
-# This script is run by the system on the login node (which has internet)
-# inside the container with a persistent overlay. Changes persist across
-# job submissions without rebuilding the container.
-#
-# Put ALL pip installs here, NOT in container.def.
-# Only use container.def for the base Docker image and apt-get packages.
-#
-# IMPORTANT: Install into the SYSTEM Python, not a virtual environment.
-# The overlay may be recreated on container rebuilds — a venv inside
-# it will be lost and all subsequent jobs will fail.
-# Use: uv pip install --system <packages>
-# Do NOT create a venv (python -m venv, virtualenv, etc.).
+# torch: CUDA 12.6 build (works with any driver >= 525 via CUDA minor-version compatibility).
+# transformers is pinned for a stable CLIP API; pyarrow reads the public parquet files;
+# pillow decodes the images; safetensors stores encoder weights.
 
 set -e
 
-uv pip install --system torch numpy
+uv pip install --system --index-url https://download.pytorch.org/whl/cu126 "torch==2.12.0+cu126"
+uv pip install --system numpy "transformers==4.57.1" safetensors pyarrow pillow
+python -c "import torch, transformers, safetensors, pyarrow, PIL; print('torch', torch.__version__, 'cuda', torch.version.cuda, 'transformers', transformers.__version__)"

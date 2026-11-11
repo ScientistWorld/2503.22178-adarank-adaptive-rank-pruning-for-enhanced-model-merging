@@ -1,62 +1,72 @@
 {
   "experiments": {
-    "synthetic_4task_merge": {
-      "description": "Scaled AdaRank reproduction benchmark, referenced to the paper's ViT-B/32 8-task model-merging results and parameter-cost table.",
-      "notes": "Published avg_accuracy references are the paper's ViT-B/32 8-task values for Individual, Task Arithmetic, and TA+AdaRank. fixed_topk_svd uses the paper's fixed top-16% Task Arithmetic ablation as the compact fixed-rank reference for this scaled gym. The paper does not report balanced_accuracy or worst_task_accuracy aggregates; those are gym-only benefit metrics computed for reproduced artifacts.",
+    "vit_b32_8task_merge": {
+      "description": "Merge eight CLIP ViT-B/32 image encoders, each fine-tuned from the same pretrained encoder on one of SUN397, Stanford Cars, RESISC45, EuroSAT, SVHN, GTSRB, MNIST and DTD, into a single image encoder. Scored with fixed zero-shot text heads on held-out rows of the eight public test splits.",
+      "notes": "Published values are the paper's ViT-B/32 8-task numbers (Table 1; fixed top-16% from Table 5). The gym uses the same backbone, the same eight tasks, public fine-tuned checkpoints of the same kind, and the standard zero-shot heads. Scaled settings: evaluation on 1,024 held-out test rows per task (not the full test sets), adaptation on a disjoint pool of at most 2,048 unlabeled test-split rows per task (the paper adapts on the full unlabeled test set it evaluates on), and the final adapted state is scored (the official code reports the best of periodic test-label evaluations). balanced_accuracy and worst_task_accuracy are gym additions computed from the same predictions. 'proposed' is the entry of the submitted single merged encoder; in the reference run it is TA+AdaRank with the paper's default settings.",
       "weight": 1.0,
       "primary_metric": "avg_accuracy",
       "metrics": {
         "avg_accuracy": {
           "higher_is_better": true,
           "coefficient": 1.0,
-          "description": "Mean classification accuracy across the synthetic tasks."
+          "description": "Mean over the eight tasks of the top-1 accuracy of the single merged encoder with the fixed task heads."
         },
         "balanced_accuracy": {
           "higher_is_better": true,
           "coefficient": 0.45,
-          "description": "Mean per-task macro recall, which catches methods that improve the average by neglecting minority classes."
+          "description": "Mean over tasks of per-class recall averaged over the classes present; catches merges that keep the average by collapsing minority classes."
         },
         "worst_task_accuracy": {
           "higher_is_better": true,
           "coefficient": 0.35,
-          "description": "Lowest task accuracy, which catches methods that sacrifice a hard task while preserving the overall mean."
-        },
-        "param_multiplier_vs_single": {
-          "higher_is_better": false,
-          "coefficient": -0.35,
-          "description": "Deployment parameter count as a multiple of one merged model; lower values preserve the paper's compactness constraint."
-        },
-        "learnable_param_fraction": {
-          "higher_is_better": false,
-          "coefficient": -0.1,
-          "description": "Learnable adaptation parameters as a fraction of all task-specific model parameters; lower values discourage hidden trainable capacity."
+          "description": "Lowest per-task accuracy; catches merges that trade one task away for the others."
         }
       },
       "results": {
         "individual": {
           "type": "baseline",
-          "avg_accuracy": 0.905,
-          "param_multiplier_vs_single": 8.0,
-          "learnable_param_fraction": 0.0
+          "avg_accuracy": 0.905
+        },
+        "pretrained": {
+          "type": "baseline",
+          "avg_accuracy": 0.48
         },
         "task_arithmetic": {
           "type": "baseline",
-          "avg_accuracy": 0.692,
-          "param_multiplier_vs_single": 1.0,
-          "learnable_param_fraction": 0.0
+          "avg_accuracy": 0.692
         },
         "fixed_topk_svd": {
           "type": "baseline",
-          "avg_accuracy": 0.688,
-          "param_multiplier_vs_single": 1.0,
-          "learnable_param_fraction": 0.0
+          "avg_accuracy": 0.688
         },
-        "adarank": {
+        "proposed": {
           "type": "proposed",
-          "avg_accuracy": 0.879,
-          "param_multiplier_vs_single": 1.0,
-          "learnable_param_fraction": 0.00032
+          "avg_accuracy": 0.879
         }
+      },
+      "_paper_reported": {
+        "source": "AdaRank (arXiv 2503.22178), ViT-B/32, 8 tasks",
+        "avg_accuracy": {
+          "TA+AdaMerging": 0.801,
+          "TA+AdaRank mask-only (Table 6)": 0.799,
+          "CART": 0.847,
+          "CART+AdaRank": 0.892,
+          "TSV-M+AdaRank": 0.889,
+          "Iso-CTS+AdaRank": 0.894,
+          "AdaRank top-16% range (Table 5)": 0.875
+        },
+        "param_multiplier_vs_single": {
+          "individual": 8.0,
+          "task_arithmetic": 1.0,
+          "fixed_topk_svd": 1.0,
+          "TA+AdaRank": 1.0
+        },
+        "learnable_param_fraction": {
+          "TA+AdaRank": 0.00032,
+          "TA+AdaRank learnable parameters": 294912,
+          "TA+AdaMerging learnable parameters": 2440
+        },
+        "note": "Deployment size is enforced as a hard gate (a submission is exactly one image encoder) and adaptation cost cannot be recomputed from a submitted encoder, so these two quantities are documented here rather than scored."
       }
     }
   }

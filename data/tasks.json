@@ -1,0 +1,300 @@
+{
+ "base_model": {
+  "repo": "openai/clip-vit-base-patch32",
+  "revision": "3d74acf9a28c67741b2f4f2ea7635f0aaf6f0268",
+  "files": [
+   "config.json",
+   "pytorch_model.bin",
+   "merges.txt",
+   "vocab.json",
+   "tokenizer.json",
+   "tokenizer_config.json",
+   "special_tokens_map.json",
+   "preprocessor_config.json"
+  ],
+  "sha256": {
+   "config.json": null,
+   "pytorch_model.bin": "a63082132ba4f97a80bea76823f544493bffa8082296d62d71581a4feff1576f",
+   "merges.txt": null,
+   "vocab.json": null,
+   "tokenizer.json": null,
+   "tokenizer_config.json": null,
+   "special_tokens_map.json": null,
+   "preprocessor_config.json": null
+  },
+  "size": {
+   "config.json": 4186,
+   "pytorch_model.bin": 605247071,
+   "merges.txt": 524657,
+   "vocab.json": 862328,
+   "tokenizer.json": 2224041,
+   "tokenizer_config.json": 592,
+   "special_tokens_map.json": 389,
+   "preprocessor_config.json": 316
+  }
+ },
+ "tasks": [
+  {
+   "name": "sun397",
+   "dataset_repo": "tanganke/sun397",
+   "dataset_revision": "9c4afd6174afa3974f209a0ef099dbbe244dfd27",
+   "test_files": [
+    "data/test-00000-of-00018.parquet",
+    "data/test-00001-of-00018.parquet",
+    "data/test-00002-of-00018.parquet",
+    "data/test-00003-of-00018.parquet",
+    "data/test-00004-of-00018.parquet",
+    "data/test-00005-of-00018.parquet",
+    "data/test-00006-of-00018.parquet",
+    "data/test-00007-of-00018.parquet",
+    "data/test-00008-of-00018.parquet",
+    "data/test-00009-of-00018.parquet",
+    "data/test-00010-of-00018.parquet",
+    "data/test-00011-of-00018.parquet",
+    "data/test-00012-of-00018.parquet",
+    "data/test-00013-of-00018.parquet",
+    "data/test-00014-of-00018.parquet",
+    "data/test-00015-of-00018.parquet",
+    "data/test-00016-of-00018.parquet",
+    "data/test-00017-of-00018.parquet"
+   ],
+   "num_test_rows": 19850,
+   "num_classes": 397,
+   "expert_repo": "tanganke/clip-vit-base-patch32_sun397",
+   "expert_revision": "4628de77c6c97ba178c65a0bdf5ce8f5c3045d63",
+   "expert_files": [
+    "config.json",
+    "model.safetensors"
+   ],
+   "test_file_sha256": [
+    "47de9068bd1a58540504ab115292f8033059059548bc36ff6358abcb272fe11e",
+    "26704c3070c37a36d2ab3d1144ddc9438579aec5846dba5f4a458f4403613dd7",
+    "ad33ee7d30852f3cc93034604490769fbe4ca0fa75f39315dff141d71d8346d7",
+    "1314d5d1442bcca583a30d7eb88156b7195663a6903148d1e1c2355741908fa4",
+    "68e8b56bd66dd6b5cecb9e66447848c236fcd4e5954cd8dd31e73ce1af790eff",
+    "ac353bf3ba772894f70492066f698c0a35e45aa402368083298d0f701267be75",
+    "e13f0e6cfb59a10c90ee3967b1c7c684d2f5c176d0d644d2da3ac8c18aa35302",
+    "cb280f03ec89e49a5dee7af0fbced2192c46651929f88edd8d464e2d59bd6758",
+    "cfcc47d4fac827f878f917ba998e13d7d69b5e9f3511db7b2ce143aca1bf6e67",
+    "f7031306862330489c34fc992ddfd9f4d40542678fb0a3ccf40c7a2d918fb1db",
+    "68293f9c0fd7685370e948c95b8988fd71879815d97842d68312e0ddeb696fdf",
+    "b9c81b4ee35aaa0697e1a6bf4ba7ef755582c924b1b96b87c722f3b694a0618b",
+    "3183d8acc5786740d7a662eab865cfc716901819dd749a8f6deaeeb4c68711a3",
+    "ceb134009bdcfda00cbb1bf5d4f175a1bec2aacdc9927f891924c4aa84da7ff8",
+    "ed51e4ffe54ef134a1f120c9d6cbb68f255ca080350afbd60ff5d5b4e4220532",
+    "3a062f44af8bb9e9310b6b32572b3191ed95524a975830e6a07f8915f2fd2905",
+    "1b8fb2255d0c72c79a6941a341ea18028d1d90ad084fa847f1b11924433df231",
+    "ed5885da6222f3ebd6de7b4be8fc5bb771a8381a6f1e916f6345aead564bac41"
+   ],
+   "test_file_size": [
+    449842051,
+    364700334,
+    352550319,
+    450752930,
+    467457613,
+    409211767,
+    463339920,
+    408453168,
+    365403873,
+    396564758,
+    380136381,
+    360454507,
+    347502304,
+    388223765,
+    400754785,
+    425504304,
+    423634113,
+    366234926
+   ],
+   "expert_sha256": {
+    "config.json": null,
+    "model.safetensors": "12f022a6b6d2757cb3f109faa54bab6031cec0da5626ac7cdfc13f6ddad02725"
+   }
+  },
+  {
+   "name": "cars",
+   "dataset_repo": "tanganke/stanford_cars",
+   "dataset_revision": "9abf6cf7d6dfa7b95152a0d6e791ea9435b47a40",
+   "test_files": [
+    "data/test-00000-of-00002.parquet",
+    "data/test-00001-of-00002.parquet"
+   ],
+   "num_test_rows": 8041,
+   "num_classes": 196,
+   "expert_repo": "tanganke/clip-vit-base-patch32_stanford-cars",
+   "expert_revision": "0fa3456c60f15e5cec5275c5b88851c1dca503a8",
+   "expert_files": [
+    "config.json",
+    "model.safetensors"
+   ],
+   "test_file_sha256": [
+    "ddb15e6a44573203cc1be170be2f05d1e34b22532d37579a6d53cfd05c21485a",
+    "22c54046e4beaeb01d4a6daa72a39c5af50feda6850dbf2b0f784cabf865ccaa"
+   ],
+   "test_file_size": [
+    513268211,
+    473601440
+   ],
+   "expert_sha256": {
+    "config.json": null,
+    "model.safetensors": "569a37c3fb0849f8c1ac1e3fc47300210d4abeaf52be8ef55cf8164c9742224d"
+   }
+  },
+  {
+   "name": "resisc45",
+   "dataset_repo": "tanganke/resisc45",
+   "dataset_revision": "5c484982a196dcb501b8e79c6cf4680dc6f2ccdf",
+   "test_files": [
+    "data/test-00000-of-00001.parquet"
+   ],
+   "num_test_rows": 6300,
+   "num_classes": 45,
+   "expert_repo": "tanganke/clip-vit-base-patch32_resisc45",
+   "expert_revision": "24dc3a3a4f1eda0090829d399edcda9963f462a2",
+   "expert_files": [
+    "config.json",
+    "model.safetensors"
+   ],
+   "test_file_sha256": [
+    "bdd84285a7eb4c45b1cea8f125991c2cdd96c2d24c5f2f873585dcdf4b8fc248"
+   ],
+   "test_file_size": [
+    85069793
+   ],
+   "expert_sha256": {
+    "config.json": null,
+    "model.safetensors": "c68d933880e17398d317caff54f2002564c900f57eda3718f5f6c8a21cffaeb9"
+   }
+  },
+  {
+   "name": "eurosat",
+   "dataset_repo": "tanganke/eurosat",
+   "dataset_revision": "43750fc422c7fbd4289e2df3f7473617a5937acc",
+   "test_files": [
+    "data/test-00000-of-00001.parquet"
+   ],
+   "num_test_rows": 2700,
+   "num_classes": 10,
+   "expert_repo": "tanganke/clip-vit-base-patch32_eurosat",
+   "expert_revision": "7c114f53697b7acca1147a0d1e8b7c769979b57b",
+   "expert_files": [
+    "config.json",
+    "model.safetensors"
+   ],
+   "test_file_sha256": [
+    "815d6c3b86d277dbc3164961936ba47ea0f4b4bafd59059fe93f7cd473cd5044"
+   ],
+   "test_file_size": [
+    9134700
+   ],
+   "expert_sha256": {
+    "config.json": null,
+    "model.safetensors": "36e0a56cf1a475df2338b573a8eebebe3592f94404c324c1ee103cda390532a8"
+   }
+  },
+  {
+   "name": "svhn",
+   "dataset_repo": "ufldl-stanford/svhn",
+   "dataset_revision": "f9e1717d73324ebbc1ece84267ccd80d0aca0690",
+   "test_files": [
+    "cropped_digits/test-00000-of-00001.parquet"
+   ],
+   "num_test_rows": 26032,
+   "num_classes": 10,
+   "expert_repo": "tanganke/clip-vit-base-patch32_svhn",
+   "expert_revision": "7da249d42c97bb5117832d37d6e54acc50dec7e0",
+   "expert_files": [
+    "config.json",
+    "model.safetensors"
+   ],
+   "test_file_sha256": [
+    "d192ecc88ace148c87b907b11c7372647d09f3552ecf937021d8336be2efdbde"
+   ],
+   "test_file_size": [
+    47003111
+   ],
+   "expert_sha256": {
+    "config.json": null,
+    "model.safetensors": "5885065fa8ac4b891213fd0bc61163dbfa08f316e031ee916f596394e4c66a63"
+   }
+  },
+  {
+   "name": "gtsrb",
+   "dataset_repo": "tanganke/gtsrb",
+   "dataset_revision": "ea889fff70dda7b09e94a4b207dded438deca549",
+   "test_files": [
+    "data/test-00000-of-00001.parquet"
+   ],
+   "num_test_rows": 12630,
+   "num_classes": 43,
+   "expert_repo": "tanganke/clip-vit-base-patch32_gtsrb",
+   "expert_revision": "7b11ced426cc9cd0430650be19d75748f3bd64d0",
+   "expert_files": [
+    "config.json",
+    "model.safetensors"
+   ],
+   "test_file_sha256": [
+    "2f868c4e7ae887b3aee00c3c6348ac155287e5fb0497f1c7d7683694299c7e67"
+   ],
+   "test_file_size": [
+    109166076
+   ],
+   "expert_sha256": {
+    "config.json": null,
+    "model.safetensors": "e87740392ae79431f180d5a80670095e403739912552d3a7d01fc5ca6d39c8a2"
+   }
+  },
+  {
+   "name": "mnist",
+   "dataset_repo": "ylecun/mnist",
+   "dataset_revision": "77f3279092a1c1579b2250db8eafed0ad422088c",
+   "test_files": [
+    "mnist/test-00000-of-00001.parquet"
+   ],
+   "num_test_rows": 10000,
+   "num_classes": 10,
+   "expert_repo": "tanganke/clip-vit-base-patch32_mnist",
+   "expert_revision": "28dca299b68f294bb368533172496dbde3901f3e",
+   "expert_files": [
+    "config.json",
+    "model.safetensors"
+   ],
+   "test_file_sha256": [
+    "d49fcf556ce25b002b302e318ce4a11098bbfe5d4499c3f35d7c72297c52374b"
+   ],
+   "test_file_size": [
+    2595890
+   ],
+   "expert_sha256": {
+    "config.json": null,
+    "model.safetensors": "2f314468305297b901243938151fc791ab92c5953a64568cf9213e2ff4e9e19e"
+   }
+  },
+  {
+   "name": "dtd",
+   "dataset_repo": "tanganke/dtd",
+   "dataset_revision": "d2afa97d9f335b1a6b3b09c637aef667f98f966e",
+   "test_files": [
+    "data/test-00000-of-00001.parquet"
+   ],
+   "num_test_rows": 1880,
+   "num_classes": 47,
+   "expert_repo": "tanganke/clip-vit-base-patch32_dtd",
+   "expert_revision": "2ce76d4ca9ae563f45f526d4f2d222478083784c",
+   "expert_files": [
+    "config.json",
+    "model.safetensors"
+   ],
+   "test_file_sha256": [
+    "3e137d5255ddd649a004f19e6b36f170572e2d6504b047f2f4fdb616180fdce3"
+   ],
+   "test_file_size": [
+    179155504
+   ],
+   "expert_sha256": {
+    "config.json": null,
+    "model.safetensors": "63562a65d672255d9ed9332df96c562fed09021a9efee2dacdf1a10abb660a11"
+   }
+  }
+ ]
+}

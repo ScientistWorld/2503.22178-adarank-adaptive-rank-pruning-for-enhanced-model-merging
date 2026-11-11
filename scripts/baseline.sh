@@ -1,25 +1,11 @@
 #!/bin/bash
-# Run a baseline method from the paper.
-#
-# Baselines are simple reference methods the paper compares against. 
-# Implement this only if applicable, i.e. the paper has baselines.
-# You do not need to implement all baselines to begin — 
-# just enough to validate that the evaluation pipeline works 
-# and provide a reference point. You can decide to expand more baselines later.
-# Each baseline must be actually run and scored through evaluate.sh
-# so the numbers are verified, not self-reported.
-# You can decide what this baseline script should do yourself.
-#
-# Usage:
-#   bash scripts/baseline.sh <name>
-
-set -e
-
-cd /home/user
-export PYTHONPATH="/home/user:${PYTHONPATH:-}"
-
-if [ ! -f outputs/adarank_synthetic/predictions.json ]; then
-  python method/adarank_synthetic.py
-fi
-python baseline/task_arithmetic_synthetic.py --source outputs/adarank_synthetic/predictions.json
-bash scripts/evaluate.sh outputs/baseline_synthetic/artifact.pt
+# Write a static merging baseline in the submission format and score it on the dev rows.
+#   bash scripts/baseline.sh [task_arithmetic|fixed_topk_svd|pretrained]
+# (The scored baselines in scores_*.json are recomputed by the evaluators themselves.)
+set -euo pipefail
+cd "$(dirname "$0")/.."
+export PYTHONPATH="$(pwd):${PYTHONPATH:-}"
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1
+NAME="${1:-task_arithmetic}"
+python baseline/static_merge.py --name "$NAME" --output-root outputs/baselines
+python eval/train/evaluate.py --submissions outputs/baselines --output "outputs/baselines/scores_dev.json"
