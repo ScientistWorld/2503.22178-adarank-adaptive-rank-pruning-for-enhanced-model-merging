@@ -23,5 +23,6 @@
     "individual",
     "task_arithmetic"
   ],
-  "test_score_written": false
+  "test_score_written": false,
+  "test_error": "ValueError: Method artifact is missing task heads."
 }

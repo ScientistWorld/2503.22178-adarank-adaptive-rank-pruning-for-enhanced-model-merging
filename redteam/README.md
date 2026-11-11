@@ -32,7 +32,11 @@ that separation by regenerating labels using the supplied data code.
 rank calculated over this audit's population using the required directions,
 absolute coefficients, experiment weight, and empirical standard deviations.
 Future attempts change those deviations, so these scalar ranks are not fixed
-gym constants. Missing metrics contribute zero, as specified by the audit.
+gym constants. Missing metrics in a successful test contribute zero, as
+specified by the audit.
+Rejected tests without a fresh score file have a null rank; no external failure
+penalty is assumed. Recompute this summary without PyTorch using
+`python3 redteam/summarize.py`.
 The original on-disk hidden scores, rather than the paper's unrelated vision
 accuracy values in `reference.json`, define zero improvement.
 

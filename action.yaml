@@ -1,4 +1,2 @@
-action: submit
-gpus: 0
-test: true
-notes: "Run 26 bundled CPU audit trials: three reference seeds, honest quality variants and exhaustive search, then saved-artifact/data/metadata/omission shortcuts through unmodified no-argument hidden test."
+action: done
+notes: "Audit complete: 26 hidden-test trials, quality controls and three seeds, seven paying shortcut trials; evidence in REDTEAM.md and redteam; benchmark restored."
