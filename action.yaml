@@ -1,8 +1,6 @@
 # Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends.
-action: submit
-gpus: 2
-test: false
+action: done
 milestone: core_claim
-notes: "Hardening check: rebuild enlarged held-out split (26,524 rows) + baselines, rerun reference TA+AdaRank from final code, KL-to-expert headroom variants, push reference/variants/shortcuts through hidden test, regenerate scores"
+notes: "Hardened CLIP ViT-B/32 8-task gym: TA+AdaRank 86.21% vs TA 67.80% on 26,524 held-out rows (paper 87.9 vs 69.2); held-out test enlarged 3.2x, collision-safe keys, all shortcuts fail or tie, label-free KL-to-expert variant 88.5% shows headroom; see HARDENING.md"
