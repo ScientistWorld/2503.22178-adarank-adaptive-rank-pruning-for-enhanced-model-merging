@@ -43,6 +43,21 @@ class SubmissionError(Exception):
     pass
 
 
+def cpu_count() -> int:
+    try:
+        return max(1, len(os.sched_getaffinity(0)))
+    except AttributeError:
+        return max(1, os.cpu_count() or 1)
+
+
+def pick_device() -> torch.device:
+    """Visible CUDA device with the most free memory (nodes may expose busy GPUs), else CPU."""
+    if not torch.cuda.is_available():
+        return torch.device("cpu")
+    free = [(torch.cuda.mem_get_info(i)[0], -i) for i in range(torch.cuda.device_count())]
+    return torch.device(f"cuda:{-max(free)[1]}")
+
+
 def sha256_bytes(b: bytes) -> str:
     return hashlib.sha256(b).hexdigest()
 
@@ -86,7 +101,7 @@ def load_dev(task: str, index: dict) -> tuple[torch.Tensor, torch.Tensor]:
         if c.get("image_sha256") == hashes:
             images = c["images"]
     if images is None:
-        with ThreadPoolExecutor(max(1, min(16, os.cpu_count() or 1))) as pool:
+        with ThreadPoolExecutor(min(16, cpu_count())) as pool:
             images = torch.stack(list(pool.map(preprocess, payload["image_bytes"])))
         torch.save({"image_sha256": hashes, "images": images}, cache)
     return images, torch.tensor(list(payload["labels"]), dtype=torch.long)
@@ -252,8 +267,8 @@ def main() -> None:
 
     torch.backends.cuda.matmul.allow_tf32 = False
     torch.backends.cudnn.allow_tf32 = False
-    torch.set_num_threads(max(1, os.cpu_count() or 1))
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    torch.set_num_threads(cpu_count())
+    device = pick_device()
     t0 = time.time()
     splits = json.loads((ROOT / "data" / "splits.json").read_text())["tasks"]
     index = {t: {"rows": splits[t]["dev"]} for t in splits}

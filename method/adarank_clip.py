@@ -177,7 +177,11 @@ def entropy(logits: torch.Tensor) -> torch.Tensor:
 
 
 def run(args: argparse.Namespace) -> Path:
-    device = torch.device(args.device if torch.cuda.is_available() or not args.device.startswith("cuda") else "cpu")
+    if args.device == "auto":
+        device = cb.pick_device()
+    else:
+        device = torch.device(args.device if torch.cuda.is_available() or not args.device.startswith("cuda") else "cpu")
+    print(f"device {device}", flush=True)
     torch.manual_seed(args.seed)
     tasks = cb.TASK_NAMES
     out_dir = Path(args.output_root) / args.name
@@ -309,7 +313,7 @@ def parse_args(argv=None) -> argparse.Namespace:
     p.add_argument("--prior", type=float, default=None, help="initial lambda (TA 0.3, CART 2.3)")
     p.add_argument("--init-rank-ratio", type=float, default=None, help="initially kept fraction (TA 1.0, CART 0.16)")
     p.add_argument("--seed", type=int, default=0)
-    p.add_argument("--device", default="cuda:0")
+    p.add_argument("--device", default="auto", help="cuda:N, cpu, or auto (GPU with most free memory)")
     p.add_argument("--log-every", type=int, default=250)
     p.add_argument("--ckpt-every", type=int, default=1000)
     p.add_argument("--overwrite", action="store_true")

@@ -20,9 +20,9 @@ import data.clip_benchmark as cb  # noqa: E402
 
 def main() -> None:
     p = argparse.ArgumentParser()
-    p.add_argument("--device", default="cuda:0")
+    p.add_argument("--device", default="auto")
     args = p.parse_args()
-    device = torch.device(args.device if torch.cuda.is_available() else "cpu")
+    device = cb.pick_device() if args.device == "auto" else torch.device(args.device)
     torch.backends.cuda.matmul.allow_tf32 = False
     base = cb.load_base_vision_state()
     total = {k: torch.zeros_like(v) for k, v in base.items()}

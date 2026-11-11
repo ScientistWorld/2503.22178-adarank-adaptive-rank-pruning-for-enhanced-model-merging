@@ -69,7 +69,11 @@ def preprocess_image_bytes(raw: bytes) -> torch.Tensor:
 
 
 def preprocess_many(raw_list: list[bytes]) -> torch.Tensor:
-    workers = max(1, min(16, os.cpu_count() or 1))
+    try:
+        ncpu = len(os.sched_getaffinity(0))
+    except AttributeError:
+        ncpu = os.cpu_count() or 1
+    workers = max(1, min(16, ncpu))
     with ThreadPoolExecutor(workers) as pool:
         tensors = list(pool.map(preprocess_image_bytes, raw_list))
     return torch.stack(tensors) if tensors else torch.zeros(0, 3, IMAGE_SIZE, IMAGE_SIZE, dtype=torch.uint8)
@@ -233,3 +237,11 @@ def predict(module, state: dict[str, torch.Tensor], images_u8: torch.Tensor, hea
         emb = image_embeddings(module, st, x, heads["projection"])
         preds.append(task_logits(emb, heads, task).argmax(dim=1).cpu())
     return torch.cat(preds)
+
+
+def pick_device() -> torch.device:
+    """Visible CUDA device with the most free memory (shared nodes may expose busy GPUs)."""
+    if not torch.cuda.is_available():
+        return torch.device("cpu")
+    free = [(torch.cuda.mem_get_info(i)[0], -i) for i in range(torch.cuda.device_count())]
+    return torch.device(f"cuda:{-max(free)[1]}")
