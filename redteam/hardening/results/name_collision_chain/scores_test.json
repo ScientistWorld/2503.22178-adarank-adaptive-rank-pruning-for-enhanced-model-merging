@@ -1,0 +1,119 @@
+{
+  "experiments": {
+    "vit_b32_8task_merge": {
+      "results": {
+        "pretrained": {
+          "avg_accuracy": 0.47977781295776367,
+          "balanced_accuracy": 0.4669985361151642,
+          "worst_task_accuracy": 0.310791015625
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.6780422702431679,
+          "balanced_accuracy": 0.658872464042919,
+          "worst_task_accuracy": 0.486328125
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6753818914294243,
+          "balanced_accuracy": 0.6560607547310717,
+          "worst_task_accuracy": 0.4931640625
+        },
+        "individual": {
+          "avg_accuracy": 0.9058271870017052,
+          "balanced_accuracy": 0.9055574728453737,
+          "worst_task_accuracy": 0.751708984375
+        },
+        "proposed": {
+          "avg_accuracy": 0.8620899319648743,
+          "balanced_accuracy": 0.8571193639323494,
+          "worst_task_accuracy": 0.716064453125
+        },
+        "submission_task_arithmetic": {
+          "avg_accuracy": 0.040702140191569924,
+          "balanced_accuracy": 0.04679694555304693,
+          "worst_task_accuracy": 0.002685546875
+        },
+        "submission_submission_task_arithmetic": {
+          "avg_accuracy": 0.8620899319648743,
+          "balanced_accuracy": 0.8571193639323494,
+          "worst_task_accuracy": 0.716064453125
+        }
+      }
+    }
+  },
+  "slice": "test",
+  "per_task_accuracy": {
+    "pretrained": {
+      "sun397": 0.63134765625,
+      "cars": 0.60546875,
+      "resisc45": 0.5935935974121094,
+      "eurosat": 0.451171875,
+      "svhn": 0.310791015625,
+      "gtsrb": 0.318359375,
+      "mnist": 0.484130859375,
+      "dtd": 0.443359375
+    },
+    "task_arithmetic": {
+      "sun397": 0.56884765625,
+      "cars": 0.56689453125,
+      "resisc45": 0.640890896320343,
+      "eurosat": 0.7509765625,
+      "svhn": 0.775634765625,
+      "gtsrb": 0.67626953125,
+      "mnist": 0.95849609375,
+      "dtd": 0.486328125
+    },
+    "fixed_topk_svd": {
+      "sun397": 0.5634765625,
+      "cars": 0.560791015625,
+      "resisc45": 0.6391391158103943,
+      "eurosat": 0.75390625,
+      "svhn": 0.769287109375,
+      "gtsrb": 0.665283203125,
+      "mnist": 0.9580078125,
+      "dtd": 0.4931640625
+    },
+    "individual": {
+      "sun397": 0.751708984375,
+      "cars": 0.7939453125,
+      "resisc45": 0.9514514803886414,
+      "eurosat": 0.9931640625,
+      "svhn": 0.9716796875,
+      "gtsrb": 0.987060546875,
+      "mnist": 0.996826171875,
+      "dtd": 0.80078125
+    },
+    "proposed": {
+      "sun397": 0.716064453125,
+      "cars": 0.74951171875,
+      "resisc45": 0.8796296119689941,
+      "eurosat": 0.9619140625,
+      "svhn": 0.910888671875,
+      "gtsrb": 0.9677734375,
+      "mnist": 0.9921875,
+      "dtd": 0.71875
+    },
+    "submission_task_arithmetic": {
+      "sun397": 0.002685546875,
+      "cars": 0.005615234375,
+      "resisc45": 0.027277277782559395,
+      "eurosat": 0.10546875,
+      "svhn": 0.0703125,
+      "gtsrb": 0.004638671875,
+      "mnist": 0.095947265625,
+      "dtd": 0.013671875
+    },
+    "submission_submission_task_arithmetic": {
+      "sun397": 0.716064453125,
+      "cars": 0.74951171875,
+      "resisc45": 0.8796296119689941,
+      "eurosat": 0.9619140625,
+      "svhn": 0.910888671875,
+      "gtsrb": 0.9677734375,
+      "mnist": 0.9921875,
+      "dtd": 0.71875
+    }
+  },
+  "failures": {
+    "submission_submission_task_arithmetic": "submission name 'task_arithmetic' collides with an existing entry; scored as 'submission_submission_task_arithmetic'"
+  }
+}

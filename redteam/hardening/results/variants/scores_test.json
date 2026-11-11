@@ -1,0 +1,342 @@
+{
+  "experiments": {
+    "vit_b32_8task_merge": {
+      "results": {
+        "pretrained": {
+          "avg_accuracy": 0.47977781295776367,
+          "balanced_accuracy": 0.4669985361151642,
+          "worst_task_accuracy": 0.310791015625
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.6780422702431679,
+          "balanced_accuracy": 0.658872464042919,
+          "worst_task_accuracy": 0.486328125
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6753818914294243,
+          "balanced_accuracy": 0.6560607547310717,
+          "worst_task_accuracy": 0.4931640625
+        },
+        "individual": {
+          "avg_accuracy": 0.9058271870017052,
+          "balanced_accuracy": 0.9055574728453737,
+          "worst_task_accuracy": 0.751708984375
+        },
+        "adamerging": {
+          "avg_accuracy": 0.8473796397447586,
+          "balanced_accuracy": 0.8407818365617398,
+          "worst_task_accuracy": 0.6904296875
+        },
+        "adarank_bs64": {
+          "avg_accuracy": 0.8605266660451889,
+          "balanced_accuracy": 0.8562689807526357,
+          "worst_task_accuracy": 0.697998046875
+        },
+        "adarank_im": {
+          "avg_accuracy": 0.8712025657296181,
+          "balanced_accuracy": 0.8701467433515286,
+          "worst_task_accuracy": 0.686279296875
+        },
+        "cart_adarank": {
+          "avg_accuracy": 0.8653493002057076,
+          "balanced_accuracy": 0.8619390152759708,
+          "worst_task_accuracy": 0.70849609375
+        },
+        "cart_adarank_im": {
+          "avg_accuracy": 0.8507000952959061,
+          "balanced_accuracy": 0.8554205974872306,
+          "worst_task_accuracy": 0.6923828125
+        },
+        "cart_distill": {
+          "avg_accuracy": 0.8850469142198563,
+          "balanced_accuracy": 0.8835427505139365,
+          "worst_task_accuracy": 0.732421875
+        },
+        "cart_static": {
+          "avg_accuracy": 0.8485653325915337,
+          "balanced_accuracy": 0.8416256478027614,
+          "worst_task_accuracy": 0.697021484375
+        },
+        "cart_static_l1": {
+          "avg_accuracy": 0.7956957519054413,
+          "balanced_accuracy": 0.7827086668439636,
+          "worst_task_accuracy": 0.66015625
+        },
+        "ce_oracle_dev": {
+          "avg_accuracy": 0.8631130233407021,
+          "balanced_accuracy": 0.8602989574742794,
+          "worst_task_accuracy": 0.70849609375
+        },
+        "distill": {
+          "avg_accuracy": 0.8846692442893982,
+          "balanced_accuracy": 0.8825997412440656,
+          "worst_task_accuracy": 0.7373046875
+        },
+        "distill_seed1": {
+          "avg_accuracy": 0.8853436857461929,
+          "balanced_accuracy": 0.8840215033571421,
+          "worst_task_accuracy": 0.735595703125
+        },
+        "mask_only": {
+          "avg_accuracy": 0.7904351204633713,
+          "balanced_accuracy": 0.7761203157446699,
+          "worst_task_accuracy": 0.587890625
+        },
+        "proposed": {
+          "avg_accuracy": 0.8620899319648743,
+          "balanced_accuracy": 0.8571193639323494,
+          "worst_task_accuracy": 0.716064453125
+        },
+        "ref_seed0_run1": {
+          "avg_accuracy": 0.8620899319648743,
+          "balanced_accuracy": 0.8571193639323494,
+          "worst_task_accuracy": 0.716064453125
+        },
+        "ref_seed1": {
+          "avg_accuracy": 0.8617114722728729,
+          "balanced_accuracy": 0.8562158112289455,
+          "worst_task_accuracy": 0.699462890625
+        },
+        "ref_seed2": {
+          "avg_accuracy": 0.8652805611491203,
+          "balanced_accuracy": 0.8601602976940165,
+          "worst_task_accuracy": 0.706298828125
+        },
+        "seed_soup": {
+          "avg_accuracy": 0.8655986934900284,
+          "balanced_accuracy": 0.8605487892861408,
+          "worst_task_accuracy": 0.711181640625
+        },
+        "ta_lambda_grid_dev": {
+          "avg_accuracy": 0.6970663294196129,
+          "balanced_accuracy": 0.6792634546184709,
+          "worst_task_accuracy": 0.52734375
+        }
+      }
+    }
+  },
+  "slice": "test",
+  "per_task_accuracy": {
+    "pretrained": {
+      "sun397": 0.63134765625,
+      "cars": 0.60546875,
+      "resisc45": 0.5935935974121094,
+      "eurosat": 0.451171875,
+      "svhn": 0.310791015625,
+      "gtsrb": 0.318359375,
+      "mnist": 0.484130859375,
+      "dtd": 0.443359375
+    },
+    "task_arithmetic": {
+      "sun397": 0.56884765625,
+      "cars": 0.56689453125,
+      "resisc45": 0.640890896320343,
+      "eurosat": 0.7509765625,
+      "svhn": 0.775634765625,
+      "gtsrb": 0.67626953125,
+      "mnist": 0.95849609375,
+      "dtd": 0.486328125
+    },
+    "fixed_topk_svd": {
+      "sun397": 0.5634765625,
+      "cars": 0.560791015625,
+      "resisc45": 0.6391391158103943,
+      "eurosat": 0.75390625,
+      "svhn": 0.769287109375,
+      "gtsrb": 0.665283203125,
+      "mnist": 0.9580078125,
+      "dtd": 0.4931640625
+    },
+    "individual": {
+      "sun397": 0.751708984375,
+      "cars": 0.7939453125,
+      "resisc45": 0.9514514803886414,
+      "eurosat": 0.9931640625,
+      "svhn": 0.9716796875,
+      "gtsrb": 0.987060546875,
+      "mnist": 0.996826171875,
+      "dtd": 0.80078125
+    },
+    "adamerging": {
+      "sun397": 0.6904296875,
+      "cars": 0.73779296875,
+      "resisc45": 0.8593593835830688,
+      "eurosat": 0.9365234375,
+      "svhn": 0.88232421875,
+      "gtsrb": 0.94970703125,
+      "mnist": 0.982666015625,
+      "dtd": 0.740234375
+    },
+    "adarank_bs64": {
+      "sun397": 0.697998046875,
+      "cars": 0.744873046875,
+      "resisc45": 0.8773773908615112,
+      "eurosat": 0.958984375,
+      "svhn": 0.92724609375,
+      "gtsrb": 0.971923828125,
+      "mnist": 0.990966796875,
+      "dtd": 0.71484375
+    },
+    "adarank_im": {
+      "sun397": 0.686279296875,
+      "cars": 0.77685546875,
+      "resisc45": 0.9056556820869446,
+      "eurosat": 0.96484375,
+      "svhn": 0.925048828125,
+      "gtsrb": 0.967529296875,
+      "mnist": 0.990478515625,
+      "dtd": 0.7529296875
+    },
+    "cart_adarank": {
+      "sun397": 0.70849609375,
+      "cars": 0.724365234375,
+      "resisc45": 0.9076576828956604,
+      "eurosat": 0.9560546875,
+      "svhn": 0.923095703125,
+      "gtsrb": 0.97412109375,
+      "mnist": 0.99072265625,
+      "dtd": 0.73828125
+    },
+    "cart_adarank_im": {
+      "sun397": 0.6923828125,
+      "cars": 0.723876953125,
+      "resisc45": 0.9074074029922485,
+      "eurosat": 0.9677734375,
+      "svhn": 0.8671875,
+      "gtsrb": 0.922607421875,
+      "mnist": 0.989013671875,
+      "dtd": 0.7353515625
+    },
+    "cart_distill": {
+      "sun397": 0.732421875,
+      "cars": 0.766357421875,
+      "resisc45": 0.9221721887588501,
+      "eurosat": 0.9794921875,
+      "svhn": 0.94970703125,
+      "gtsrb": 0.9736328125,
+      "mnist": 0.988037109375,
+      "dtd": 0.7685546875
+    },
+    "cart_static": {
+      "sun397": 0.697021484375,
+      "cars": 0.75390625,
+      "resisc45": 0.8878878951072693,
+      "eurosat": 0.9482421875,
+      "svhn": 0.858154296875,
+      "gtsrb": 0.931640625,
+      "mnist": 0.988037109375,
+      "dtd": 0.7236328125
+    },
+    "cart_static_l1": {
+      "sun397": 0.69873046875,
+      "cars": 0.740234375,
+      "resisc45": 0.8335835933685303,
+      "eurosat": 0.904296875,
+      "svhn": 0.760986328125,
+      "gtsrb": 0.804443359375,
+      "mnist": 0.963134765625,
+      "dtd": 0.66015625
+    },
+    "ce_oracle_dev": {
+      "sun397": 0.70849609375,
+      "cars": 0.75634765625,
+      "resisc45": 0.8748748898506165,
+      "eurosat": 0.951171875,
+      "svhn": 0.921142578125,
+      "gtsrb": 0.958740234375,
+      "mnist": 0.987060546875,
+      "dtd": 0.7470703125
+    },
+    "distill": {
+      "sun397": 0.7373046875,
+      "cars": 0.77587890625,
+      "resisc45": 0.9184184074401855,
+      "eurosat": 0.970703125,
+      "svhn": 0.939453125,
+      "gtsrb": 0.972900390625,
+      "mnist": 0.9873046875,
+      "dtd": 0.775390625
+    },
+    "distill_seed1": {
+      "sun397": 0.735595703125,
+      "cars": 0.777587890625,
+      "resisc45": 0.9194194078445435,
+      "eurosat": 0.970703125,
+      "svhn": 0.941162109375,
+      "gtsrb": 0.97607421875,
+      "mnist": 0.98974609375,
+      "dtd": 0.7724609375
+    },
+    "mask_only": {
+      "sun397": 0.66552734375,
+      "cars": 0.668701171875,
+      "resisc45": 0.7797797918319702,
+      "eurosat": 0.9296875,
+      "svhn": 0.872802734375,
+      "gtsrb": 0.847412109375,
+      "mnist": 0.9716796875,
+      "dtd": 0.587890625
+    },
+    "proposed": {
+      "sun397": 0.716064453125,
+      "cars": 0.74951171875,
+      "resisc45": 0.8796296119689941,
+      "eurosat": 0.9619140625,
+      "svhn": 0.910888671875,
+      "gtsrb": 0.9677734375,
+      "mnist": 0.9921875,
+      "dtd": 0.71875
+    },
+    "ref_seed0_run1": {
+      "sun397": 0.716064453125,
+      "cars": 0.74951171875,
+      "resisc45": 0.8796296119689941,
+      "eurosat": 0.9619140625,
+      "svhn": 0.910888671875,
+      "gtsrb": 0.9677734375,
+      "mnist": 0.9921875,
+      "dtd": 0.71875
+    },
+    "ref_seed1": {
+      "sun397": 0.699462890625,
+      "cars": 0.75732421875,
+      "resisc45": 0.8656156063079834,
+      "eurosat": 0.9658203125,
+      "svhn": 0.914794921875,
+      "gtsrb": 0.9716796875,
+      "mnist": 0.989501953125,
+      "dtd": 0.7294921875
+    },
+    "ref_seed2": {
+      "sun397": 0.706298828125,
+      "cars": 0.765869140625,
+      "resisc45": 0.8851351141929626,
+      "eurosat": 0.9638671875,
+      "svhn": 0.9130859375,
+      "gtsrb": 0.967529296875,
+      "mnist": 0.989990234375,
+      "dtd": 0.73046875
+    },
+    "seed_soup": {
+      "sun397": 0.711181640625,
+      "cars": 0.767578125,
+      "resisc45": 0.879379391670227,
+      "eurosat": 0.96484375,
+      "svhn": 0.915771484375,
+      "gtsrb": 0.9697265625,
+      "mnist": 0.99072265625,
+      "dtd": 0.7255859375
+    },
+    "ta_lambda_grid_dev": {
+      "sun397": 0.642578125,
+      "cars": 0.629150390625,
+      "resisc45": 0.6946946978569031,
+      "eurosat": 0.8056640625,
+      "svhn": 0.73486328125,
+      "gtsrb": 0.610595703125,
+      "mnist": 0.931640625,
+      "dtd": 0.52734375
+    }
+  },
+  "failures": {}
+}

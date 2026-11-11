@@ -1,0 +1,342 @@
+{
+  "experiments": {
+    "vit_b32_8task_merge": {
+      "results": {
+        "pretrained": {
+          "avg_accuracy": 0.4765625,
+          "balanced_accuracy": 0.46258066956164334,
+          "worst_task_accuracy": 0.3046875
+        },
+        "task_arithmetic": {
+          "avg_accuracy": 0.67236328125,
+          "balanced_accuracy": 0.6576010924628708,
+          "worst_task_accuracy": 0.46875
+        },
+        "fixed_topk_svd": {
+          "avg_accuracy": 0.6708984375,
+          "balanced_accuracy": 0.6566650520422203,
+          "worst_task_accuracy": 0.46875
+        },
+        "individual": {
+          "avg_accuracy": 0.9013671875,
+          "balanced_accuracy": 0.8966680623827497,
+          "worst_task_accuracy": 0.7265625
+        },
+        "adamerging": {
+          "avg_accuracy": 0.85595703125,
+          "balanced_accuracy": 0.8449147100407751,
+          "worst_task_accuracy": 0.6796875
+        },
+        "adarank_bs64": {
+          "avg_accuracy": 0.85791015625,
+          "balanced_accuracy": 0.8559188005379965,
+          "worst_task_accuracy": 0.6640625
+        },
+        "adarank_im": {
+          "avg_accuracy": 0.86865234375,
+          "balanced_accuracy": 0.8653823642085727,
+          "worst_task_accuracy": 0.6875
+        },
+        "cart_adarank": {
+          "avg_accuracy": 0.85791015625,
+          "balanced_accuracy": 0.8504225277041924,
+          "worst_task_accuracy": 0.66015625
+        },
+        "cart_adarank_im": {
+          "avg_accuracy": 0.85302734375,
+          "balanced_accuracy": 0.8532963703101312,
+          "worst_task_accuracy": 0.65625
+        },
+        "cart_distill": {
+          "avg_accuracy": 0.8759765625,
+          "balanced_accuracy": 0.8711166113015714,
+          "worst_task_accuracy": 0.71484375
+        },
+        "cart_static": {
+          "avg_accuracy": 0.8525390625,
+          "balanced_accuracy": 0.8409178112469858,
+          "worst_task_accuracy": 0.671875
+        },
+        "cart_static_l1": {
+          "avg_accuracy": 0.798828125,
+          "balanced_accuracy": 0.7899172584799846,
+          "worst_task_accuracy": 0.64453125
+        },
+        "ce_oracle_dev": {
+          "avg_accuracy": 0.98828125,
+          "balanced_accuracy": 0.9839076740911878,
+          "worst_task_accuracy": 0.96484375
+        },
+        "distill": {
+          "avg_accuracy": 0.88037109375,
+          "balanced_accuracy": 0.8732268214996165,
+          "worst_task_accuracy": 0.7109375
+        },
+        "distill_seed1": {
+          "avg_accuracy": 0.880859375,
+          "balanced_accuracy": 0.8759165764792084,
+          "worst_task_accuracy": 0.703125
+        },
+        "mask_only": {
+          "avg_accuracy": 0.783203125,
+          "balanced_accuracy": 0.7727599383394342,
+          "worst_task_accuracy": 0.56640625
+        },
+        "proposed": {
+          "avg_accuracy": 0.8603515625,
+          "balanced_accuracy": 0.8582639802149942,
+          "worst_task_accuracy": 0.6796875
+        },
+        "ref_seed0_run1": {
+          "avg_accuracy": 0.8603515625,
+          "balanced_accuracy": 0.8582639802149942,
+          "worst_task_accuracy": 0.6796875
+        },
+        "ref_seed1": {
+          "avg_accuracy": 0.86328125,
+          "balanced_accuracy": 0.858475904159069,
+          "worst_task_accuracy": 0.6796875
+        },
+        "ref_seed2": {
+          "avg_accuracy": 0.86083984375,
+          "balanced_accuracy": 0.8568861929475903,
+          "worst_task_accuracy": 0.671875
+        },
+        "seed_soup": {
+          "avg_accuracy": 0.8671875,
+          "balanced_accuracy": 0.8650019339766805,
+          "worst_task_accuracy": 0.6875
+        },
+        "ta_lambda_grid_dev": {
+          "avg_accuracy": 0.705078125,
+          "balanced_accuracy": 0.6898929522781775,
+          "worst_task_accuracy": 0.52734375
+        }
+      }
+    }
+  },
+  "slice": "train",
+  "per_task_accuracy": {
+    "pretrained": {
+      "sun397": 0.640625,
+      "cars": 0.5625,
+      "resisc45": 0.59375,
+      "eurosat": 0.41796875,
+      "svhn": 0.3046875,
+      "gtsrb": 0.328125,
+      "mnist": 0.4609375,
+      "dtd": 0.50390625
+    },
+    "task_arithmetic": {
+      "sun397": 0.5234375,
+      "cars": 0.55859375,
+      "resisc45": 0.6328125,
+      "eurosat": 0.75,
+      "svhn": 0.77734375,
+      "gtsrb": 0.6953125,
+      "mnist": 0.97265625,
+      "dtd": 0.46875
+    },
+    "fixed_topk_svd": {
+      "sun397": 0.51953125,
+      "cars": 0.55078125,
+      "resisc45": 0.62890625,
+      "eurosat": 0.75390625,
+      "svhn": 0.78125,
+      "gtsrb": 0.69140625,
+      "mnist": 0.97265625,
+      "dtd": 0.46875
+    },
+    "individual": {
+      "sun397": 0.7265625,
+      "cars": 0.78125,
+      "resisc45": 0.9375,
+      "eurosat": 0.9921875,
+      "svhn": 0.984375,
+      "gtsrb": 0.98828125,
+      "mnist": 1.0,
+      "dtd": 0.80078125
+    },
+    "adamerging": {
+      "sun397": 0.6796875,
+      "cars": 0.76171875,
+      "resisc45": 0.8671875,
+      "eurosat": 0.95703125,
+      "svhn": 0.88671875,
+      "gtsrb": 0.94921875,
+      "mnist": 0.9765625,
+      "dtd": 0.76953125
+    },
+    "adarank_bs64": {
+      "sun397": 0.6640625,
+      "cars": 0.71484375,
+      "resisc45": 0.890625,
+      "eurosat": 0.96875,
+      "svhn": 0.9296875,
+      "gtsrb": 0.96875,
+      "mnist": 0.98828125,
+      "dtd": 0.73828125
+    },
+    "adarank_im": {
+      "sun397": 0.6875,
+      "cars": 0.7734375,
+      "resisc45": 0.89453125,
+      "eurosat": 0.96484375,
+      "svhn": 0.91015625,
+      "gtsrb": 0.95703125,
+      "mnist": 0.98828125,
+      "dtd": 0.7734375
+    },
+    "cart_adarank": {
+      "sun397": 0.66015625,
+      "cars": 0.72265625,
+      "resisc45": 0.89453125,
+      "eurosat": 0.94921875,
+      "svhn": 0.93359375,
+      "gtsrb": 0.97265625,
+      "mnist": 0.9921875,
+      "dtd": 0.73828125
+    },
+    "cart_adarank_im": {
+      "sun397": 0.65625,
+      "cars": 0.73046875,
+      "resisc45": 0.91015625,
+      "eurosat": 0.9765625,
+      "svhn": 0.87109375,
+      "gtsrb": 0.9453125,
+      "mnist": 0.984375,
+      "dtd": 0.75
+    },
+    "cart_distill": {
+      "sun397": 0.71484375,
+      "cars": 0.71875,
+      "resisc45": 0.9140625,
+      "eurosat": 0.98046875,
+      "svhn": 0.97265625,
+      "gtsrb": 0.96484375,
+      "mnist": 0.984375,
+      "dtd": 0.7578125
+    },
+    "cart_static": {
+      "sun397": 0.671875,
+      "cars": 0.7578125,
+      "resisc45": 0.890625,
+      "eurosat": 0.95703125,
+      "svhn": 0.88671875,
+      "gtsrb": 0.95703125,
+      "mnist": 0.98828125,
+      "dtd": 0.7109375
+    },
+    "cart_static_l1": {
+      "sun397": 0.6875,
+      "cars": 0.71484375,
+      "resisc45": 0.83984375,
+      "eurosat": 0.91015625,
+      "svhn": 0.80078125,
+      "gtsrb": 0.83203125,
+      "mnist": 0.9609375,
+      "dtd": 0.64453125
+    },
+    "ce_oracle_dev": {
+      "sun397": 0.96484375,
+      "cars": 0.98828125,
+      "resisc45": 1.0,
+      "eurosat": 0.9921875,
+      "svhn": 1.0,
+      "gtsrb": 0.98828125,
+      "mnist": 1.0,
+      "dtd": 0.97265625
+    },
+    "distill": {
+      "sun397": 0.7109375,
+      "cars": 0.7421875,
+      "resisc45": 0.921875,
+      "eurosat": 0.9765625,
+      "svhn": 0.94921875,
+      "gtsrb": 0.96875,
+      "mnist": 0.9921875,
+      "dtd": 0.78125
+    },
+    "distill_seed1": {
+      "sun397": 0.703125,
+      "cars": 0.75390625,
+      "resisc45": 0.92578125,
+      "eurosat": 0.97265625,
+      "svhn": 0.9609375,
+      "gtsrb": 0.96875,
+      "mnist": 0.98828125,
+      "dtd": 0.7734375
+    },
+    "mask_only": {
+      "sun397": 0.62890625,
+      "cars": 0.67578125,
+      "resisc45": 0.77734375,
+      "eurosat": 0.921875,
+      "svhn": 0.890625,
+      "gtsrb": 0.83984375,
+      "mnist": 0.96484375,
+      "dtd": 0.56640625
+    },
+    "proposed": {
+      "sun397": 0.6796875,
+      "cars": 0.75,
+      "resisc45": 0.90234375,
+      "eurosat": 0.96484375,
+      "svhn": 0.8984375,
+      "gtsrb": 0.96875,
+      "mnist": 0.98828125,
+      "dtd": 0.73046875
+    },
+    "ref_seed0_run1": {
+      "sun397": 0.6796875,
+      "cars": 0.75,
+      "resisc45": 0.90234375,
+      "eurosat": 0.96484375,
+      "svhn": 0.8984375,
+      "gtsrb": 0.96875,
+      "mnist": 0.98828125,
+      "dtd": 0.73046875
+    },
+    "ref_seed1": {
+      "sun397": 0.6796875,
+      "cars": 0.75390625,
+      "resisc45": 0.890625,
+      "eurosat": 0.96875,
+      "svhn": 0.90625,
+      "gtsrb": 0.96875,
+      "mnist": 0.98828125,
+      "dtd": 0.75
+    },
+    "ref_seed2": {
+      "sun397": 0.671875,
+      "cars": 0.75390625,
+      "resisc45": 0.90234375,
+      "eurosat": 0.96484375,
+      "svhn": 0.90625,
+      "gtsrb": 0.96875,
+      "mnist": 0.98828125,
+      "dtd": 0.73046875
+    },
+    "seed_soup": {
+      "sun397": 0.6875,
+      "cars": 0.765625,
+      "resisc45": 0.90234375,
+      "eurosat": 0.97265625,
+      "svhn": 0.90625,
+      "gtsrb": 0.96875,
+      "mnist": 0.98828125,
+      "dtd": 0.74609375
+    },
+    "ta_lambda_grid_dev": {
+      "sun397": 0.63671875,
+      "cars": 0.60546875,
+      "resisc45": 0.734375,
+      "eurosat": 0.79296875,
+      "svhn": 0.7734375,
+      "gtsrb": 0.64453125,
+      "mnist": 0.92578125,
+      "dtd": 0.52734375
+    }
+  },
+  "failures": {}
+}

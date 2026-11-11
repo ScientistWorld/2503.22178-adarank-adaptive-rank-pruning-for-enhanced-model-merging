@@ -1,8 +1,8 @@
 # Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends.
-action: pending
-gpus: 0
+action: submit
+gpus: 2
 test: false
 milestone: core_claim
-notes: ""
+notes: "Hardening check: rebuild enlarged held-out split (26,524 rows) + baselines, rerun reference TA+AdaRank from final code, KL-to-expert headroom variants, push reference/variants/shortcuts through hidden test, regenerate scores"
